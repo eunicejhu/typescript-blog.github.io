@@ -6,7 +6,7 @@
   "configurations": [
     {
       "name": "Launch Program",
-      "program": "${workspaceFolder}/solutions/day-01/level3.js",
+      "program": "${workspaceFolder}/solutions/day-01/part3.js",
       "request": "launch",
       "skipFiles": ["<node_internals>/**"],
       "type": "pwa-node"
