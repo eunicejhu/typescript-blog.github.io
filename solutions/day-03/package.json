@@ -1,0 +1,19 @@
+{
+  "name": "day-03",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "fix": "eslint --fix . && prettier --write .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.11.0",
+    "eslint-config-prettier": "^6.13.0",
+    "eslint-plugin-react": "^7.21.4",
+    "prettier": "^2.1.2"
+  }
+}
