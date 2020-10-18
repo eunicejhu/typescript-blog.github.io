@@ -32,7 +32,6 @@
     .subscribe_wrapper {
         margin: 0;
         text-align: center;
-        width: 100%;
         padding: 2em;
         background-color: lightcyan;
     }
@@ -73,8 +72,39 @@
       border-radius: 4px;
       outline: none;
       color: white;
-      background-color: brown;
+      background-color: coral;
       cursor: pointer;
+    }
+    .usercard_wrapper {
+      padding: 2em;
+    }
+    .usercard_wrapper img {
+      width: 6em;
+      height: 6em;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .usercard_wrapper ul {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 0;
+      margin: 0;
+    }
+    .usercard_wrapper ul li {
+      max-width: 8em;
+      margin: 1em 1em 1em 0;
+      background: cyan;
+      color: white;
+      padding: 0.2em;
+      border-radius: 4px;
+    }
+
+    .usercard_wrapper p {
+      font-size: 0.8em;
+      color: grey
     }
 
 

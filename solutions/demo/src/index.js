@@ -3,12 +3,14 @@ import ReactDOM from 'react-dom';
 
 import {Image} from './Image'
 import {Subscribe} from "./Subscribe"
+import {UserCard} from './UserCard'
 
 ReactDOM.render(
   <React.StrictMode>
   <h3 style={{textAlign: "center"}}>Front end technology</h3>
   <Image />
   <Subscribe />
+  <UserCard />
   </React.StrictMode>,
   document.getElementById('root')
 );
