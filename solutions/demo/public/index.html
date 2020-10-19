@@ -22,9 +22,37 @@
         margin: 0 auto;
         font-family: "Montserrat";
       }
-      .number_generator_wrapper, .hexadecimalColors_generator_wrapper {
+      .number_generator_wrapper, .hexadecimalColors_generator_wrapper, .worldpopulation_wrapper  {
         text-align: center;
-        margin: 1em 0;
+        margin: 1em 2em;
+      }
+      .worldpopulation_wrapper ul{
+        padding: 0 2em;
+      }
+      .worldpopulation_wrapper ul li {
+        list-style-type: none;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        font-weight: bold;
+        height: 1.6em;
+      }
+      .worldpopulation_wrapper ul li >span:first-child {
+        flex: 1;
+        text-align: left;
+      }
+      .worldpopulation_wrapper ul li >span:nth-child(3) {
+        flex: 1;
+        text-align: right;
+      }
+      .worldpopulation_wrapper ul li > span.bar {
+        display: flex;
+        flex: 3;
+        margin: 0.2em 0;
+      }
+      .worldpopulation_wrapper ul li > span.bar span {
+        background-color: orange;
+        border-radius: 2px;;
       }
       .squares_wrapper {
         display: flex;

@@ -7,9 +7,11 @@ import {UserCard} from './UserCard'
 import {ColorGenerator} from './ColorGenerator'
 import {NumberGenerator} from './NumberGenerator'
 import {HexadecimalColors} from './HexadecimalColors'
+import {WorldPopulation} from './WorldPopulation'
 
 ReactDOM.render(
   <React.StrictMode>
+  <WorldPopulation />
   <HexadecimalColors num={32} />
   <NumberGenerator num={32} />
   <h3 style={{textAlign: "center"}}>Front end technology</h3>
