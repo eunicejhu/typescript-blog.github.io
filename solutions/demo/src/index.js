@@ -5,14 +5,17 @@ import {Image} from './Image'
 import {Subscribe} from "./Subscribe"
 import {UserCard} from './UserCard'
 import {ColorGenerator} from './ColorGenerator'
+import {NumberGenerator} from './NumberGenerator'
 
 ReactDOM.render(
   <React.StrictMode>
+  <NumberGenerator num={32} />
   <h3 style={{textAlign: "center"}}>Front end technology</h3>
   <Image />
   <Subscribe />
   <ColorGenerator />
   <UserCard />
+
   </React.StrictMode>,
   document.getElementById('root')
 );
