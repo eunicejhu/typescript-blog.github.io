@@ -4,12 +4,14 @@ import ReactDOM from 'react-dom';
 import {Image} from './Image'
 import {Subscribe} from "./Subscribe"
 import {UserCard} from './UserCard'
+import {ColorGenerator} from './ColorGenerator'
 
 ReactDOM.render(
   <React.StrictMode>
   <h3 style={{textAlign: "center"}}>Front end technology</h3>
   <Image />
   <Subscribe />
+  <ColorGenerator />
   <UserCard />
   </React.StrictMode>,
   document.getElementById('root')
