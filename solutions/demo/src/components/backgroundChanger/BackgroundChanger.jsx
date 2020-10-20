@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './BackgroundChanger.css'
+import "../../styles/BackgroundChanger.css"
 
 // const SEASONS = ["spring", "summer", "autumn", "winter"]
 const BGCOLORS = ["green", "red", "yellow", "silver", "gray"]

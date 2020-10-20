@@ -1,6 +1,6 @@
 import React from 'react'
 
-import './CountrySelector.css'
+import '../../styles/CountrySelector.css'
 import {countriesData} from './data/countries'
 
 class CountrySelector extends React.PureComponent {
