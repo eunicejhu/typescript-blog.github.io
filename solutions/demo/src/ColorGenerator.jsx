@@ -13,7 +13,13 @@ const colorStrips = num => new Array(num).fill(0).map(() =>{
         return <li key={color} style={{backgroundColor: color}}>{color}</li>
 })
 
-export const ColorGenerator = () => 
-    <ul className="colors-wrapper">
+class ColorGenerator extends React.PureComponent {
+    render() {
+        return <ul className="colors-wrapper">
         {colorStrips(6)}
     </ul>
+    }
+} 
+
+export default ColorGenerator
+    

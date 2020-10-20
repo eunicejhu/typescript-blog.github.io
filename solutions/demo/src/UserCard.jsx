@@ -5,9 +5,6 @@ const SKILLS = ["HTML", "CSS", "Sass", "JS", "React", "Redux", "Node", "MongoDB"
 const formatedSkills = SKILLS.map(skill => <li key={skill}>{skill}</li>)
 
 class UserCard extends React.Component {
-    constructor(props) {
-        super(props)
-    }
     render() {
         return <div className="usercard_wrapper">
         <img src={Avatar} alt="isabella"></img>

@@ -1,25 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import {Image} from './Image'
-import {Subscribe} from "./Subscribe"
-import {UserCard} from './UserCard'
-import {ColorGenerator} from './ColorGenerator'
-import {NumberGenerator} from './NumberGenerator'
-import {HexadecimalColors} from './HexadecimalColors'
-import {WorldPopulation} from './WorldPopulation'
+import App from './App'
 
 ReactDOM.render(
   <React.StrictMode>
-  <WorldPopulation />
-  <HexadecimalColors num={32} />
-  <NumberGenerator num={32} />
-  <h3 style={{textAlign: "center"}}>Front end technology</h3>
-  <Image />
-  <Subscribe />
-  <ColorGenerator />
-  <UserCard />
-
+    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );
