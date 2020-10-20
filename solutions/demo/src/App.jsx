@@ -1,49 +1,23 @@
 import React from 'react'
 
-// import {Image} from './Image'
-// import {Subscribe} from "./Subscribe"
-// import {UserCard} from './UserCard'
-// import ColorGenerator from './ColorGenerator'
-// import {NumberGenerator} from './NumberGenerator'
-// import {HexadecimalColors} from './HexadecimalColors'
-// import {WorldPopulation} from './WorldPopulation'
-import CountrySelector from './CountrySelector'
-import BackgroundChanger from './BackgroundChanger'
-
+const Button = ({text, onClick, style}) => <button style={style} onClick={onClick} >{text}</button>
 class App extends React.Component {
     state = {
-        isDarkMode: false
+        isLoading: false
     }
-
-    toggleDarkMode = () => {
-        this.setState({isDarkMode: !this.state.isDarkMode})
+    fetchData = () => {
+        this.setState({isLoading: true})
+        setTimeout(() => {this.setState({isLoading: false})}, 1000)
     }
-
     render() {
-        const darkModeStyle = {
-            position: "fixed",
-            bottom: 0,
-            right: 10,
-            color: "white",
-            padding: "1em",
-            backgroundColor: "grey",
+        const buttonStyle = {
+            backgroundColor: "cyan",
             border: 0,
-            borderRadius: '4px 4px 0 0',
-            outline: "none",
-            cursor: "pointer"
+            padding: "1em",
+            outline: "none"
         }
-        return <div style={{backgroundColor: this.state.isDarkMode ? "rgba(0,0,0,0.8)": "white"}}> 
-            {/* <WorldPopulation />
-            <NumberGenerator num={32} />
-            <h3 style={{textAlign: "center"}}>Front end technology</h3>
-            <Image />
-            <Subscribe />
-            <ColorGenerator />
-            <HexadecimalColors num={32} />
-            <UserCard /> */}
-            {/* <CountrySelector /> */}
-            <BackgroundChanger />
-            {/* <button style={darkModeStyle} onClick={this.toggleDarkMode}>Toggle Dark Mode</button> */}
+        return <div> 
+            <Button text={this.state.isLoading ? "Loading": "Fetch Data"} onClick={this.fetchData} style={buttonStyle} />
         </div>
     }
 }
