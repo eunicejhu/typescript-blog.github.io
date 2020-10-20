@@ -8,6 +8,7 @@ import React from 'react'
 // import {HexadecimalColors} from './HexadecimalColors'
 // import {WorldPopulation} from './WorldPopulation'
 import CountrySelector from './CountrySelector'
+import BackgroundChanger from './BackgroundChanger'
 
 class App extends React.Component {
     state = {
@@ -40,7 +41,8 @@ class App extends React.Component {
             <ColorGenerator />
             <HexadecimalColors num={32} />
             <UserCard /> */}
-            <CountrySelector />
+            {/* <CountrySelector /> */}
+            <BackgroundChanger />
             {/* <button style={darkModeStyle} onClick={this.toggleDarkMode}>Toggle Dark Mode</button> */}
         </div>
     }

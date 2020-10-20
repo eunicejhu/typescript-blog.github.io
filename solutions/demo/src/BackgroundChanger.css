@@ -1,0 +1,31 @@
+.backgroundchanger_wrapper {
+    width: 100vw;
+    height: 100vh;
+    
+    
+}
+
+.backgroundchanger_wrapper > div {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    padding-top: 20%;
+    margin: 0 auto;
+    align-items: center;
+}
+
+.backgroundchanger_wrapper > div h1 {
+    margin: 2em 0;
+}
+
+.backgroundchanger_wrapper > div button {
+    background-color: aqua;
+    color: white;
+    padding: 1em;
+    outline: 0;
+    cursor: pointer;
+    border: 0;
+    border-radius: 4px;
+    font-size: 1.2em;
+    box-shadow: 0 0 6px 2px white;
+}
