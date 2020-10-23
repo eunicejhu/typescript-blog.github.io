@@ -1,5 +1,9 @@
 import React, { Component } from 'react'
 
+import isEmail from 'validator/lib/isEmail'
+import isDate from 'validator/lib/isDate'
+import isHexColor from 'validator/lib/isHexColor'
+
 const options = [
   {
     value: '',
@@ -53,6 +57,7 @@ export default class Validator extends Component {
       lastName: false,
       email: false,
       tel: false,
+      dateOfBirth: false,
     },
   }
   handleChange = (e) => {
@@ -87,7 +92,9 @@ export default class Validator extends Component {
       firstName: '',
       lastName: '',
       email: '',
-      tel: ''
+      tel: '',
+      dateOfBirth: '',
+      favoriteColor: ''
     }
 
     if (
@@ -103,13 +110,23 @@ export default class Validator extends Component {
     }
 
     //Email should be a valid email. allowed list be yahoo,gmail,icloud
-    if(this.state.touched.email && !this.state.email.match(/\w+@(gmail|icloud|yahoo)\.\w+/g)) {
-        errors.email = 'Email is not valid. Try gmail, yahoo, icloud'
+    if(this.state.touched.email && !isEmail(this.state.email)) {
+        errors.email = 'Email is not valid'
     }
 
     //Tel should be a valid number from France or China 
     if(this.state.touched.tel && (!this.state.tel.match(/\+\d{2}\s?\d{9,11}/g))) {
         errors.tel = 'Tel should be a valid number from France and china'
+    }
+
+    // dateOfBirth should be in a given format
+    if(this.state.touched.dateOfBirth && !isDate(this.state.dateOfBirth)) {
+        errors.dateOfBirth = 'dateOfBirth is not valid'
+    }
+
+    // Color should be HexColor
+    if(this.state.touched.favoriteColor && !isHexColor(this.state.favoriteColor)) {
+        errors.favoriteColor = 'favoriteColor should be HexColor'
     }
     
     
@@ -170,7 +187,7 @@ export default class Validator extends Component {
     // accessing the state value by destrutcturing the state
     // the noValidate attribute on the form is to stop the HTML5 built-in validation
 
-    const { firstName, lastName, email, tel } = this.validate()
+    const { firstName, lastName, email, tel, dateOfBirth, favoriteColor } = this.validate()
     return (
       <div className='App'>
         <h3>Add Student</h3>
@@ -235,8 +252,10 @@ export default class Validator extends Component {
               name='dateOfBirth'
               value={this.state.dateOfBirth}
               onChange={this.handleChange}
+              onBlur={this.handleBlur}
               placeholder='Date of Birth'
             />
+            <small>{dateOfBirth}</small>
           </div>
           <div className='form-group'>
             <label htmlFor='favoriteColor'>Favorite Color</label>
@@ -246,8 +265,10 @@ export default class Validator extends Component {
               name='favoriteColor'
               value={this.state.favoriteColor}
               onChange={this.handleChange}
+              onBlur={this.handleBlur}
               placeholder='Favorite Color'
             />
+            <small>{favoriteColor}</small>
           </div>
           <div className='form-group'>
             <label htmlFor='weight'>Weight </label>
