@@ -1,10 +1,10 @@
 import React from 'react'
 
-import Event from './components/event/Event'
+import Validator from './components/validator/Validator'
 
 class App extends React.Component {
     render() {
-        return <Event />
+        return <Validator />
     }
 }
 
