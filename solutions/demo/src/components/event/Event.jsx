@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
+import classNames from 'classnames/bind'
+import { AiFillAlert } from "react-icons/ai";
 import "./Event.css"
 import EventStyles from "../../styles/Event.module.scss"
-import classNames from 'classnames/bind'
 
 let cx = classNames.bind(EventStyles)
 
@@ -24,6 +25,6 @@ export default class Event extends Component{
             warnning: type === "warnning",
             info: type==="info"
         })
-        return <p className={EventStyles.event_p}  style={{position:"absolute", left: pageX, top: pageY}} onMouseEnter={this.onMouseEnter}>30 Days of React<span className={spanClassNames}>Congratulations!</span></p>
+        return <p className={EventStyles.event_p}  style={{position:"absolute", left: pageX, top: pageY}} onMouseEnter={this.onMouseEnter}>30 Days of React<AiFillAlert style={{width: "10em"}} color="yellow" /><span className={spanClassNames}>Congratulations!</span></p>
     }
 }
