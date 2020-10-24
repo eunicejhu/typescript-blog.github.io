@@ -1,6 +1,16 @@
 .event_p {
     background-color: aqua;
-    span {
-        background-color: palevioletred;
-    }
+    
+}
+
+.error {
+    background-color: red
+}
+
+.info {
+    background-color: lightskyblue;
+}
+
+.warnning {
+    background-color: orange;
 }
