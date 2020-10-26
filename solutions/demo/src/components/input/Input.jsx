@@ -1,27 +1,38 @@
 import React, { Component, useState } from "react";
+import PropTypes from "prop-types";
 
-//Handle types: color, file, email, password, search, radio, image, checkbox, button, tel, time
+// Handle types: color, file, email, password, search, radio, image, checkbox, button, tel, time
 // validation options
 
 const Input = React.forwardRef((props, ref) => {
   const [value, setValue] = useState("");
   const { type, value: valueProp } = props;
   const onChange = (e) => {
-    const { onChange } = props;
-    if (onChange) onChange(e);
+    const { onChange: otherHandler } = props;
+    if (otherHandler) otherHandler(e);
     setValue(e.target.value);
   };
-  console.log("Input ref: ", ref);
   switch (type) {
     case "submit":
       return <input {...props} value={valueProp} />;
-      break;
     default:
       return <input ref={ref} {...props} value={value} onChange={onChange} />;
   }
 });
+Input.propTypes = {
+  type: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
+};
+Input.defaultProps = {
+  type: "text",
+  value: "",
+  onChange: () => {},
+};
+Input.displayName = "Input";
+
 const validate = (WrappedComponent) => {
-  return class extends Component {
+  class ValidatedComponent extends Component {
     state = {
       error: "",
     };
@@ -53,9 +64,9 @@ const validate = (WrappedComponent) => {
           break;
       }
     };
+
     render() {
       const { error } = this.state;
-      console.log(this.props.ref);
       return (
         <>
           <WrappedComponent {...this.props} onChange={this.handleValidate} />
@@ -63,7 +74,16 @@ const validate = (WrappedComponent) => {
         </>
       );
     }
+  }
+
+  ValidatedComponent.propTypes = {
+    validations: PropTypes.shape({
+      email: PropTypes.shape({ regEx: PropTypes.instanceOf(RegExp) }),
+      tel: PropTypes.shape({ regEx: PropTypes.instanceOf(RegExp) }),
+    }).isRequired,
   };
+
+  return ValidatedComponent;
 };
 
 export default Input;
