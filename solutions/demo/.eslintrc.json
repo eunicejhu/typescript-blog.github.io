@@ -29,5 +29,10 @@
       }
     ],
     "react/state-in-constructor": [0, "never"]
+
+    // "jsx-a11y/control-has-associated-label": [
+    //   2,
+    //   { "ignoreElements": ["option"] }
+    // ]
   }
 }

@@ -1,4 +1,5 @@
-import React, { Component, useState } from "react";
+
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 // Handle types: color, file, email, password, search, radio, image, checkbox, button, tel, time
@@ -31,60 +32,31 @@ Input.defaultProps = {
 };
 Input.displayName = "Input";
 
-const validate = (WrappedComponent) => {
-  class ValidatedComponent extends Component {
-    state = {
-      error: "",
-    };
+// checkbox
+// radio
 
-    handleValidate = (e) => {
-      const { type, value } = e.target;
-      const {
-        validations: { email, tel },
-      } = this.props;
-      switch (type) {
-        case "email":
-          if (!value.match(email.regEx)) {
-            this.setState({ error: "Email should be Gmail, icloud, yahoo." });
-          } else {
-            this.setState({ error: "" });
-          }
-          break;
-        case "tel":
-          if (!value.match(tel.regEx)) {
-            this.setState({
-              error: "Telphone number should be from China or France region",
-            });
-          } else {
-            this.setState({ error: "" });
-          }
-          break;
-        default:
-          // text
-          break;
-      }
-    };
+// range
+// color
 
-    render() {
-      const { error } = this.state;
-      return (
-        <>
-          <WrappedComponent {...this.props} onChange={this.handleValidate} />
-          <small>{error}</small>
-        </>
-      );
-    }
-  }
+// file
+// image
 
-  ValidatedComponent.propTypes = {
-    validations: PropTypes.shape({
-      email: PropTypes.shape({ regEx: PropTypes.instanceOf(RegExp) }),
-      tel: PropTypes.shape({ regEx: PropTypes.instanceOf(RegExp) }),
-    }).isRequired,
-  };
+// email
+// tel
+// search
+// password
+// text
 
-  return ValidatedComponent;
-};
+// number
+// hidden
+// reset
+// submit
+// button
+
+// date cross-browser try use 3rd party library, IE & Safari does not support it. also, the date format user inputs differs. it's not always YYYY-MM-DD
+// month need fallback select for non-support browser
+// week need fallback select for non-support browser
+// time need fallback, text for non-support browser
+// datetime-local a date and time
 
 export default Input;
-export { validate };
