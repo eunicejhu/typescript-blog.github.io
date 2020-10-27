@@ -1,6 +1,7 @@
 import React from "react";
 
-import Form from "./components/form/Form";
+import SignupForm from "./components/form/SignupForm";
+import "./styles/App.css";
 
-const App = () => <Form />;
+const App = () => <SignupForm />;
 export default App;
