@@ -30,29 +30,17 @@ const VALIDATE_PASSWORD = {
 const SignupForm = () => {
   const [message, setMessage] = useState("");
   const onSubmit = (e) => {
-    const [email, password, confirmPwd] = [
+    const [email, password] = [
       emailRef.current.value,
       pwdRef.current.value,
       pwdConfirmationRef.current.value,
     ];
     e.preventDefault();
-    if (password !== confirmPwd) {
-      if (!pwdConfirmationRef.current.className.includes("invalid")) {
-        pwdConfirmationRef.current.className = `${pwdConfirmationRef.current.className} invalid`;
-      }
-      return;
-    }
+
     setTimeout(() => {
       setMessage(`Submit with ${email}, ${password}`);
     }, 2000);
   };
-
-  const ValidatedPwdInput = withValidation((props) => (
-    <Input {...props} ref={pwdRef} />
-  ));
-  const ValidatedConfirmPwdInput = withValidation((props) => (
-    <Input {...props} ref={pwdConfirmationRef} />
-  ));
 
   return (
     <form noValidate onSubmit={onSubmit}>
@@ -91,7 +79,6 @@ const SignupForm = () => {
             required
             aria-label="confirm password"
             validate_options={VALIDATE_PASSWORD}
-            validation={{ error: "Password is not identical" }}
             ref={validatedConfirmPwdInputRef}
           />
         </div>

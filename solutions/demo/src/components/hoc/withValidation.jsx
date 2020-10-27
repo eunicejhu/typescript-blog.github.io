@@ -29,7 +29,6 @@ const withValidation = (WrappedComponent) => {
     render() {
       const { error } = this.state;
       const { className, validation, ...restProps } = this.props;
-      const { error: invisibleError } = validation;
       return (
         <>
           <WrappedComponent
@@ -37,9 +36,6 @@ const withValidation = (WrappedComponent) => {
             {...restProps}
             onInput={this.handleValidate}
           />
-          {!!invisibleError && (
-            <small className="hidden">{invisibleError}</small>
-          )}
           <small className={styles.error}>{error}</small>
         </>
       );
@@ -48,9 +44,6 @@ const withValidation = (WrappedComponent) => {
 
   ValidatedComponent.propTypes = {
     className: PropTypes.string,
-    validation: PropTypes.shape({
-      error: PropTypes.string,
-    }),
     validate_options: PropTypes.shape({
       maxLength: PropTypes.number,
       minLength: PropTypes.number,
@@ -60,7 +53,6 @@ const withValidation = (WrappedComponent) => {
 
   ValidatedComponent.defaultProps = {
     className: "",
-    validation: { error: "" },
     validate_options: {
       maxLength: 0,
       minLength: 0,
