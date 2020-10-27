@@ -28,7 +28,7 @@ const withValidation = (WrappedComponent) => {
 
     render() {
       const { error } = this.state;
-      const { className, validation, ...restProps } = this.props;
+      const { className, ...restProps } = this.props;
       return (
         <>
           <WrappedComponent
