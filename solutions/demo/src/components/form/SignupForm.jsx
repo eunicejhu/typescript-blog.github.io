@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import Input from "../input/Input";
+import ConfirmPasswordInput from "../input/ConfirmPasswordInput";
 
 // 1. validation
 // Use built-in validation (invalid popup is too ugly), Style it ? Hmm.. feeling reluctant
@@ -40,6 +41,7 @@ const SignupForm = () => {
             ref={emailRef}
           />
         </div>
+        <ConfirmPasswordInput />
         <Input type="submit" value="Submit" />
         <span>{message}</span>
       </fieldset>
