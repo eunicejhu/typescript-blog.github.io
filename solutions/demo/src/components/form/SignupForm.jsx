@@ -20,10 +20,6 @@ const validatedConfirmPwdInputRef = React.createRef();
 // Email use built-in default validation
 // Password should be 6-22 length, at least one uppercase and one lowercase
 // customize validaty message
-const ONE_UPPERCASE_REGEX = /[A-Z]{1}/g;
-const ONE_LOWERCASE_REGEX = /[a-z]{1}/g;
-const MAX_PASSWORD_LENGTH = 22;
-const MIN_PASSWORD_LENGTH = 6;
 
 const VALIDATE_PASSWORD = {
   minLength: 6,
@@ -33,21 +29,22 @@ const VALIDATE_PASSWORD = {
 
 const SignupForm = () => {
   const [message, setMessage] = useState("");
-  const [confirm, setConfirm] = useState(true);
   const onSubmit = (e) => {
-    const [email, password] = [emailRef.current.value, pwdRef.current.value];
-    e.preventDefault();
-    setTimeout(() => {
-      setMessage(`Submit with ${email}, ${password}`);
-    }, 2000);
-  };
-
-  const onConfirmPasswordInput = () => {
-    const [pwd, confirmpwd] = [
+    const [email, password, confirmPwd] = [
+      emailRef.current.value,
       pwdRef.current.value,
       pwdConfirmationRef.current.value,
     ];
-    setConfirm(pwd === confirmpwd);
+    e.preventDefault();
+    if (password !== confirmPwd) {
+      if (!pwdConfirmationRef.current.className.includes("invalid")) {
+        pwdConfirmationRef.current.className = `${pwdConfirmationRef.current.className} invalid`;
+      }
+      return;
+    }
+    setTimeout(() => {
+      setMessage(`Submit with ${email}, ${password}`);
+    }, 2000);
   };
 
   const ValidatedPwdInput = withValidation((props) => (
@@ -93,11 +90,8 @@ const SignupForm = () => {
             name="password_confirmation"
             required
             aria-label="confirm password"
-            onInput={onConfirmPasswordInput}
-            validation={{
-              error: confirm,
-              message: "Please type the same password!",
-            }}
+            validate_options={VALIDATE_PASSWORD}
+            validation={{ error: "Password is not identical" }}
             ref={validatedConfirmPwdInputRef}
           />
         </div>

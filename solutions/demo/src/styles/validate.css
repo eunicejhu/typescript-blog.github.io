@@ -1,3 +1,14 @@
 input {
   outline: 0;
 }
+
+input.invalid {
+  border: 1px solid red;
+}
+
+input + small.hidden {
+  opacity: 0;
+}
+input.invalid + small.hidden {
+  opacity: 1;
+}
