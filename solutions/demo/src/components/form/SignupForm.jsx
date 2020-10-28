@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Input from "../input/Input";
 import ConfirmPasswordInput from "../input/ConfirmPasswordInput";
 import withValidation from "../hoc/withValidation";
+import withType from "../hoc/withType";
 
 // 1. validation
 // Use built-in validation (invalid popup is too ugly), Style it ? Hmm.. feeling reluctant
@@ -15,6 +16,9 @@ const emailRef = React.createRef();
 const confirmPasswordInputRef = React.createRef();
 
 const ValidatedEmailInput = withValidation(Input);
+
+const TypedNumberInput = withType(Input);
+const TypedSubmitInput = withType(Input);
 
 // Use novalidate attribute of form to turn off all validation
 // Email use built-in default validation
@@ -42,6 +46,15 @@ const SignupForm = () => {
       <fieldset>
         <legend>Sign up</legend>
         <div>
+          <TypedNumberInput
+            type="text"
+            id="number"
+            onChange={() => {
+              console.log("Mount in SignupForm");
+            }}
+          />
+        </div>
+        <div>
           <label htmlFor="email">Email:</label>
           <ValidatedEmailInput
             type="email"
@@ -54,7 +67,7 @@ const SignupForm = () => {
           />
         </div>
         <ConfirmPasswordInput ref={confirmPasswordInputRef} />
-        <Input type="submit" value="Submit" />
+        <TypedSubmitInput type="submit" value="Submit" />
         <span>{message}</span>
       </fieldset>
     </form>

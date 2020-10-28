@@ -28,7 +28,8 @@
         "depth": 3
       }
     ],
-    "react/state-in-constructor": [0, "never"]
+    "react/state-in-constructor": [0, "never"],
+    "no-console": 0
 
     // "jsx-a11y/control-has-associated-label": [
     //   2,
