@@ -1,4 +1,5 @@
 import React from "react";
+import { produce } from "immer";
 
 import style from "./ConfirmPasswordInput.module.scss";
 
@@ -39,17 +40,15 @@ class ConfirmPasswordInput extends React.Component {
 
   handlePwdInputChange = (e) => {
     const { value } = e.target;
-    const errorCb = (message) =>
-      this.setState((prevState) => ({
-        ...prevState,
-        ...{ error: { ...prevState.error, pwd: message } },
-      }));
-    this.setState((prevState) => ({
-      ...prevState,
-      pwd: value,
-      confirmPwd: "",
-      ...{ error: { ...prevState.error, confirmPwd: "" } },
-    }));
+    const errorCb = (message) => {
+      this.setState(
+        produce((draft) => {
+          draft.error = { pwd: message, confirmPwd: "" };
+          draft.pwd = value;
+          draft.confirmPwd = "";
+        })
+      );
+    };
     validate(value, VALIDATE_OPTIONS, errorCb);
   };
 
@@ -58,20 +57,17 @@ class ConfirmPasswordInput extends React.Component {
     const { pwd } = this.state;
     this.setState((prevState) => ({ ...prevState, confirmPwd: value }));
     if (value !== pwd) {
-      this.setState((prevState) => ({
-        ...prevState,
-        ...{
-          error: {
-            ...prevState.error,
-            confirmPwd: "Password is not identical",
-          },
-        },
-      }));
+      this.setState(
+        produce((draft) => {
+          draft.error.confirmPwd = "Password is not identical";
+        })
+      );
     } else {
-      this.setState((prevState) => ({
-        ...prevState,
-        ...{ error: { ...prevState.error, confirmPwd: "" } },
-      }));
+      this.setState(
+        produce((draft) => {
+          draft.error.confirmPwd = "";
+        })
+      );
     }
   };
 
