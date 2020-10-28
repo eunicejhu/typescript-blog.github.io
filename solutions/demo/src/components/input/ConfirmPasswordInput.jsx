@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import style from "./ConfirmPasswordInput.module.scss";
 
@@ -27,58 +27,89 @@ const validate = (value, options, cb) => {
   }
 };
 
-const ConfirmPasswordInput = () => {
-  const [pwd, setPwd] = useState("");
-  const [confirmPwd, setConfirmPwd] = useState("");
-  const [error, setError] = useState({ pwd: "", confirmPwd: "" });
-  const handlePwdInputChange = (e) => {
+class ConfirmPasswordInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      pwd: "",
+      confirmPwd: "",
+      error: { pwd: "", confirmPwd: "" },
+    };
+  }
+
+  handlePwdInputChange = (e) => {
     const { value } = e.target;
-    const cb = (message) => setError({ pwd: message });
-    setPwd(value);
-    validate(value, VALIDATE_OPTIONS, cb);
+    const errorCb = (message) =>
+      this.setState((prevState) => ({
+        ...prevState,
+        ...{ error: { ...prevState.error, pwd: message } },
+      }));
+    this.setState((prevState) => ({
+      ...prevState,
+      pwd: value,
+      confirmPwd: "",
+      ...{ error: { ...prevState.error, confirmPwd: "" } },
+    }));
+    validate(value, VALIDATE_OPTIONS, errorCb);
   };
-  const handleConfirmPwdInputChange = (e) => {
+
+  handleConfirmPwdInputChange = (e) => {
     const { value } = e.target;
-    setConfirmPwd(value);
+    const { pwd } = this.state;
+    this.setState((prevState) => ({ ...prevState, confirmPwd: value }));
     if (value !== pwd) {
-      setError({ confirmPwd: "Password is not identical" });
+      this.setState((prevState) => ({
+        ...prevState,
+        ...{
+          error: {
+            ...prevState.error,
+            confirmPwd: "Password is not identical",
+          },
+        },
+      }));
     } else {
-      setError({ confirmPwd: "" });
+      this.setState((prevState) => ({
+        ...prevState,
+        ...{ error: { ...prevState.error, confirmPwd: "" } },
+      }));
     }
   };
 
-  return (
-    <>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          required
-          aria-label="Input Password"
-          onChange={handlePwdInputChange}
-          className={!!error.pwd && style.invalid}
-          value={pwd}
-        />
-        <small className={style.error}>{error.pwd}</small>
-      </div>
-      <div>
-        <label htmlFor="password_confirmation">Confirm Password:</label>
-        <input
-          type="password"
-          id="password_confirmation"
-          name="password_confirmation"
-          required
-          aria-label="confirm password"
-          onChange={handleConfirmPwdInputChange}
-          className={!!error.confirmPwd && style.invalid}
-          value={confirmPwd}
-        />
-        <small className={style.error}>{error.confirmPwd}</small>
-      </div>
-    </>
-  );
-};
+  render() {
+    const { pwd, confirmPwd, error } = this.state;
+    return (
+      <>
+        <div>
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            aria-label="Input Password"
+            onChange={this.handlePwdInputChange}
+            className={!error.pwd ? "" : style.invalid}
+            value={pwd}
+          />
+          <small className={style.error}>{error.pwd}</small>
+        </div>
+        <div>
+          <label htmlFor="password_confirmation">Confirm Password:</label>
+          <input
+            type="password"
+            id="password_confirmation"
+            name="password_confirmation"
+            required
+            aria-label="confirm password"
+            onChange={this.handleConfirmPwdInputChange}
+            className={!error.confirmPwd ? "" : style.invalid}
+            value={confirmPwd}
+          />
+          <small className={style.error}>{error.confirmPwd}</small>
+        </div>
+      </>
+    );
+  }
+}
 
 export default ConfirmPasswordInput;

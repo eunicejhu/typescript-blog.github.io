@@ -28,13 +28,14 @@ const withValidation = (WrappedComponent) => {
 
     render() {
       const { error } = this.state;
-      const { className, ...restProps } = this.props;
+      const { className, forwardedRef, ...restProps } = this.props;
       return (
         <>
           <WrappedComponent
             className={`${className} ${!error ? "" : styles.errorInput}`}
             {...restProps}
             onInput={this.handleValidate}
+            ref={forwardedRef}
           />
           <small className={styles.error}>{error}</small>
         </>
@@ -49,10 +50,15 @@ const withValidation = (WrappedComponent) => {
       minLength: PropTypes.number,
       pattern: PropTypes.instanceOf(RegExp),
     }),
+    forwardedRef: PropTypes.oneOfType([
+      PropTypes.func,
+      PropTypes.shape(PropTypes.instanceOf({ current: PropTypes.elementType })),
+    ]),
   };
 
   ValidatedComponent.defaultProps = {
     className: "",
+    forwardedRef: () => {},
     validate_options: {
       maxLength: 0,
       minLength: 0,
@@ -60,7 +66,9 @@ const withValidation = (WrappedComponent) => {
     },
   };
 
-  return ValidatedComponent;
+  return React.forwardRef((props, ref) => {
+    return <ValidatedComponent {...props} forwardedRef={ref} />;
+  });
 };
 
 export default withValidation;

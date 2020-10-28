@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import Input from "../input/Input";
 import ConfirmPasswordInput from "../input/ConfirmPasswordInput";
+import withValidation from "../hoc/withValidation";
 
 // 1. validation
 // Use built-in validation (invalid popup is too ugly), Style it ? Hmm.. feeling reluctant
@@ -11,6 +12,9 @@ import ConfirmPasswordInput from "../input/ConfirmPasswordInput";
 // 3. form submission
 
 const emailRef = React.createRef();
+const confirmPasswordInputRef = React.createRef();
+
+const ValidatedEmailInput = withValidation(Input);
 
 // Use novalidate attribute of form to turn off all validation
 // Email use built-in default validation
@@ -18,12 +22,19 @@ const emailRef = React.createRef();
 const SignupForm = () => {
   const [message, setMessage] = useState("");
   const onSubmit = (e) => {
-    const [email] = [emailRef.current.value];
     e.preventDefault();
-
-    setTimeout(() => {
-      setMessage(`Submit with ${email}`);
-    }, 2000);
+    const [email] = [emailRef.current.value];
+    const { pwd, confirmPwd, error } = confirmPasswordInputRef.current.state;
+    const confirmIsValid =
+      Object.entries(error).every(([, value]) => !value) && pwd === confirmPwd;
+    if (confirmIsValid && !!email && !!pwd && !!confirmPwd) {
+      // submit
+      setTimeout(() => {
+        setMessage(`Submit with ${email} ${pwd}`);
+      }, 2000);
+    } else {
+      setMessage("Cannot submit invalid form ");
+    }
   };
 
   return (
@@ -32,16 +43,17 @@ const SignupForm = () => {
         <legend>Sign up</legend>
         <div>
           <label htmlFor="email">Email:</label>
-          <Input
+          <ValidatedEmailInput
             type="email"
             id="email"
             name="email"
-            // required
+            required
             aria-label="Input Email"
             ref={emailRef}
+            validate_options={{ pattern: /.+@(gmail|icloud)\..+/g }}
           />
         </div>
-        <ConfirmPasswordInput />
+        <ConfirmPasswordInput ref={confirmPasswordInputRef} />
         <Input type="submit" value="Submit" />
         <span>{message}</span>
       </fieldset>
