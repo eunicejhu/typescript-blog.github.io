@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { produce } from "immer";
+import { useImmer } from "use-immer";
+import PropTypes from "prop-types";
 
 import style from "./ConfirmPasswordInput.module.scss";
 
@@ -26,6 +28,73 @@ const validate = (value, options, cb) => {
   } else {
     cb("");
   }
+};
+
+/**
+ *
+ * @param {handleConfirm} props
+ * initial value {pwd: "", error: true, handlePwd, handleError}
+ *
+ */
+
+export const ConfirmPasswordInputFC = (props) => {
+  const { handleConfirm } = props;
+  const [pwd, setPwd] = useState("");
+  const [confirmPwd, setConfirmPwd] = useState("");
+
+  const handleChangePwd = (e) => {
+    setPwd(e.target.value);
+  };
+  const handleChangeConfirmPwd = (e) => {
+    const { value } = e.target;
+    const isIdentical = !!value && !!pwd && value === pwd;
+    setConfirmPwd(value);
+    if (isIdentical) {
+      handleConfirm(pwd);
+    }
+  };
+
+  return (
+    <>
+      <div>
+        <label htmlFor="password">Password:</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          required
+          aria-label="Input Password"
+          onChange={handleChangePwd}
+          data-testid="password"
+          // className={!error.pwd ? "" : style.invalid}
+          value={pwd}
+        />
+        {/* <small className={style.error}>{error.pwd}</small> */}
+      </div>
+      <div>
+        <label htmlFor="password_confirmation">Confirm Password:</label>
+        <input
+          type="password"
+          id="password_confirmation"
+          name="password_confirmation"
+          required
+          aria-label="confirm password"
+          onChange={handleChangeConfirmPwd}
+          data-testid="password_confirmation"
+          // className={!error.confirmPwd ? "" : style.invalid}
+          value={confirmPwd}
+        />
+        {/* <small className={style.error}>{error.confirmPwd}</small> */}
+      </div>
+    </>
+  );
+};
+
+ConfirmPasswordInputFC.propTypes = {
+  handleConfirm: PropTypes.func,
+};
+ConfirmPasswordInputFC.defaultProps = {
+  handleConfirm: () => {},
 };
 
 class ConfirmPasswordInput extends React.Component {
