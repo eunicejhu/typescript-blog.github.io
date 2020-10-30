@@ -35,7 +35,8 @@ it("validate password when input password,  ", () => {
 
 it("show error when password is invalid", () => {
   const ERROR_MESSAGE = "Password is invalid";
-  const validate = jest.fn(() => ERROR_MESSAGE);
+  const validate = jest.fn();
+  validate.mockReturnValueOnce(ERROR_MESSAGE);
 
   act(() => {
     render(<ConfirmPasswordInput validate={validate} />, container);
@@ -43,7 +44,7 @@ it("show error when password is invalid", () => {
   const passwordInput = getByTestId(container, "password");
   const error = getByTestId(container, "error_pwd");
 
-  fireEvent.change(passwordInput, { target: { value: "INVALID_PASSWORD" } });
+  fireEvent.change(passwordInput, { target: { value: "****" } });
 
   expect(validate).toHaveBeenCalledTimes(1);
   expect(error).toHaveTextContent(ERROR_MESSAGE);
