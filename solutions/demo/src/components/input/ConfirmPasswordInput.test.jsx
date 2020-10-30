@@ -52,10 +52,10 @@ it("show error when password is invalid", () => {
 
 it("Show error when confirmation is not identical to password", () => {
   const ERROR = "Password is not identical";
-  const handleConfirm = jest.fn();
+  const setValue = jest.fn();
 
   act(() => {
-    render(<ConfirmPasswordInput handleConfirm={handleConfirm} />, container);
+    render(<ConfirmPasswordInput setValue={setValue} />, container);
   });
 
   const passwordInput = getByTestId(container, "password");
@@ -66,7 +66,7 @@ it("Show error when confirmation is not identical to password", () => {
   fireEvent.change(confirmPasswordInput, { target: { value: "ddsfsd" } });
 
   expect(error).toHaveTextContent(ERROR);
-  expect(handleConfirm).toHaveBeenCalledTimes(0);
+  expect(setValue).toHaveBeenCalledTimes(0);
 });
 
 it("Clear confirmation and error when modify password", () => {
@@ -86,11 +86,11 @@ it("Clear confirmation and error when modify password", () => {
   expect(errorConfirmPwd).toBeEmpty();
 });
 
-it.only("Confirm when confirmation is identical to password", () => {
-  const handleConfirm = jest.fn();
+it.only("clear error when confirmation is identical to password", () => {
+  const setValue = jest.fn();
 
   act(() => {
-    render(<ConfirmPasswordInput handleConfirm={handleConfirm} />, container);
+    render(<ConfirmPasswordInput setValue={setValue} />, container);
   });
 
   const passwordInput = getByTestId(container, "password");
@@ -99,10 +99,10 @@ it.only("Confirm when confirmation is identical to password", () => {
 
   fireEvent.change(passwordInput, { target: { value: "123456" } });
   fireEvent.change(confirmPasswordInput, { target: { value: "12345" } });
-  expect(handleConfirm).toHaveBeenCalledTimes(0);
+  expect(setValue).toHaveBeenCalledTimes(1);
   expect(errorConfirmPwd).not.toBeEmpty();
 
   fireEvent.change(confirmPasswordInput, { target: { value: "123456" } });
-  expect(handleConfirm).toHaveBeenCalledTimes(1);
+  expect(setValue).toHaveBeenCalledTimes(2);
   expect(errorConfirmPwd).toBeEmpty();
 });

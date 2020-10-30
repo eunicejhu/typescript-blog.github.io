@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import style from "./ConfirmPasswordInput.module.scss";
 
 const ConfirmPasswordInput = (props) => {
-  const { handleConfirm, validate } = props;
+  const { setValue, validate } = props;
   const [pwd, setPwd] = useState("");
   const [confirmPwd, setConfirmPwd] = useState("");
   const [error, setError] = useImmer({ pwd: "", confirmPwd: "" });
@@ -20,6 +20,10 @@ const ConfirmPasswordInput = (props) => {
       draft.confirmPwd = "";
     });
 
+    // clear value from parent
+    setValue("");
+
+    // set error
     setError((draft) => {
       draft.pwd = validate(value);
     });
@@ -29,7 +33,7 @@ const ConfirmPasswordInput = (props) => {
     const isIdentical = !!value && !!pwd && value === pwd;
     setConfirmPwd(value);
     if (isIdentical) {
-      handleConfirm(pwd);
+      setValue(pwd);
       // clear error if exist
       setError((draft) => {
         draft.confirmPwd = "";
@@ -82,11 +86,11 @@ const ConfirmPasswordInput = (props) => {
 };
 
 ConfirmPasswordInput.propTypes = {
-  handleConfirm: PropTypes.func,
+  setValue: PropTypes.func,
   validate: PropTypes.func,
 };
 ConfirmPasswordInput.defaultProps = {
-  handleConfirm: (value) => value,
+  setValue: (value) => value,
   validate: () => {},
 };
 
