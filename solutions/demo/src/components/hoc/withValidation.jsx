@@ -9,32 +9,33 @@ const withValidation = (WrappedComponent) => {
       error: "",
     };
 
-    handleValidate = (e) => {
-      const { value, name } = e.target;
-      const {
-        validate_options: { minLength, maxLength, pattern },
-      } = this.props;
-
-      if (minLength && value.length < minLength) {
-        this.setState({ error: `${name} length should be > ${minLength} ` });
-      } else if (maxLength && value.length > maxLength) {
-        this.setState({ error: `${name} length should be < ${maxLength} ` });
-      } else if (pattern && !value.match(pattern)) {
-        this.setState({ error: `${name} does not match ${pattern} ` });
+    handleChange = (e) => {
+      const { validate, setValue } = this.props;
+      const { value } = e.target;
+      const error = validate(value);
+      this.setState({ error });
+      if (!error) {
+        setValue(value);
       } else {
-        this.setState({ error: "" });
+        setValue("");
       }
     };
 
     render() {
       const { error } = this.state;
-      const { className, forwardedRef, ...restProps } = this.props;
+      const {
+        className,
+        forwardedRef,
+        setValue,
+        validate,
+        ...restProps
+      } = this.props;
       return (
         <>
           <WrappedComponent
             className={`${className} ${!error ? "" : styles.errorInput}`}
             {...restProps}
-            onInput={this.handleValidate}
+            onChange={this.handleChange}
             ref={forwardedRef}
           />
           <small className={styles.error}>{error}</small>
@@ -45,11 +46,8 @@ const withValidation = (WrappedComponent) => {
 
   ValidatedComponent.propTypes = {
     className: PropTypes.string,
-    validate_options: PropTypes.shape({
-      maxLength: PropTypes.number,
-      minLength: PropTypes.number,
-      pattern: PropTypes.instanceOf(RegExp),
-    }),
+    validate: PropTypes.func,
+    setValue: PropTypes.func,
     forwardedRef: PropTypes.oneOfType([
       PropTypes.func,
       PropTypes.shape(PropTypes.instanceOf({ current: PropTypes.elementType })),
@@ -59,11 +57,8 @@ const withValidation = (WrappedComponent) => {
   ValidatedComponent.defaultProps = {
     className: "",
     forwardedRef: () => {},
-    validate_options: {
-      maxLength: 0,
-      minLength: 0,
-      pattern: null,
-    },
+    validate: () => "",
+    setValue: () => "",
   };
 
   return React.forwardRef((props, ref) => {

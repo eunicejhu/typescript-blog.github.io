@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import Input from "../input/Input";
 import ConfirmPasswordInput from "../input/ConfirmPasswordInput";
 import withValidation from "../hoc/withValidation";
-import withType from "../hoc/withType";
+
+import validate from "../../utils/validate";
 
 // 1. validation
 // Use built-in validation (invalid popup is too ugly), Style it ? Hmm.. feeling reluctant
@@ -12,32 +13,36 @@ import withType from "../hoc/withType";
 // 2. Style HOC validation UI
 // 3. form submission
 
-const emailRef = React.createRef();
-const confirmPasswordInputRef = React.createRef();
+// Use novalidate attribute of form to turn off all validation
+// Email use built-in default validation
+const EMAIL_VALIDATION_OPTIONS = {
+  pattern: [/.+@(gmail|icloud)\..+/g, "Email should be gmail or icloud"],
+};
+
+const PASSWORD_VALIDATION_OPTIONS = {
+  minLength: [6, "Length should be greater than 6"],
+  maxLength: [22, "Length should be less than 22"],
+  pattern: [
+    /.*[a-z]+.*[A-Z]+.*/g,
+    "Should contain at least one uppercase and one lowercase letter",
+  ],
+};
+const validatePassword = validate(PASSWORD_VALIDATION_OPTIONS);
+const validateEmail = validate(EMAIL_VALIDATION_OPTIONS);
 
 const ValidatedEmailInput = withValidation(Input);
 
-const TypedNumberInput = withType(Input);
-const TypedSubmitInput = withType(Input);
-
-// Use novalidate attribute of form to turn off all validation
-// Email use built-in default validation
-
 const SignupForm = () => {
+  const [email, setEmail] = useState("");
+  const [pwd, setPwd] = useState("");
   const [message, setMessage] = useState("");
+
   const onSubmit = (e) => {
     e.preventDefault();
-    const [email] = [emailRef.current.value];
-    const { pwd, confirmPwd, error } = confirmPasswordInputRef.current.state;
-    const confirmIsValid =
-      Object.entries(error).every(([, value]) => !value) && pwd === confirmPwd;
-    if (confirmIsValid && !!email && !!pwd && !!confirmPwd) {
-      // submit
-      setTimeout(() => {
-        setMessage(`Submit with ${email} ${pwd}`);
-      }, 2000);
+    if (!!email && !!pwd) {
+      console.log("submit for user: ", email, pwd);
     } else {
-      setMessage("Cannot submit invalid form ");
+      setMessage("Cannot submit");
     }
   };
 
@@ -45,29 +50,26 @@ const SignupForm = () => {
     <form noValidate onSubmit={onSubmit}>
       <fieldset>
         <legend>Sign up</legend>
-        <div>
-          <TypedNumberInput
-            type="text"
-            id="number"
-            onChange={() => {
-              console.log("Mount in SignupForm");
-            }}
-          />
-        </div>
+
         <div>
           <label htmlFor="email">Email:</label>
           <ValidatedEmailInput
             type="email"
             id="email"
             name="email"
+            setValue={(value) => {
+              setEmail(value);
+            }}
             required
             aria-label="Input Email"
-            ref={emailRef}
-            validate_options={{ pattern: /.+@(gmail|icloud)\..+/g }}
+            validate={validateEmail}
           />
         </div>
-        <ConfirmPasswordInput ref={confirmPasswordInputRef} />
-        <TypedSubmitInput type="submit" value="Submit" />
+        <ConfirmPasswordInput
+          setValue={(value) => setPwd(value)}
+          validate={validatePassword}
+        />
+        <Input type="submit" value="Submit" />
         <span>{message}</span>
       </fieldset>
     </form>
