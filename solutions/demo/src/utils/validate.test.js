@@ -1,6 +1,6 @@
-import validate, { IOptions } from "./validate";
+import validate from "./validate";
 
-const PASSWORD_VALIDATION_OPTIONS: IOptions = {
+const PASSWORD_VALIDATION_OPTIONS = {
   minLength: [6, "Length should be greater than 6"],
   maxLength: [22, "Length should be less than 22"],
   pattern: [
