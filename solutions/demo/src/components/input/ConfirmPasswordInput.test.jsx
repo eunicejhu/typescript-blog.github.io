@@ -86,7 +86,7 @@ it("Clear confirmation and error when modify password", () => {
   expect(errorConfirmPwd).toBeEmpty();
 });
 
-it("Confirm when confirmation is identical to password", () => {
+it.only("Confirm when confirmation is identical to password", () => {
   const handleConfirm = jest.fn();
 
   act(() => {
@@ -95,9 +95,14 @@ it("Confirm when confirmation is identical to password", () => {
 
   const passwordInput = getByTestId(container, "password");
   const confirmPasswordInput = getByTestId(container, "password_confirmation");
+  const errorConfirmPwd = getByTestId(container, "error_confirmPwd");
 
   fireEvent.change(passwordInput, { target: { value: "123456" } });
-  fireEvent.change(confirmPasswordInput, { target: { value: "123456" } });
+  fireEvent.change(confirmPasswordInput, { target: { value: "12345" } });
+  expect(handleConfirm).toHaveBeenCalledTimes(0);
+  expect(errorConfirmPwd).not.toBeEmpty();
 
+  fireEvent.change(confirmPasswordInput, { target: { value: "123456" } });
   expect(handleConfirm).toHaveBeenCalledTimes(1);
+  expect(errorConfirmPwd).toBeEmpty();
 });

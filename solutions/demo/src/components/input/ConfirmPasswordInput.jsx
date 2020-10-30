@@ -30,6 +30,10 @@ const ConfirmPasswordInput = (props) => {
     setConfirmPwd(value);
     if (isIdentical) {
       handleConfirm(pwd);
+      // clear error if exist
+      setError((draft) => {
+        draft.confirmPwd = "";
+      });
     } else {
       setError((draft) => {
         draft.confirmPwd = "Password is not identical";
