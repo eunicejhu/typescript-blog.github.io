@@ -18,12 +18,12 @@ afterEach(() => {
 
 it("render a label", () => {
   act(() => {
-    render(<label htmlFor="">Email</label>, container);
+    render(<p>Email</p>, container);
   });
 
-  // label is a Node instead of HtmlElement, https://developer.mozilla.org/en-US/docs/Web/API/Node
-  const label = container.querySelector("label");
-  expect(label.textContent).toBe("Email");
+  // P is a Node instead of HtmlElement, https://developer.mozilla.org/en-US/docs/Web/API/Node
+  const P = container.querySelector("p");
+  expect(P.textContent).toBe("Email");
 });
 
 it("change value when click", () => {
