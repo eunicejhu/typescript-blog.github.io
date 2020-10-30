@@ -1,11 +1,7 @@
 import React, { Component } from "react";
 
-<<<<<<< Updated upstream
-import Input, { validate } from "../input/Input";
-=======
 import Input from "../input/Input";
 import withValidation from "../hoc/withValidation";
->>>>>>> Stashed changes
 
 const firstnameRef = React.createRef();
 const emailRef = React.createRef();
@@ -42,47 +38,6 @@ export default class Form extends Component {
       <Input {...props} ref={emailRef} />
     );
     const ForwardedRefTelInput = (props) => <Input {...props} ref={telRef} />;
-<<<<<<< Updated upstream
-    const ValidatedEmailInput = validate(ForwardedRefEmailInput);
-    const ValidateTelInput = validate(ForwardedRefTelInput);
-    return (
-      <form onSubmit={this.onSubmit}>
-        <label htmlFor="firstname">FirstName:</label>
-        <Input
-          ref={firstnameRef}
-          type="text"
-          id="firstname"
-          name="firstname"
-          placeholder="firstname"
-        />
-        <label htmlFor="lastname">LastName:</label>
-        <Input
-          type="text"
-          id="lastname"
-          name="lastname"
-          placeholder="lastname"
-        />
-        <label htmlFor="tel">Tel:</label>
-        <ValidateTelInput
-          ref={validateTelRef}
-          type="tel"
-          id="tel"
-          name="tel"
-          placeholder="tel"
-          validations={validations}
-        />
-        <label htmlFor="email">Email:</label>
-        <ValidatedEmailInput
-          ref={validateEmailRef}
-          type="email"
-          id="email"
-          name="email"
-          placeholder="email"
-          validations={validations}
-        />
-        <label htmlFor="file">file:</label>
-        <Input type="file" id="file" name="file" placeholder="cv" />
-=======
     const ValidatedEmailInput = withValidation(ForwardedRefEmailInput);
     const ValidateTelInput = withValidation(ForwardedRefTelInput);
     return (
@@ -198,7 +153,6 @@ export default class Form extends Component {
             accept=".pdf,.doc,.docx"
           />
         </div>
->>>>>>> Stashed changes
         <Input type="submit" value="Submit" />
       </form>
     );
