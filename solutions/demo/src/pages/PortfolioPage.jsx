@@ -1,6 +1,8 @@
 import React from "react";
 import { Switch, Route, NavLink } from "react-router-dom";
 
+import Projects from "./Projects";
+
 function PortfolioPage() {
   return (
     <>
@@ -40,9 +42,7 @@ function PortfolioPage() {
 function Home() {
   return <div>This is Home page</div>;
 }
-function Projects() {
-  return <div>This is Projects page</div>;
-}
+
 function AboutMe() {
   return <div>This is about me page</div>;
 }
