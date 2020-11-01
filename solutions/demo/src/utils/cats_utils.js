@@ -11,5 +11,6 @@ const lifeSpans = (data) =>
 
 const avgWeight = R.compose(average, metrics);
 const avgLifeSpan = R.compose(average, lifeSpans);
+const totalBreeds = (arr) => arr.length;
 
-export { avgWeight, avgLifeSpan };
+export { avgWeight, avgLifeSpan, totalBreeds };
