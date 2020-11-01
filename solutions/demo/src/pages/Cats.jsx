@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link, useRouteMatch } from "react-router-dom";
 
 const { avgWeight, avgLifeSpan, totalBreeds } = require("../utils/cats_utils");
 
 function Cats() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const { url: matchedUrl } = useRouteMatch();
 
   useEffect(() => {
     const fetchData = async () => {
-      const url = "https://api.thecatapi.com/v1/breeds";
       setIsLoading(true);
+      const url = "https://api.thecatapi.com/v1/breeds";
       try {
         const { data: cats } = await axios.get(url);
         setData(cats);
@@ -27,7 +29,18 @@ function Cats() {
   const totalCount = totalBreeds(data);
 
   const FormatedData = () => {
-    return data.map(({ name, id }) => <li key={id}>{name}</li>);
+    return data.map((cat) => (
+      <li key={cat.id}>
+        <Link
+          to={{
+            pathname: `${matchedUrl}/${cat.id}`,
+            state: { referer: "/cats", data: cat },
+          }}
+        >
+          {cat.name}
+        </Link>
+      </li>
+    ));
   };
 
   const Summary = () => (
