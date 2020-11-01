@@ -1,13 +1,21 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useRouteMatch } from "react-router-dom";
+import Cat from "./Cat";
+import useQuery from "../hooks/useQuery";
 
 const { avgWeight, avgLifeSpan, totalBreeds } = require("../utils/cats_utils");
 
 function Cats() {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [catId, setCatId] = useState(null);
   const { url: matchedUrl } = useRouteMatch();
+  const id = useQuery().get("id");
+
+  useEffect(() => {
+    setCatId(id);
+  }, [id]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,8 +41,8 @@ function Cats() {
       <li key={cat.id}>
         <Link
           to={{
-            pathname: `${matchedUrl}/${cat.id}`,
-            state: { referer: "/cats", data: cat },
+            pathname: `${matchedUrl}`,
+            search: `?id=${cat.id}`,
           }}
         >
           {cat.name}
@@ -62,10 +70,16 @@ function Cats() {
 
   return (
     <>
-      <div>{isLoading ? "Loading..." : <Summary />}</div>
-      <ul>
-        <FormatedData />
-      </ul>
+      {catId ? (
+        <Cat />
+      ) : (
+        <>
+          <div>{isLoading ? "Loading..." : <Summary />}</div>
+          <ul>
+            <FormatedData />
+          </ul>
+        </>
+      )}
     </>
   );
 }

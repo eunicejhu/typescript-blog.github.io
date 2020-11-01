@@ -2,7 +2,6 @@ import React from "react";
 import { Switch, Route, NavLink, useRouteMatch } from "react-router-dom";
 
 import Cats from "./Cats";
-import Cat from "./Cat";
 
 function Projects() {
   const { path, url } = useRouteMatch();
@@ -28,9 +27,6 @@ function Projects() {
         </Route>
         <Route exact strict path={`${path}/countries`}>
           <Countries />
-        </Route>
-        <Route path={`${path}/cats/:id`}>
-          <Cat />
         </Route>
         <Route>
           <NotFound />
