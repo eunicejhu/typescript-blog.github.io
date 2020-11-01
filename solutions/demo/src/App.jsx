@@ -1,8 +1,12 @@
 import React from "react";
-
-import SignupForm from "./components/form/SignupForm";
+import { BrowserRouter as Router } from "react-router-dom";
+import PortfolioPage from "./pages/PortfolioPage";
 
 import "./styles/App.css";
 
-const App = () => <SignupForm />;
+const App = () => (
+  <Router>
+    <PortfolioPage />
+  </Router>
+);
 export default App;
