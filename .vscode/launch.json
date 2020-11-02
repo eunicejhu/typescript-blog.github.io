@@ -19,18 +19,10 @@
 
     {
       "name": "Launch Program",
-      "program": "${workspaceFolder}/solutions/demo/src/utils/fp.js",
+      "program": "${workspaceFolder}/src/utils/fp.js",
       "request": "launch",
       "skipFiles": ["<node_internals>/**"],
       "type": "pwa-node"
-    },
-
-    {
-      "type": "chrome",
-      "request": "launch",
-      "name": "Launch Chrome against localhost",
-      "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}/solutions/day-01"
     }
   ]
 }
