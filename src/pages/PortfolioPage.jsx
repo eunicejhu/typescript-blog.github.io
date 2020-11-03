@@ -1,19 +1,70 @@
-import React from "react";
-import { Switch, Route, NavLink } from "react-router-dom";
+import React, { useState } from "react";
+import { Switch, Route, NavLink, useHistory } from "react-router-dom";
 
 import Projects from "./Projects";
+import Login from "./Login";
+
+import "../styles/PortfolioPage.scss";
+
+function useLogin() {
+  const [isLogged, setIsLogged] = useState(false);
+  const history = useHistory();
+  const login = ({ identifier, password }) => {
+    setTimeout(() => {
+      // API call to login}
+      setIsLogged(true);
+      // back to previous page
+      history.goBack("/");
+    }, 1000);
+  };
+  return [isLogged, login];
+}
+const ROUTES = [
+  {
+    to: "/",
+    text: "Home",
+  },
+  {
+    to: "/projects",
+    text: "Projects",
+  },
+  {
+    to: "/aboutme",
+    text: "Aboutme",
+  },
+  {
+    to: "/contactme",
+    text: "Home",
+  },
+  {
+    to: "/login",
+    text: "Login",
+  },
+];
 
 function PortfolioPage() {
+  const [isLogged, login] = useLogin();
+
+  const NavLinks = () =>
+    ROUTES.map(({ to, text }) => {
+      if (isLogged && to === "/login") {
+        return (
+          <li key={to}>
+            <NavLink to={to}>Logout</NavLink>
+          </li>
+        );
+      }
+      return (
+        <li key={to}>
+          <NavLink to={to}>{text}</NavLink>
+        </li>
+      );
+    });
   return (
     <>
-      <header>
+      <header className="nav-container">
         <ul>
-          <li>
-            <NavLink to="/">Home</NavLink>
-            <NavLink to="projects">Projects</NavLink>
-            <NavLink to="/aboutme">About me</NavLink>
-            <NavLink to="/contactme">Contact me</NavLink>
-          </li>
+          <NavLinks />
         </ul>
       </header>
       <main>
@@ -29,6 +80,9 @@ function PortfolioPage() {
           </Route>
           <Route path="/contactme">
             <ContactMe />
+          </Route>
+          <Route path="/login">
+            <Login cb={login} />
           </Route>
           <Route>
             <NotFound />

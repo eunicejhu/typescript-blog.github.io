@@ -8,7 +8,7 @@ export default function Login({ cb }) {
   const [password, setPassword] = useState("");
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (identifier && password) cb();
+    if (identifier && password) cb({ identifier, password });
   };
   return (
     <div className="form-container">
