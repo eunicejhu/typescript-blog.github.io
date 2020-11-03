@@ -1,6 +1,10 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
+// eslint-disable-next-line import/named
+import { mockLogin } from "../hooks/useLogin";
 import Login from "../pages/Login";
+
+jest.mock("../hooks/useLogin");
 
 test("get ***@gmail.com when set ***@gmail.com to Identifier input", () => {
   const { container } = render(<Login />);
@@ -39,8 +43,7 @@ test("Fail to submit when identifier is not filled", () => {
 });
 
 test("Succeed to submit when identifier and password are both filled", () => {
-  const onSubmit = jest.fn();
-  const { getByTestId, container } = render(<Login cb={onSubmit} />);
+  const { getByTestId, container } = render(<Login />);
   const identifier = container.querySelector("#identifier");
   const password = container.querySelector("[name=password]");
   const submitBtn = getByTestId("submit");
@@ -48,5 +51,8 @@ test("Succeed to submit when identifier and password are both filled", () => {
   fireEvent.change(identifier, { target: { value: "some identifier" } });
   fireEvent.change(password, { target: { value: "****" } });
   fireEvent.submit(submitBtn);
-  expect(onSubmit).toHaveBeenCalledTimes(1);
+  expect(mockLogin).toHaveBeenCalledWith({
+    identifier: "some identifier",
+    password: "****",
+  });
 });

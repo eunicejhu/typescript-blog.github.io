@@ -1,24 +1,12 @@
-import React, { useState } from "react";
-import { Switch, Route, NavLink, useHistory } from "react-router-dom";
+import React from "react";
+import { Switch, Route, NavLink } from "react-router-dom";
 
 import Projects from "./Projects";
 import Login from "./Login";
+import useLogin from "../hooks/useLogin";
 
 import "../styles/PortfolioPage.scss";
 
-function useLogin() {
-  const [isLogged, setIsLogged] = useState(false);
-  const history = useHistory();
-  const login = ({ identifier, password }) => {
-    setTimeout(() => {
-      // API call to login}
-      setIsLogged(true);
-      // back to previous page
-      history.goBack("/");
-    }, 1000);
-  };
-  return [isLogged, login];
-}
 const ROUTES = [
   {
     to: "/",
@@ -43,7 +31,7 @@ const ROUTES = [
 ];
 
 function PortfolioPage() {
-  const [isLogged, login] = useLogin();
+  const [isLogged] = useLogin();
 
   const NavLinks = () =>
     ROUTES.map(({ to, text }) => {
@@ -82,7 +70,7 @@ function PortfolioPage() {
             <ContactMe />
           </Route>
           <Route path="/login">
-            <Login cb={login} />
+            <Login />
           </Route>
           <Route>
             <NotFound />

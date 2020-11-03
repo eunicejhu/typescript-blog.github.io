@@ -1,14 +1,15 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
 
+import useLogin from "../hooks/useLogin";
 import "../styles/Login.scss";
 
-export default function Login({ cb }) {
+export default function Login() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
+  const [, login] = useLogin();
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (identifier && password) cb({ identifier, password });
+    if (identifier && password) login({ identifier, password });
   };
   return (
     <div className="form-container">
@@ -48,10 +49,3 @@ export default function Login({ cb }) {
     </div>
   );
 }
-
-Login.propTypes = {
-  cb: PropTypes.func,
-};
-Login.defaultProps = {
-  cb: () => {},
-};
