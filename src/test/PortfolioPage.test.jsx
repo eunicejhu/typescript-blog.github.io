@@ -1,29 +1,35 @@
-import React from "react";
-import { MemoryRouter } from "react-router-dom";
-import { render } from "@testing-library/react";
+import { screen, fireEvent } from "@testing-library/react";
 import PortfolioPage from "../pages/PortfolioPage";
+import renderInRouter from "./renderInRouter";
+import history from "../helpers/history";
 
 jest.mock("react-cookie", () => {
-  const useCookies = jest.fn().mockReturnValueOnce([{isLoggedIn: false}]).mockReturnValueOnce([{isLoggedIn: true}])
-  return {useCookies}
-})
+  const mockSetCookie = jest.fn();
+  const useCookies = jest
+    .fn()
+    .mockReturnValueOnce([{ isLoggedIn: false }])
+    .mockReturnValueOnce([{ isLoggedIn: true }])
+    .mockReturnValue([{ isLoggedIn: true }, mockSetCookie]);
+  return { useCookies };
+});
+
+beforeEach(() => {
+  renderInRouter(PortfolioPage);
+});
 
 test("display Login link when user is not logged in", () => {
-  const { container, getByTestId } = render(
-    <MemoryRouter>
-      <PortfolioPage />
-    </MemoryRouter>
-  );
-  const LoginLink = getByTestId("/login");
+  const LoginLink = screen.getByTestId("/login");
   expect(LoginLink.innerHTML).toBe("Login");
 });
 
 test("display Logout link when user is logged in", () => {
-  const { container, getByTestId } = render(
-    <MemoryRouter>
-      <PortfolioPage />
-    </MemoryRouter>
-  );
-  const LoginLink = getByTestId("/login");
+  const LoginLink = screen.getByTestId("/login");
   expect(LoginLink.innerHTML).toBe("Logout");
+});
+
+test("redirect to Home when click logout", () => {
+  const LogoutLink = screen.getByTestId("/login");
+  expect(LogoutLink.innerHTML).toBe("Logout");
+  fireEvent.click(LogoutLink);
+  expect(history.location.pathname).toBe("/");
 });

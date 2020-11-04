@@ -1,10 +1,9 @@
 import React from "react";
-import { Switch, Route, NavLink } from "react-router-dom";
+import { Switch, Route, NavLink, useHistory } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 import Projects from "./Projects";
 import Login from "./Login";
-// import useLogin from "../hooks/useLogin";
-import {useCookies} from 'react-cookie'
 
 import "../styles/PortfolioPage.scss";
 
@@ -48,15 +47,23 @@ const ROUTES = [
 ];
 
 function PortfolioPage() {
-  const [cookie] = useCookies(['isLoggedIn']);
+  const [cookie, setCookie] = useCookies(["isLoggedIn"]);
+  const history = useHistory();
 
   const renderNavLinks = ROUTES.filter(({ to }) => to).map(({ to, text }) => {
-    if (cookie.isLoggedIn && to === "/login") {
+    if (cookie.isLoggedIn && cookie.isLoggedIn !== "false" && to === "/login") {
       return (
         <li key={to}>
-          <NavLink data-testid={to} to={to}>
+          <button
+            data-testid={to}
+            type="button"
+            onClick={() => {
+              setCookie("isLoggedIn", false, { path: "/" });
+              history.replace("/");
+            }}
+          >
             Logout
-          </NavLink>
+          </button>
         </li>
       );
     }
@@ -75,7 +82,8 @@ function PortfolioPage() {
           {component}
         </Route>
       );
-    } else if (path == null) {
+    }
+    if (path == null) {
       return (
         <Route key={path}>
           <NotFound />
