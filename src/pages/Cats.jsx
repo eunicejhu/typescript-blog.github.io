@@ -1,36 +1,16 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import Cat from "./Cat";
 import useQuery from "../hooks/useQuery";
+import useApi, { API_STATUS } from "../hooks/useApi";
 
 const { avgWeight, avgLifeSpan, totalBreeds } = require("../utils/cats_utils");
 
 function Cats() {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [catId, setCatId] = useState(null);
   const { url: matchedUrl } = useRouteMatch();
-  const id = useQuery().get("id");
 
-  useEffect(() => {
-    setCatId(id);
-  }, [id]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      const url = "https://api.thecatapi.com/v1/breeds";
-      try {
-        const { data: cats } = await axios.get(url);
-        setData(cats);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
+  const { data, error, state } = useApi("https://api.thecatapi.com/v1/breeds");
+  const catId = useQuery().get("id");
 
   const averageLifeSpan = avgLifeSpan(data);
   const avergageWeight = avgWeight(data);
@@ -68,20 +48,25 @@ function Cats() {
     </div>
   );
 
-  return (
-    <>
-      {catId ? (
+  switch (state) {
+    case API_STATUS.ERROR:
+      return <>{error}</>;
+    case API_STATUS.SUCCESS:
+      return catId ? (
         <Cat />
       ) : (
         <>
-          <div>{isLoading ? "Loading..." : <Summary />}</div>
+          <div>
+            <Summary />
+          </div>
           <ul>
             <FormatedData />
           </ul>
         </>
-      )}
-    </>
-  );
+      );
+    default:
+      return <>Loading</>;
+  }
 }
 
 export default Cats;
