@@ -1,5 +1,5 @@
 export const mockLogin = jest.fn();
 const mock = jest.fn().mockImplementation(() => {
-  return [false, mockLogin];
+  return mockLogin;
 });
 export default mock;

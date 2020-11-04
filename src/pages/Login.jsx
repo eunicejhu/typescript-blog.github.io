@@ -6,7 +6,7 @@ import "../styles/Login.scss";
 export default function Login() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
-  const [, login] = useLogin();
+  const login = useLogin();
   const handleSubmit = (e) => {
     e.preventDefault();
     if (identifier && password) login({ identifier, password });

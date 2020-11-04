@@ -1,16 +1,16 @@
-import { useState } from "react";
 import { useHistory } from "react-router-dom";
+import {useCookies} from 'react-cookie'
 
 export default function useLogin() {
-  const [isLogged, setIsLogged] = useState(false);
   const history = useHistory();
+  const [, setCookie] = useCookies(['isLoggedIn']);
   const login = ({ identifier, password }) => {
     setTimeout(() => {
       // API call to login}
-      setIsLogged(true);
+      setCookie('isLoggedIn', true, {path:"/"})
       // back to previous page
-      history.goBack("/");
+      history.go(-1);
     }, 1000);
   };
-  return [isLogged, login];
+  return login;
 }
