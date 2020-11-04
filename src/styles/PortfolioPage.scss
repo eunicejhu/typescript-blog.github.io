@@ -15,5 +15,15 @@
       list-style: none;
       margin: 0 1rem;
     }
+
+    button {
+      border: 0;
+      background-color: transparent;
+      color: #e3e4eb;
+      font-size: 1rem;
+      font: 600 16px/18px "Montserrat", sans-serif;
+      cursor: pointer;
+      outline: none;
+    }
   }
 }
