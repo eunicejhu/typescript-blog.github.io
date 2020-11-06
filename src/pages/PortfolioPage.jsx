@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Switch, Route, NavLink, useHistory } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
@@ -50,6 +50,7 @@ const ROUTES = [
 function PortfolioPage() {
   const [cookie, setCookie] = useCookies(["isLoggedIn"]);
   const history = useHistory();
+  const { theme, setTheme } = useContext(ThemeContext);
 
   const renderNavLinks = ROUTES.filter(({ to }) => to).map(({ to, text }) => {
     if (cookie.isLoggedIn && cookie.isLoggedIn !== "false" && to === "/login") {
@@ -102,21 +103,13 @@ function PortfolioPage() {
     <>
       <header className="nav-container">
         <ul>{renderNavLinks}</ul>
-        <ThemeContext.Consumer>
-          {({ theme: themeFromContext, setTheme: setThemeFromContext }) => (
-            <button
-              className="theme"
-              type="button"
-              onClick={() =>
-                setThemeFromContext(
-                  themeFromContext === "dark" ? "light" : "dark"
-                )
-              }
-            >
-              {themeFromContext}
-            </button>
-          )}
-        </ThemeContext.Consumer>
+        <button
+          className="theme"
+          type="button"
+          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+        >
+          {theme}
+        </button>
       </header>
       <main>
         <Switch>{renderRoutes}</Switch>
