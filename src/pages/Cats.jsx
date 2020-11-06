@@ -11,18 +11,21 @@ function Cats() {
   const catId = useQuery().get("id");
   const { averageLifeSpan, averageWeight, totalBreeds } = getCatsSummary(data);
   const FormatedData = () => {
-    return data.map((cat) => (
-      <li className={`item ${cat.id}`} key={cat.id}>
-        <Link
-          to={{
-            pathname: `${matchedUrl}`,
-            search: `?id=${cat.id}`,
-          }}
-        >
-          {cat.name}
-        </Link>
-      </li>
-    ));
+    return (
+      data &&
+      data.map((cat) => (
+        <li className={`item ${cat.id}`} key={cat.id}>
+          <Link
+            to={{
+              pathname: `${matchedUrl}`,
+              search: `?id=${cat.id}`,
+            }}
+          >
+            {cat.name}
+          </Link>
+        </li>
+      ))
+    );
   };
 
   const Summary = () => (
@@ -59,7 +62,6 @@ function Cats() {
         </>
       );
     default:
-      console.log("default");
       return <>Loading</>;
   }
 }

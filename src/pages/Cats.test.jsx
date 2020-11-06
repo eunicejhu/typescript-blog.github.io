@@ -82,6 +82,8 @@ const MOCK_CATS_DATA = [
     hypoallergenic: 0,
   },
 ];
+// IMPROVE: bybass module, LINK from actual react-router-dom https://jestjs.io/docs/en/bypassing-module-mocks
+
 jest.mock("react-router-dom", () => {
   return {
     useRouteMatch: jest.fn().mockReturnValue({ url: "/cats" }),
@@ -127,6 +129,12 @@ test("show cats list", () => {
   );
   expect(firstCat.innerHTML).toContain(MOCK_CATS_DATA[0].name);
 });
+
+// QUESTION: why we cannot querySelector from container? https://testing-library.com/docs/react-testing-library/api#container
+// REFERENCE: React testing library https://testing-library.com/docs/react-testing-library/intro
+// REFERENCE: DOM testing library https://testing-library.com/docs/dom-testing-library/intro
+// REFERENCE: jsdom https://github.com/jsdom/jsdom
+// REFERENCE dom standard https://dom.spec.whatwg.org/ html standard https://html.spec.whatwg.org/multipage/
 
 test("Each cat item is a link to its cat page ", () => {
   const { baseElement } = render(<Cats />);
