@@ -3,22 +3,16 @@ import { Link, useRouteMatch } from "react-router-dom";
 import Cat from "./Cat";
 import useQuery from "../hooks/useQuery";
 import useApi, { API_STATUS } from "../hooks/useApi";
-
-const { avgWeight, avgLifeSpan, totalBreeds } = require("../utils/cats_utils");
+import getCatsSummary from "../helpers/getCatsSummary";
 
 function Cats() {
   const { url: matchedUrl } = useRouteMatch();
-
   const { data, error, state } = useApi("https://api.thecatapi.com/v1/breeds");
   const catId = useQuery().get("id");
-
-  const averageLifeSpan = avgLifeSpan(data);
-  const avergageWeight = avgWeight(data);
-  const totalCount = totalBreeds(data);
-
+  const { averageLifeSpan, averageWeight, totalBreeds } = getCatsSummary(data);
   const FormatedData = () => {
     return data.map((cat) => (
-      <li key={cat.id}>
+      <li className={`item ${cat.id}`} key={cat.id}>
         <Link
           to={{
             pathname: `${matchedUrl}`,
@@ -36,14 +30,14 @@ function Cats() {
       <h2>Cats Paradise</h2>
       <h4>
         There are
-        {totalCount}
+        <span data-testid="totalBreeds">{totalBreeds}</span>
         cat breeds
       </h4>
       <p>
         The avergage weigth is
-        {avergageWeight}
+        <span data-testid="averageWeight">{averageWeight}</span>
         The avergage life span is
-        {averageLifeSpan}
+        <span data-testid="averageLifeSpan">{averageLifeSpan}</span>
       </p>
     </div>
   );
@@ -65,6 +59,7 @@ function Cats() {
         </>
       );
     default:
+      console.log("default");
       return <>Loading</>;
   }
 }
