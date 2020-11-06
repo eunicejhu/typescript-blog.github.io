@@ -36,6 +36,7 @@
     //   2,
     //   { "ignoreElements": ["option"] }
     // ]
-    "no-param-reassign": [2, { "ignorePropertyModificationsFor": ["draft"] }]
+    "no-param-reassign": [2, { "ignorePropertyModificationsFor": ["draft"] }],
+    "react/jsx-curly-newline": [0]
   }
 }
