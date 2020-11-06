@@ -62,6 +62,7 @@ function Cats() {
         </>
       );
     default:
+      console.log("default");
       return <>Loading</>;
   }
 }
