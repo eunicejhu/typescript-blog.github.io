@@ -9,6 +9,7 @@ function Cats() {
   const { url: matchedUrl } = useRouteMatch();
   const { data, error, state } = useApi("https://api.thecatapi.com/v1/breeds");
   const catId = useQuery().get("id");
+  // FIXME: data is undefined, because of asynchronous data loading from useApi.
   const { averageLifeSpan, averageWeight, totalBreeds } = getCatsSummary(data);
   const FormatedData = () => {
     return (
