@@ -6,6 +6,7 @@ import Projects from "./Projects";
 import Login from "./Login";
 
 import "../styles/PortfolioPage.scss";
+import ThemeContext from "../context/ThemeContext";
 
 const ROUTES = [
   {
@@ -101,10 +102,26 @@ function PortfolioPage() {
     <>
       <header className="nav-container">
         <ul>{renderNavLinks}</ul>
+        <ThemeContext.Consumer>
+          {({ theme: themeFromContext, setTheme: setThemeFromContext }) => (
+            <button
+              className="theme"
+              type="button"
+              onClick={() =>
+                setThemeFromContext(
+                  themeFromContext === "dark" ? "light" : "dark"
+                )
+              }
+            >
+              {themeFromContext}
+            </button>
+          )}
+        </ThemeContext.Consumer>
       </header>
       <main>
         <Switch>{renderRoutes}</Switch>
       </main>
+      )
     </>
   );
 }

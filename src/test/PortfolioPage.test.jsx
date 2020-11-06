@@ -1,6 +1,6 @@
 import { screen, fireEvent } from "@testing-library/react";
 import PortfolioPage from "../pages/PortfolioPage";
-import renderInRouter from "./renderInRouter";
+import renderInRouter, { theme } from "./renderInRouter";
 import history from "../helpers/history";
 
 jest.mock("react-cookie", () => {
@@ -32,4 +32,10 @@ test("redirect to Home when click logout", () => {
   expect(LogoutLink.innerHTML).toBe("Logout");
   fireEvent.click(LogoutLink);
   expect(history.location.pathname).toBe("/");
+});
+
+test("ThemeButton: show light after dark button", () => {
+  const ThemeButton = screen.getByText("dark");
+  fireEvent.click(ThemeButton);
+  expect(theme.setTheme).toHaveBeenCalledWith("light");
 });
