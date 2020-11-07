@@ -1,6 +1,6 @@
 import { screen, fireEvent } from "@testing-library/react";
-import PortfolioPage from "../pages/PortfolioPage";
-import renderInRouter, { theme } from "./renderInRouter";
+import PortfolioPage from "./PortfolioPage";
+import renderInRouter, { theme } from "../test/renderInRouter";
 import history from "../helpers/history";
 
 jest.mock("react-cookie", () => {

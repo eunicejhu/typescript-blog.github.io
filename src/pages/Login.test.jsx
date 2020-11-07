@@ -2,7 +2,7 @@ import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 // eslint-disable-next-line import/named
 import { mockLogin } from "../hooks/useLogin";
-import Login from "../pages/Login";
+import Login from "./Login";
 
 jest.mock("../hooks/useLogin");
 
