@@ -66,7 +66,7 @@ it("Show error when confirmation is not identical to password", () => {
   fireEvent.change(confirmPasswordInput, { target: { value: "ddsfsd" } });
 
   expect(error).toHaveTextContent(ERROR);
-  expect(setValue).toHaveBeenCalledTimes(0);
+  expect(setValue).toHaveBeenLastCalledWith("");
 });
 
 it("Clear confirmation and error when modify password", () => {
@@ -86,7 +86,7 @@ it("Clear confirmation and error when modify password", () => {
   expect(errorConfirmPwd).toBeEmpty();
 });
 
-it.only("clear error when confirmation is identical to password", () => {
+it("clear error when confirmation is identical to password", () => {
   const setValue = jest.fn();
 
   act(() => {
