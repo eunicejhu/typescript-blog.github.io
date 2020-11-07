@@ -24,3 +24,4 @@ yarn-error.log*
 
 /src/react-app-env.d.ts
 /node_modules
+/.husky
