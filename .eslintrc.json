@@ -31,11 +31,6 @@
     ],
     "react/state-in-constructor": [0, "never"],
     "no-console": 0,
-
-    // "jsx-a11y/control-has-associated-label": [
-    //   2,
-    //   { "ignoreElements": ["option"] }
-    // ]
     "no-param-reassign": [2, { "ignorePropertyModificationsFor": ["draft"] }],
     "react/jsx-curly-newline": [0]
   }
