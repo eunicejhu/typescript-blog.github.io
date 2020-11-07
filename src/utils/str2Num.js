@@ -1,1 +1,2 @@
-export const str2Num = str => Number(str.split(',').join(""))
+const str2Num = (str) => Number(str.split(",").join(""));
+export default { str2Num };

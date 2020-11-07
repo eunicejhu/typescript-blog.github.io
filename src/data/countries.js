@@ -1,4 +1,4 @@
-export const countriesData = [
+export default [
   {
     name: "Afghanistan",
     capital: "Kabul",

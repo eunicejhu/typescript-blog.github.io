@@ -4,9 +4,9 @@ import { useCookies } from "react-cookie";
 export default function useLogin() {
   const history = useHistory();
   const [, setCookie] = useCookies(["isLoggedIn"]);
-  const login = ({ identifier, password }) => {
+  const login = () => {
     setTimeout(() => {
-      // API call to login}
+      // TODO: API call to login with identifier & password
       setCookie("isLoggedIn", true, { path: "/" });
       // go to home page
       history.replace("/");
