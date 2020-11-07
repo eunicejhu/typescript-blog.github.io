@@ -1,7 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import useLogin from "../hooks/useLogin";
-import history from "../helpers/history";
 import "../styles/Login.scss";
 
 export default function Login() {

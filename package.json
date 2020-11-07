@@ -10,6 +10,7 @@
     "@types/jest": "^26.0.15",
     "@types/ramda": "^0.27.31",
     "axios": "^0.21.0",
+    "classnames": "^2.2.6",
     "history": "^5.0.0",
     "immer": "^7.0.14",
     "prop-types": "^15.7.2",
@@ -26,7 +27,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "lint": "eslint src/. --fix",
+    "lint": "eslint --ext .js,.jsx src/ --fix",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "postinstall": "husky install",
@@ -54,8 +55,6 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/react-hooks": "^3.4.2",
-    "classnames": "^2.2.6",
     "eslint": "^7.12.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.14.0",

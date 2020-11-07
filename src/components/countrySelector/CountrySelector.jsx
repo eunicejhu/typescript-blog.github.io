@@ -15,13 +15,8 @@ class CountrySelector extends React.PureComponent {
 
   render() {
     const {
-      name,
-      capital,
-      languages,
-      population,
-      flag,
-      currency,
-    } = this.state.country;
+      country: { name, capital, languages, population, flag, currency },
+    } = this.state;
     return (
       <div className="countryselector_wrapper">
         <h2>Country Selector</h2>
@@ -32,23 +27,25 @@ class CountrySelector extends React.PureComponent {
 
         <ul>
           <li>
-            <label>Capital: </label>
-            <span>{capital}</span>
+            <label htmlFor="captital">Capital: </label>
+            <span id="captical">{capital}</span>
           </li>
           <li>
-            <label>Languages: </label>
-            <span>{languages}</span>
+            <label htmlFor="languages">Languages: </label>
+            <span id="languages">{languages}</span>
           </li>
           <li>
-            <label>Population: </label>
-            <span>{population}</span>
+            <label htmlFor="population">Population: </label>
+            <span id="population">{population}</span>
           </li>
           <li>
-            <label>Currency: </label>
-            <span>{currency}</span>
+            <label htmlFor="captital">Currency: </label>
+            <span id="currency">{currency}</span>
           </li>
         </ul>
-        <button onClick={this.selectCountry}>Select Country</button>
+        <button type="button" onClick={this.selectCountry}>
+          Select Country
+        </button>
       </div>
     );
   }
