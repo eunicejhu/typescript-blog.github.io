@@ -1,12 +1,12 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import renderInRouter from "../test/renderInRouter";
+import renderInRouter from "../../test/renderInRouter";
 
 import Cats from "./Cats";
-import getCatsSummary from "../helpers/getCatsSummary";
+import getCatsSummary from "../../helpers/getCatsSummary";
 
-import { MOCK_CATS_DATA } from "../__mocks__/cats";
-import { API_STATUS } from "../hooks/__mocks__/useApi";
+import { MOCK_CATS_DATA } from "../../__mocks__/cats";
+import { API_STATUS } from "../../hooks/useApi";
 
 jest.mock("react-router-dom", () => {
   return {
@@ -17,17 +17,17 @@ jest.mock("react-router-dom", () => {
 });
 
 const mockUseQueryGet = jest.fn();
-jest.mock("../hooks/useQuery", () => {
+jest.mock("../../hooks/useQuery", () => {
   return () => ({ get: mockUseQueryGet.mockReturnValue() });
 });
 
-jest.mock("../helpers/getCatsSummary");
+jest.mock("../../helpers/getCatsSummary");
 getCatsSummary.mockReturnValue({
   totalBreeds: null,
   averageLifeSpan: null,
   averageWeight: null,
 });
-jest.mock("../hooks/useApi");
+jest.mock("../../hooks/useApi");
 
 jest.mock("./Cat.jsx", () => jest.fn(() => <div data-testid="CatComponent" />));
 

@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
 import history from "./helpers/history";
-import PortfolioPage from "./pages/PortfolioPage";
+import Main from "./pages/Main/Main";
 import ThemeContext, { themes } from "./context/ThemeContext";
 
-import "./styles/App.css";
+import "./App.css";
 
 const App = () => {
   const [theme, setTheme] = useState(themes.dark);
@@ -13,7 +13,7 @@ const App = () => {
     <ThemeContext.Provider value={{ theme, setTheme }}>
       <CookiesProvider>
         <Router history={history}>
-          <PortfolioPage />
+          <Main />
         </Router>
       </CookiesProvider>
     </ThemeContext.Provider>

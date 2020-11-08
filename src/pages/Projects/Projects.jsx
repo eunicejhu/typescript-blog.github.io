@@ -1,7 +1,7 @@
 import React from "react";
 import { Switch, Route, NavLink, useRouteMatch } from "react-router-dom";
 
-import Cats from "./Cats";
+import Cats from "../Cats/Cats";
 
 function Projects() {
   const { path, url } = useRouteMatch();

@@ -1,10 +1,10 @@
 import React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import Cat from "./Cat";
-import useQuery from "../hooks/useQuery";
-import useApi, { API_STATUS } from "../hooks/useApi";
-import getCatsSummary from "../helpers/getCatsSummary";
-import catReducer from "../reducers/catsReducer";
+import useQuery from "../../hooks/useQuery";
+import useApi, { API_STATUS } from "../../hooks/useApi";
+import getCatsSummary from "../../helpers/getCatsSummary";
+import catReducer from "../../reducers/catsReducer";
 
 const GET_CATS_URL = "https://api.thecatapi.com/v1/breeds";
 

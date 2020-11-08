@@ -1,4 +1,4 @@
-import { avgWeight, avgLifeSpan } from "./cats_utils";
+import { avgWeight, avgLifeSpan } from "./cats_metrics";
 import CATS from "../data/cats.json";
 
 let fakeData;

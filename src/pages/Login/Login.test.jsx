@@ -1,10 +1,9 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-// eslint-disable-next-line import/named
-import { mockLogin } from "../hooks/useLogin";
 import Login from "./Login";
 
-jest.mock("../hooks/useLogin");
+const mockLogin = jest.fn();
+jest.mock("../../hooks/useLogin", () => () => mockLogin);
 
 test("get ***@gmail.com when set ***@gmail.com to Identifier input", () => {
   const { container } = render(<Login />);

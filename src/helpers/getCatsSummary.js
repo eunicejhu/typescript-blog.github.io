@@ -1,4 +1,4 @@
-import { avgWeight, avgLifeSpan, totalBreeds } from "../utils/cats_utils";
+import { avgWeight, avgLifeSpan, totalBreeds } from "../utils/cats_metrics";
 
 const IsNotEmpty = (data) => Array.isArray(data) && data.length;
 const useCatsSummary = (data) => {

@@ -1,6 +1,6 @@
 import getCatsSummary from "./getCatsSummary";
 
-jest.mock("../utils/cats_utils", () => {
+jest.mock("../utils/cats_metrics", () => {
   return {
     avgWeight: jest.fn().mockReturnValue(4),
     avgLifeSpan: jest.fn().mockReturnValue(6),

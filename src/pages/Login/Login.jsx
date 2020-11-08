@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
-import useLogin from "../hooks/useLogin";
-import "../styles/Login.scss";
+import useLogin from "../../hooks/useLogin";
+import "./Login.scss";
 
 export default function Login() {
   const [identifier, setIdentifier] = useState("");

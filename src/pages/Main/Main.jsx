@@ -2,11 +2,11 @@ import React, { useContext } from "react";
 import { Switch, Route, NavLink, useHistory } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
-import Projects from "./Projects";
-import Login from "./Login";
+import Projects from "../Projects/Projects";
+import Login from "../Login/Login";
 
-import "../styles/PortfolioPage.scss";
-import ThemeContext from "../context/ThemeContext";
+import "./Main.scss";
+import ThemeContext from "../../context/ThemeContext";
 
 const ROUTES = [
   {
@@ -47,7 +47,7 @@ const ROUTES = [
   },
 ];
 
-function PortfolioPage() {
+function Main() {
   const [cookie, setCookie] = useCookies(["isLoggedIn"]);
   const history = useHistory();
   const { theme, setTheme } = useContext(ThemeContext);
@@ -133,4 +133,4 @@ function NotFound() {
   return <div>Page not found</div>;
 }
 
-export default PortfolioPage;
+export default Main;

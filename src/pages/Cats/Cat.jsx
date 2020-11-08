@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useImmer } from "use-immer";
 
-import useQuery from "../hooks/useQuery";
+import useQuery from "../../hooks/useQuery";
 
 function Cat() {
   const [data, setData] = useImmer({ url: "", name: "", description: "" });
