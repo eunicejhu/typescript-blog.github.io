@@ -6,7 +6,7 @@ import ThemeContext from "../context/ThemeContext";
 
 export const theme = { theme: "dark", setTheme: jest.fn() };
 const renderInRouter = (Component) => {
-  render(
+  return render(
     <ThemeContext.Provider value={theme}>
       <Router history={history}>
         <Component />
