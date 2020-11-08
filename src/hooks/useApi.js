@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 
 export const API_STATUS = {
@@ -6,31 +6,20 @@ export const API_STATUS = {
   SUCCESS: "SUCCESS",
   LOADING: "LOADING",
 };
-const useApi = (url) => {
-  const [response, setResponse] = useState({
-    state: null,
-    data: null,
-    error: null,
-  });
+const useApi = (url, dispatch) => {
   const fetchData = async () => {
     try {
-      setResponse({ ...response, state: API_STATUS.LOADING });
+      dispatch({ type: API_STATUS.LOADING });
       const result = await axios.get(url);
       const { data } = result;
-      setResponse({
-        ...response,
-        state: API_STATUS.SUCCESS,
-        data,
-        error: null,
-      });
+      dispatch({ type: API_STATUS.SUCCESS, payload: { data } });
     } catch (error) {
-      setResponse({ ...response, state: API_STATUS.ERROR, error, data: null });
+      dispatch({ type: API_STATUS.ERROR, payload: { error } });
     }
   };
   useEffect(() => {
     fetchData();
   }, []);
-  return response;
 };
 
 export default useApi;
