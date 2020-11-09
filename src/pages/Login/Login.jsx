@@ -1,15 +1,28 @@
 import React, { useState } from "react";
 
+import authReducer, {
+  INITIAL_AUTH_STATE,
+  AUTH_STATUS,
+} from "../../reducers/authReducer";
 import useLogin from "../../hooks/useLogin";
 import "./Login.scss";
 
 export default function Login() {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
-  const login = useLogin();
-  const handleSubmit = (e) => {
+  const [{ error }, dispatch] = React.useReducer(
+    authReducer,
+    INITIAL_AUTH_STATE
+  );
+  const { login } = useLogin(dispatch);
+  const submitIsDisabled = !(identifier && password);
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (identifier && password) login({ identifier, password });
+    try {
+      await login({ identifier, password });
+    } catch (err) {
+      dispatch({ type: AUTH_STATUS.ERROR, err });
+    }
   };
   return (
     <div className="form-container">
@@ -20,6 +33,7 @@ export default function Login() {
             <input
               id="identifier"
               name="identifier"
+              placeholder="Identifier"
               type="text"
               value={identifier}
               onChange={({ target: { value } }) => {
@@ -33,6 +47,7 @@ export default function Login() {
             <input
               id="password"
               name="password"
+              placeholder="Password"
               type="password"
               value={password}
               onChange={({ target: { value } }) => {
@@ -42,7 +57,13 @@ export default function Login() {
             />
           </div>
           <div className="field">
-            <input type="submit" value="Login" data-testid="submit" />
+            <input
+              type="submit"
+              aria-label="submit"
+              value="Login"
+              disabled={submitIsDisabled}
+            />
+            <p>{error}</p>
           </div>
         </form>
       </div>

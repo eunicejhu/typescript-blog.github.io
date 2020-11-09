@@ -1,57 +1,82 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
 import Login from "./Login";
+import useLogin from "../../hooks/useLogin";
 
-const mockLogin = jest.fn();
-jest.mock("../../hooks/useLogin", () => () => mockLogin);
+jest.mock("../../hooks/useLogin");
+const useReducerSpy = jest.spyOn(React, "useReducer");
 
-test("get ***@gmail.com when set ***@gmail.com to Identifier input", () => {
-  const { container } = render(<Login />);
-  const identifier = container.querySelector("#identifier");
-  fireEvent.change(identifier, { target: { value: "***@gmail.com" } });
-  expect(identifier.getAttribute("value")).toBe("***@gmail.com");
-});
-
-test("get ***** when set ***** to Password input", () => {
-  const { container } = render(<Login />);
-  const password = container.querySelector("#password");
-  fireEvent.change(password, { target: { value: "*****" } });
-  expect(password.value).toBe("*****");
-});
-
-test("Fail to submit when password is not filled", () => {
+describe("Login", () => {
   const onSubmit = jest.fn();
-  const { getByTestId, container } = render(<Login cb={onSubmit} />);
-  const identifier = container.querySelector("#identifier");
-  const submitBtn = getByTestId("submit");
+  beforeAll(() => {
+    useLogin.mockReturnValue({ login: onSubmit });
+  });
 
-  fireEvent.change(identifier, { target: { value: "some identifier" } });
-  fireEvent.submit(submitBtn);
-  expect(onSubmit).toHaveBeenCalledTimes(0);
-});
+  beforeEach(() => {
+    onSubmit.mockClear();
+  });
 
-test("Fail to submit when identifier is not filled", () => {
-  const onSubmit = jest.fn();
-  const { getByTestId, container } = render(<Login cb={onSubmit} />);
-  const password = container.querySelector("[name=password]");
-  const submitBtn = getByTestId("submit");
+  test("Login button is diabled when identifier or password is blank", () => {
+    const { getByDisplayValue } = render(<Login />);
+    expect(getByDisplayValue(/login/i).disabled).toBeTruthy();
+  });
+  test("Display 'Invalid Identifier or password' when incorrect indentifier or password ", () => {
+    useReducerSpy.mockImplementation(() => [
+      { error: "Invalid identifier or password" },
+      jest.fn(),
+    ]);
+    onSubmit.mockRejectedValueOnce();
+    const { container, getByPlaceholderText, getByLabelText } = render(
+      <Login />
+    );
+    const IdentifierInput = getByPlaceholderText(/identifier/i);
+    fireEvent.change(IdentifierInput, { target: { value: "Isabella" } });
+    expect(IdentifierInput.value).toBe("Isabella");
 
-  fireEvent.change(password, { target: { value: "****" } });
-  fireEvent.submit(submitBtn);
-  expect(onSubmit).toHaveBeenCalledTimes(0);
-});
+    const PasswordInput = getByPlaceholderText(/password/i);
+    fireEvent.change(PasswordInput, { target: { value: "*******" } });
+    expect(PasswordInput.value).toBe("*******");
 
-test("Succeed to submit when identifier and password are both filled", () => {
-  const { getByTestId, container } = render(<Login />);
-  const identifier = container.querySelector("#identifier");
-  const password = container.querySelector("[name=password]");
-  const submitBtn = getByTestId("submit");
+    const submitButton = getByLabelText("submit");
+    fireEvent.click(submitButton);
+    expect(onSubmit).toHaveBeenCalledWith({
+      identifier: "Isabella",
+      password: "*******",
+    });
 
-  fireEvent.change(identifier, { target: { value: "some identifier" } });
-  fireEvent.change(password, { target: { value: "****" } });
-  fireEvent.submit(submitBtn);
-  expect(mockLogin).toHaveBeenCalledWith({
-    identifier: "some identifier",
-    password: "****",
+    fireEvent.change(IdentifierInput, {
+      target: { value: "INVALID_IDENTIFIER" },
+    });
+    fireEvent.click(submitButton);
+    expect(onSubmit).toHaveBeenCalledWith({
+      identifier: "INVALID_IDENTIFIER",
+      password: "*******",
+    });
+    expect(container.innerHTML).toMatch(/Invalid identifier or password/i);
+  });
+  test("Display 'Identifier not found' when not signup yet", () => {
+    useReducerSpy.mockImplementation(() => [
+      { error: "Identifier not found" },
+      jest.fn(),
+    ]);
+    const { container, getByPlaceholderText, getByDisplayValue } = render(
+      <Login />
+    );
+    const IdentifierInput = getByPlaceholderText(/identifier/i);
+    const PasswordInput = getByPlaceholderText(/password/i);
+
+    const submitButton = getByDisplayValue(/login/i);
+    fireEvent.change(IdentifierInput, {
+      target: { value: "NOT_EXIST_IDENTIFIER" },
+    });
+    fireEvent.change(PasswordInput, {
+      target: { value: "*****" },
+    });
+    fireEvent.click(submitButton);
+    expect(onSubmit).toHaveBeenCalledWith({
+      identifier: "NOT_EXIST_IDENTIFIER",
+      password: "*****",
+    });
+    expect(container.innerHTML).toMatch(/Identifier not found/);
   });
 });
