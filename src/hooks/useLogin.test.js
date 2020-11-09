@@ -76,7 +76,7 @@ describe("login failure", () => {
       expect(error.timeout).toBeTruthy();
       expect(dispatch).toHaveBeenLastCalledWith({
         type: AUTH_STATUS.ERROR,
-        payload: "login error",
+        payload: "Invalid Identifier or password",
       });
     }
   });
