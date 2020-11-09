@@ -16,7 +16,11 @@ export default function useLogin(dispatch) {
       setCookie("auth", data, { path: "/" });
       history.replace("/");
     } catch (error) {
-      dispatch({ type: AUTH_STATUS.ERROR, payload: error });
+      console.warn(error);
+      dispatch({
+        type: AUTH_STATUS.ERROR,
+        payload: "Invalid Identifier or password",
+      });
     }
   };
   return { login };
