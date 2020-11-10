@@ -59,12 +59,9 @@ describe("Login", () => {
       { error: "Identifier not found" },
       jest.fn(),
     ]);
-    const {
-      container,
-      getByText,
-      getByPlaceholderText,
-      getByDisplayValue,
-    } = render(<Login />);
+    const { getByText, getByPlaceholderText, getByDisplayValue } = render(
+      <Login />
+    );
     const IdentifierInput = getByPlaceholderText(/identifier/i);
     const PasswordInput = getByPlaceholderText(/password/i);
 
