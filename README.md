@@ -14,6 +14,14 @@ Tech stack:
 - React hooks testing library
 - Sass
 
+Development harness
+
+- ESlint
+- Prettier
+- Husky
+- Storybook
+- Github Actions (CI)
+
 In the project directory, you can run:
 
 ### `yarn start`
