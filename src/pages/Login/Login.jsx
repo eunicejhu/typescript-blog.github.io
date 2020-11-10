@@ -28,6 +28,7 @@ export default function Login() {
     <div className="form-container">
       <div className="backdrop">
         <form onSubmit={handleSubmit}>
+          <small>{error}</small>
           <div className="field">
             <label htmlFor="identifier">Identifier</label>
             <input
@@ -63,7 +64,6 @@ export default function Login() {
               value="Login"
               disabled={submitIsDisabled}
             />
-            <p>{error}</p>
           </div>
         </form>
       </div>

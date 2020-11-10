@@ -1,6 +1,5 @@
 .form-container {
   margin: 100px auto;
-  max-width: 525px;
   min-height: 350px;
   position: relative;
   box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24),
@@ -16,6 +15,7 @@
       rgba(66, 183, 245, 0.8) 0%,
       rgba(66, 245, 189, 0.4) 100%
     );
+    box-sizing: border-box;
   }
 
   form {
@@ -23,6 +23,10 @@
     position: relative;
     perspective: 1000px;
     transform-style: preserve-3d;
+
+    small {
+      color: red;
+    }
   }
   .field {
     margin-bottom: 1rem;
@@ -42,6 +46,8 @@
       border: none;
       padding: 15px 20px;
       border-radius: 25px;
+      outline: none;
+      box-sizing: border-box;
     }
     input[type="submit"] {
       color: white;
