@@ -20,7 +20,7 @@ test("Signup button is disabled and show warnning message when two passwords are
     target: { value: "****" },
   });
   expect(getByDisplayValue(/signup/i).disabled).toBeTruthy();
-  expect(getByText(/password is not identical/i)).toBeInTheDocument();
+  expect(getByText(/password is not identical/i).style.display).toBe("block");
 });
 test("Show 'Identifier is taken'  when Signup failure ", () => {
   const { getByText, getByLabelText, getByDisplayValue } = render(<Signup />);

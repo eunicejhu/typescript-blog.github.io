@@ -1,0 +1,59 @@
+$bg-color: linear-gradient(
+  45deg,
+  rgba(66, 183, 245, 0.8) 0%,
+  rgba(66, 245, 189, 0.4) 100%
+);
+$submit-color: #1161ee;
+$submit-hover-color: rgb(8, 75, 189);
+
+div.signup-wrapper {
+  width: 100%;
+  min-width: 400px;
+  margin: 0 auto;
+  background: $bg-color;
+  padding: 100px 0;
+
+  h1 {
+    display: block;
+    text-align: center;
+  }
+
+  small {
+    color: red;
+  }
+
+  form {
+    width: 50%;
+    margin: 0 auto;
+  }
+  div {
+    width: 100%;
+
+    label {
+      display: block;
+      color: white;
+      margin-bottom: 8px;
+    }
+    input {
+      background: white;
+      padding: 10px;
+      border: 0;
+      outline: 0;
+      border-radius: 20px;
+      width: 100%;
+      box-sizing: content-box;
+      color: #aaa;
+
+      &[type="submit"] {
+        margin: 20px 0px;
+        background: $submit-color;
+        color: white;
+        cursor: pointer;
+
+        &:hover {
+          background: $submit-hover-color;
+        }
+      }
+    }
+  }
+}

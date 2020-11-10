@@ -1,12 +1,13 @@
 import React, { useRef, useState } from "react";
 import useSignup from "../../hooks/useSignup";
+import "./Signup.scss";
 
 export default function Signup() {
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const confirmPwdRef = useRef("");
   const [disabled, setDisabled] = useState(true);
-  const [visible, setVisible] = useState(false);
+  const [showError, setShowError] = useState(false);
   const { error, signup } = useSignup();
 
   const onChange = (e) => {
@@ -17,12 +18,13 @@ export default function Signup() {
       !!confirmPwdRef.current.value;
     const passwordIsIdentical =
       passwordRef.current.value === confirmPwdRef.current.value;
+    const needCheckIdentical =
+      e.target.id === "confirm_password" && !!passwordRef.current.value;
+
     if (noBlankInputs && passwordIsIdentical) {
       setDisabled(false);
     }
-    if (passwordIsIdentical) {
-      setVisible(false);
-    }
+    if (needCheckIdentical) setShowError(!passwordIsIdentical);
   };
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -36,7 +38,7 @@ export default function Signup() {
     }
   };
   return (
-    <div>
+    <div className="signup-wrapper">
       <form onSubmit={onSubmit}>
         <h1>Signup</h1>
         <small style={{ display: `${error ? "block" : "none"}` }}>
@@ -74,7 +76,7 @@ export default function Signup() {
             placeholder="password"
             onChange={onChange}
           />
-          <small style={{ display: `${visible ? "block" : "none"}` }}>
+          <small style={{ display: `${showError ? "block" : "none"}` }}>
             Password is not identical
           </small>
         </div>
