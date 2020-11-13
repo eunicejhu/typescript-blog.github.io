@@ -1,12 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import initialState from "../../helpers/initialState";
 
-const initialState = [
-  { id: "1", title: "First Post!", content: "Hello!" },
-  { id: "2", title: "Second Post", content: "More text" },
-];
 const postsSlice = createSlice({
   name: "posts",
-  initialState,
+  initialState: initialState.posts,
   reducers: {},
 });
 
