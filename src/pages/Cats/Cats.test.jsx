@@ -1,6 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import renderInRouter from "../../test/renderInRouter";
+import withTheme from "../../test/withTheme";
+import withRouter from "../../test/withRouter";
 
 import Cats from "./Cats";
 import getCatsSummary from "../../helpers/getCatsSummary";
@@ -54,8 +55,8 @@ describe("Data is loaded", () => {
       averageLifeSpan: 4.17,
       averageWeight: 14.71,
     });
-
-    const { getByTestId, baseElement } = renderInRouter(Cats);
+    const CatsWithRouterTheme = withTheme(withRouter(Cats));
+    const { getByTestId, baseElement } = render(<CatsWithRouterTheme />);
     const firstCat = baseElement.querySelector("li.item");
 
     expect(getByTestId("totalBreeds").innerHTML).toBe("67");
@@ -110,7 +111,8 @@ test("Each cat item is a link to its cat page ", () => {
     error: null,
   };
   mockUseReducer.mockImplementation(() => useReducer(jest.fn(), mockInitial));
-  const { getByTestId } = renderInRouter(Cats);
+  const CatsWithRouterTheme = withTheme(withRouter(Cats));
+  const { getByTestId } = render(<CatsWithRouterTheme />);
   const firstLink = getByTestId(MOCK_CATS_DATA[0].id);
   expect(firstLink.href).toContain(`/cats?id=${MOCK_CATS_DATA[0].id}`);
 });

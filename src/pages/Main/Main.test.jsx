@@ -1,7 +1,9 @@
-import { screen, fireEvent } from "@testing-library/react";
+import React from "react";
+import { screen, fireEvent, render } from "@testing-library/react";
 import Main from "./Main";
-import renderInRouter, { theme } from "../../test/renderInRouter";
 import history from "../../helpers/history";
+import withRouter from "../../test/withRouter";
+import withTheme, { theme } from "../../test/withTheme";
 
 jest.mock("react-cookie", () => {
   const mockSetCookie = jest.fn();
@@ -14,7 +16,8 @@ jest.mock("react-cookie", () => {
 });
 
 beforeEach(() => {
-  renderInRouter(Main);
+  const MainWithRouterTheme = withTheme(withRouter(Main));
+  render(<MainWithRouterTheme />);
 });
 
 test("display Login link when user is not logged in", () => {
