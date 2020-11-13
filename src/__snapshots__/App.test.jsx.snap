@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+Array [
+  <header>
+    <nav>
+      <li>
+        <a
+          href="/"
+          onClick={[Function]}
+        >
+          Home
+        </a>
+      </li>
+      <li>
+        <a
+          href="/cats"
+          onClick={[Function]}
+        >
+          Cats
+        </a>
+      </li>
+    </nav>
+  </header>,
+  <main>
+    Posts
+  </main>,
+  <footer>
+    copyright@2020 author ZUOQIN HU
+  </footer>,
+]
+`;
