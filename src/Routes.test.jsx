@@ -1,8 +1,9 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import { Router } from "react-router-dom";
+import { MemoryRouter } from "react-router-dom";
 import { createMemoryHistory } from "history";
-import Routes from "./Routes";
+import Routes from "./Routes.tsx";
+import renderWithStoreAndRouter from "./test/renderWithStoreAndRouter";
 import renderWithBrowserRouter from "./test/renderWithBrowserRouter.tsx";
 import BrowserRouterWrapper from "./test/BrowserRouterWrapper.tsx";
 
@@ -13,11 +14,16 @@ test("route / load PostList page", () => {
   const history = createMemoryHistory({ initialEntries: ["/inital"] });
   history.push("/");
   const { getByText } = render(
-    <Router history={history}>
+    <MemoryRouter initialEntries={["/inital", "/"]} initialIndex={1}>
       <Routes />
-    </Router>
+    </MemoryRouter>
   );
   expect(getByText(/Post/i)).toBeInTheDocument();
+});
+
+test("route /posts/1 load SinglePostPage ", () => {
+  renderWithStoreAndRouter(<Routes />, { route: "/posts/1" });
+  expect(screen.getByText(/First test Post!/i)).toBeInTheDocument();
 });
 
 // in case we don't need history, we can use renderWithRouter boilerplate

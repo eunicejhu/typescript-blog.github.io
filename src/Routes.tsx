@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import SinglePostPage from "./features/posts/SinglePostPage";
 
 const PostsList = () => <>Posts</>;
 const Cats = () => <>Cats</>;
@@ -11,6 +12,9 @@ const Routes = () => (
     </Route>
     <Route path="/cats">
       <Cats />
+    </Route>
+    <Route path="/posts/:id">
+      <SinglePostPage />
     </Route>
     <Route>
       <NoMatch />
