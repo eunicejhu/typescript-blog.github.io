@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "./NavBar";
-import Routes from "./Routes";
+import Routes from "./Routes.tsx";
 
 import "./App.css";
 
