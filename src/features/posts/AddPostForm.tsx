@@ -11,6 +11,8 @@ const AddPostForm: React.FC = () => {
     e.preventDefault();
     if (title && content) {
       dispatch(postAdded({ id: nanoid(), title, content }));
+      setTitle("");
+      setContent("");
     }
   };
   return (
@@ -38,7 +40,7 @@ const AddPostForm: React.FC = () => {
           ></textarea>
         </div>
         <div className="field">
-          <input type="submit" role="submit" value="Add Post" />
+          <input type="submit" value="Add Post" />
         </div>
       </form>
     </div>

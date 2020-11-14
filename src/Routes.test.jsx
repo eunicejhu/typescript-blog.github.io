@@ -6,6 +6,7 @@ import Routes from "./Routes.tsx";
 import renderWithStoreAndRouter from "./test/renderWithStoreAndRouter";
 import renderWithBrowserRouter from "./test/renderWithBrowserRouter.tsx";
 import BrowserRouterWrapper from "./test/BrowserRouterWrapper.tsx";
+import StoreWrapper from "./test/StoreWrapper";
 
 // It provides 3 ways to wrap App with router for testing.
 
@@ -13,12 +14,14 @@ import BrowserRouterWrapper from "./test/BrowserRouterWrapper.tsx";
 test("route / load PostList page", () => {
   const history = createMemoryHistory({ initialEntries: ["/inital"] });
   history.push("/");
-  const { getByText } = render(
+  const { container } = render(
     <MemoryRouter initialEntries={["/inital", "/"]} initialIndex={1}>
-      <Routes />
+      <StoreWrapper>
+        <Routes />
+      </StoreWrapper>
     </MemoryRouter>
   );
-  expect(getByText(/Post/i)).toBeInTheDocument();
+  expect(container.querySelectorAll("article").length).toBe(2);
 });
 
 test("route /posts/1 load SinglePostPage ", () => {
