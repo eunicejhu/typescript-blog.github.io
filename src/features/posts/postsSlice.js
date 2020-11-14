@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import initialState from "../../helpers/initialState";
 
 const postsSlice = createSlice({
   name: "posts",
-  initialState: initialState.posts,
-  reducers: {},
+  initialState: [],
+  reducers: {
+    postAdded: (state, action) => {
+      state.push(action.payload);
+    },
+  },
 });
-
+export const { postAdded } = postsSlice.actions;
 export default postsSlice.reducer;

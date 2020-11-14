@@ -2,6 +2,7 @@ import React from "react";
 import { render } from "@testing-library/react";
 import StoreWrapper from "../../test/StoreWrapper.tsx";
 import PostsList from "./PostsList";
+import renderWithStore from "../../test/renderWithStore";
 
 jest.mock("react-redux", () => {
   return {
@@ -15,9 +16,7 @@ jest.mock("react-redux", () => {
 });
 
 test("show initial postsList", () => {
-  const { container, getByText } = render(<PostsList />, {
-    wrapper: StoreWrapper,
-  });
+  const { container, getByText } = renderWithStore(<PostsList />);
   expect(getByText(/First test Post!/i)).toBeInTheDocument();
   expect(container.querySelectorAll(".post-excerpt").length).toBe(2);
 });
