@@ -6,7 +6,7 @@ import { createMemoryHistory } from "history";
 import { createStore, combineReducers } from "@reduxjs/toolkit";
 import postsReducer from "../features/posts/postsSlice.ts";
 
-const INITIAL_STATE = {
+export const INITIAL_STATE = {
   posts: [
     { id: "1", title: "First test Post!", content: "test!" },
     { id: "2", title: "Second test Post", content: "test" },

@@ -74,6 +74,14 @@ Array [
       >
         test!
       </p>
+      <p>
+        <a
+          href="/posts/1"
+          onClick={[Function]}
+        >
+          See more
+        </a>
+      </p>
     </article>
     <article
       className="post-excerpt"
@@ -85,6 +93,14 @@ Array [
         className="post-content"
       >
         test
+      </p>
+      <p>
+        <a
+          href="/posts/2"
+          onClick={[Function]}
+        >
+          See more
+        </a>
       </p>
     </article>
   </section>,
