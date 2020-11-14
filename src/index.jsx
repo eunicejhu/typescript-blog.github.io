@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
 import history from "./helpers/history";
 import ThemeContext, { themes } from "./context/ThemeContext";
-import store from "./store";
+import store from "./store/index.ts";
 
 import App from "./App";
 import "./index.css";

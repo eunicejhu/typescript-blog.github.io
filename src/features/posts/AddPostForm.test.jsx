@@ -1,7 +1,7 @@
 import React from "react";
 import { fireEvent } from "@testing-library/react";
 import AddPostForm from "./AddPostForm.tsx";
-import store from "../../store";
+import store from "../../store/index.ts";
 
 import renderWithStore from "../../test/renderWithStore";
 
