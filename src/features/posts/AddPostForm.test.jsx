@@ -22,7 +22,7 @@ test("submit AddPostForm after title and content provided", () => {
   });
   fireEvent.change(getByTestId("title"), { target: { value: "Title 1" } });
   fireEvent.change(getByTestId("content"), { target: { value: "Content 1" } });
-  fireEvent.click(getByRole("submit"));
+  fireEvent.click(getByRole("button"));
   expect(store.dispatch).toHaveBeenCalledWith({
     type: "posts/postAdded",
     payload: {
@@ -39,11 +39,11 @@ test("Both title and content should be provided to enable the submission", () =>
   });
   fireEvent.change(getByTestId("title"), { target: { value: "Title 1" } });
 
-  fireEvent.click(getByRole("submit"));
+  fireEvent.click(getByRole("button"));
   expect(store.dispatch).toHaveBeenCalledTimes(0);
   fireEvent.change(getByTestId("content"), {
     target: { value: "Content 1" },
   });
-  fireEvent.click(getByRole("submit"));
+  fireEvent.click(getByRole("button"));
   expect(store.dispatch).toHaveBeenCalledTimes(1);
 });

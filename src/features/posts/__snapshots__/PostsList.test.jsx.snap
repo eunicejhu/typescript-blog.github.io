@@ -49,7 +49,6 @@ Array [
           className="field"
         >
           <input
-            role="submit"
             type="submit"
             value="Add Post"
           />

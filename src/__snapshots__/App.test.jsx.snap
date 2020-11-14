@@ -23,7 +23,107 @@ Array [
     </nav>
   </header>,
   <main>
-    Posts
+    <section
+      className="add-post-form"
+    >
+      <div
+        className="add-post"
+      >
+        <form
+          data-testid="form"
+          onSubmit={[Function]}
+        >
+          <div
+            className="field"
+          >
+            <label
+              htmlFor="title"
+            >
+              Title
+            </label>
+            <input
+              data-testid="title"
+              id="title"
+              name="title"
+              onChange={[Function]}
+              value=""
+              width={20}
+            />
+          </div>
+          <div
+            className="field"
+          >
+            <label
+              htmlFor="content"
+            >
+              Content
+            </label>
+            <textarea
+              data-testid="content"
+              id="content"
+              name="content"
+              onChange={[Function]}
+              value=""
+            />
+          </div>
+          <div
+            className="field"
+          >
+            <input
+              type="submit"
+              value="Add Post"
+            />
+          </div>
+        </form>
+      </div>
+    </section>
+    <section
+      className="posts-list"
+    >
+      <h2>
+        Posts
+      </h2>
+      <article
+        className="post-excerpt"
+      >
+        <h3>
+          First test Post!
+        </h3>
+        <p
+          className="post-content"
+        >
+          test!
+        </p>
+        <p>
+          <a
+            href="/posts/1"
+            onClick={[Function]}
+          >
+            See more
+          </a>
+        </p>
+      </article>
+      <article
+        className="post-excerpt"
+      >
+        <h3>
+          Second test Post
+        </h3>
+        <p
+          className="post-content"
+        >
+          test
+        </p>
+        <p>
+          <a
+            href="/posts/2"
+            onClick={[Function]}
+          >
+            See more
+          </a>
+        </p>
+      </article>
+    </section>
   </main>,
   <footer>
     copyright@2020 author ZUOQIN HU
