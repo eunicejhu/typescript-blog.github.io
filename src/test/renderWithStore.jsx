@@ -2,7 +2,8 @@ import React from "react";
 import { render } from "@testing-library/react";
 import { createStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import { INITIAL_STATE, rootReducer } from "./mock_data";
+import { INITIAL_STATE } from "./mock_data";
+import { rootReducer } from "./store.ts";
 
 const renderWithStore = (
   ui,

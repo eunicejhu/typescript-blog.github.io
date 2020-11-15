@@ -3,7 +3,8 @@ import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { createStore } from "@reduxjs/toolkit";
-import { INITIAL_STATE, rootReducer } from "./mock_data";
+import { INITIAL_STATE } from "./mock_data";
+import { rootReducer } from "./store.ts";
 
 const renderWithStoreAndRouter = (
   ui,

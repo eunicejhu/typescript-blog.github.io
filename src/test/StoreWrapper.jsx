@@ -1,7 +1,7 @@
 import React from "react";
 import { Provider } from "react-redux";
 import PropTypes from "prop-types";
-import { store } from "./mock_data";
+import { store } from "./store.ts";
 
 // weakness: we lose the flexibility to pass in initialState
 const StoreWrapper = ({ children }) => (
