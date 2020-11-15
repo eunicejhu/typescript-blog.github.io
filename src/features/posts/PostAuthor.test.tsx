@@ -8,7 +8,7 @@ test("render correctly", () => {
   const tree = renderer
     .create(
       <StoreWrapper>
-        <PostAuthor id={"2"} />
+        <PostAuthor userId={"2"} />
       </StoreWrapper>
     )
     .toJSON();
@@ -18,7 +18,7 @@ test("render correctly", () => {
 test("show By Unknown author if user does not exist", () => {
   const { getByText } = render(
     <StoreWrapper>
-      <PostAuthor id={"unknown"} />
+      <PostAuthor userId={"unknown"} />
     </StoreWrapper>
   );
   expect(getByText(/Unknown author/i)).toBeInTheDocument();

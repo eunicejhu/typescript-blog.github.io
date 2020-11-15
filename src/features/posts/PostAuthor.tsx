@@ -2,9 +2,9 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { State } from "../../store";
 
-const PostAuthor: React.FC<{ id: string }> = ({ id }) => {
+const PostAuthor: React.FC<{ userId: string }> = ({ userId }) => {
   const user = useSelector((state: State) =>
-    state.users.find((user) => user.id === id)
+    state.users.find((user) => user.id === userId)
   );
   return (
     <span className="post-author">
