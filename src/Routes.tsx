@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 import SinglePostPage from "./features/posts/SinglePostPage";
 import PostsList from "./features/posts/PostsList";
+import EditPostForm from "./features/posts/EditPostForm";
 
 const Cats = () => <>Cats</>;
 const NoMatch = () => <>No match</>;
@@ -10,11 +11,14 @@ const Routes = () => (
     <Route exact path="/">
       <PostsList />
     </Route>
-    <Route path="/cats">
+    <Route exact path="/cats">
       <Cats />
     </Route>
-    <Route path="/posts/:id">
+    <Route exact path="/posts/:id">
       <SinglePostPage />
+    </Route>
+    <Route exact path="/posts/edit/:id">
+      <EditPostForm />
     </Route>
     <Route>
       <NoMatch />

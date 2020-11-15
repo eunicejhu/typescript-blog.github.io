@@ -29,6 +29,11 @@ test("route /posts/1 load SinglePostPage ", () => {
   expect(screen.getByText(/First test Post!/i)).toBeInTheDocument();
 });
 
+test("route /posts/edit/1 load EditPostForm", () => {
+  renderWithStoreAndRouter(<Routes />, { route: "/posts/edit/1" });
+  expect(screen.getByText(/Edit Post/i)).toBeInTheDocument();
+});
+
 // in case we don't need history, we can use renderWithRouter boilerplate
 test("route /cats load Cats page", () => {
   renderWithBrowserRouter(<Routes />, { route: "/cats" });
