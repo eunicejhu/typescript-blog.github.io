@@ -5,6 +5,7 @@ export interface Post {
   id: string;
   title: string;
   content: string;
+  userId: string;
 }
 
 export interface PostAddedAction {
@@ -25,8 +26,8 @@ const postsSlice = createSlice({
       reducer(state: State, action: PostAddedAction) {
         state.push(action.payload);
       },
-      prepare({ title, content }) {
-        return { payload: { id: nanoid(), title, content } };
+      prepare({ title, content, userId }) {
+        return { payload: { id: nanoid(), title, content, userId } };
       },
     },
     postUpdated: (state: State, action: PostUpdatedAction) => {
