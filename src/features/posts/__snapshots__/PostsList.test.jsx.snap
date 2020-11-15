@@ -104,6 +104,12 @@ Array [
       >
         test!
       </p>
+      <span
+        className="post-author"
+      >
+        By 
+        Unknown author
+      </span>
       <p>
         <a
           href="/posts/1"
@@ -124,6 +130,12 @@ Array [
       >
         test
       </p>
+      <span
+        className="post-author"
+      >
+        By 
+        Unknown author
+      </span>
       <p>
         <a
           href="/posts/2"
