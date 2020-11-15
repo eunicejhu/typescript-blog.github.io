@@ -8,10 +8,7 @@ Array [
     <div
       className="add-post"
     >
-      <form
-        data-testid="form"
-        onSubmit={[Function]}
-      >
+      <form>
         <div
           className="field"
         >
@@ -48,7 +45,35 @@ Array [
         <div
           className="field"
         >
+          <select
+            data-testid="users"
+            id="users"
+            name="users"
+            onChange={[Function]}
+            value=""
+          >
+            <option
+              value="0"
+            >
+              Tianna Jenkins
+            </option>
+            <option
+              value="1"
+            >
+              Kevin Grant
+            </option>
+            <option
+              value="2"
+            >
+              Madison Price
+            </option>
+          </select>
+        </div>
+        <div
+          className="field"
+        >
           <input
+            onClick={[Function]}
             type="submit"
             value="Add Post"
           />

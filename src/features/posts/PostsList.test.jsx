@@ -3,9 +3,8 @@ import renderer from "react-test-renderer";
 import { fireEvent, screen } from "@testing-library/react";
 import StoreWrapper from "../../test/StoreWrapper";
 import PostsList from "./PostsList";
-import renderWithStoreAndRouter, {
-  INITIAL_STATE,
-} from "../../test/renderWithStoreAndRouter";
+import { INITIAL_STATE } from "../../test/mock_data";
+import renderWithStoreAndRouter from "../../test/renderWithStoreAndRouter";
 import BrowserRouterWrapper from "../../test/BrowserRouterWrapper.tsx";
 
 test("show initial postsList", () => {
