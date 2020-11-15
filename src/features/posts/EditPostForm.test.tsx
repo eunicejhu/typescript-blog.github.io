@@ -29,7 +29,7 @@ test("load existing post in the form", () => {
   expect(getByText(/test!/i)).toBeInTheDocument();
 });
 
-test.only("edit post, submit it with all fields are filled, direct to home page ", () => {
+test("edit post, submit it with all fields are filled, direct to home page ", () => {
   const { container, getByRole } = renderWithStoreAndRouter(
     <Route path="/editPost/:id">
       <EditPostForm />
