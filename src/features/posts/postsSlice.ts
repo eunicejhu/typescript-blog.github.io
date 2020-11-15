@@ -1,4 +1,5 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
+import getNowTimeStamp from "../../utils/getNowTimeStamps";
 
 export type State = Post[];
 export interface Post {
@@ -6,6 +7,7 @@ export interface Post {
   title: string;
   content: string;
   userId: string;
+  date: string;
 }
 
 export interface PostAddedAction {
@@ -27,7 +29,15 @@ const postsSlice = createSlice({
         state.push(action.payload);
       },
       prepare({ title, content, userId }) {
-        return { payload: { id: nanoid(), title, content, userId } };
+        return {
+          payload: {
+            id: nanoid(),
+            title,
+            content,
+            userId,
+            date: getNowTimeStamp(),
+          },
+        };
       },
     },
     postUpdated: (state: State, action: PostUpdatedAction) => {
