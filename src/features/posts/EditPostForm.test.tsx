@@ -6,11 +6,11 @@ import { fireEvent } from "@testing-library/react";
 
 test("show no post found when post does not exist", () => {
   const { getByText, getByDisplayValue } = renderWithStoreAndRouter(
-    <Route path="/posts/edit/:id">
+    <Route path="/editPost/:id">
       <EditPostForm />
     </Route>,
     {
-      route: "/posts/edit/unknown-id",
+      route: "/editPost/unknown-id",
     }
   );
   expect(getByText(/No post found/i)).toBeInTheDocument();
@@ -18,11 +18,11 @@ test("show no post found when post does not exist", () => {
 
 test("load existing post in the form", () => {
   const { getByText, getByDisplayValue } = renderWithStoreAndRouter(
-    <Route path="/posts/edit/:id">
+    <Route path="/editPost/:id">
       <EditPostForm />
     </Route>,
     {
-      route: "/posts/edit/1",
+      route: "/editPost/1",
     }
   );
   expect(getByDisplayValue(/First test Post!/i)).toBeInTheDocument();
@@ -36,11 +36,11 @@ test("edit post, submit it with all fields are filled, direct to home page ", ()
     getByRole,
     getByText,
   } = renderWithStoreAndRouter(
-    <Route path="/posts/edit/:id">
+    <Route path="/editPost/:id">
       <EditPostForm />
     </Route>,
     {
-      route: "/posts/edit/1",
+      route: "/editPost/1",
     }
   );
   fireEvent.change(container.querySelector("#title"), {

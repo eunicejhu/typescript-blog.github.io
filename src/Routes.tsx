@@ -17,7 +17,7 @@ const Routes = () => (
     <Route exact path="/posts/:id">
       <SinglePostPage />
     </Route>
-    <Route exact path="/posts/edit/:id">
+    <Route exact path="/editPost/:id">
       <EditPostForm />
     </Route>
     <Route>

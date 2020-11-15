@@ -30,7 +30,7 @@ test("route /posts/1 load SinglePostPage ", () => {
 });
 
 test("route /posts/edit/1 load EditPostForm", () => {
-  renderWithStoreAndRouter(<Routes />, { route: "/posts/edit/1" });
+  renderWithStoreAndRouter(<Routes />, { route: "/editPost/1" });
   expect(screen.getByText(/Edit Post/i)).toBeInTheDocument();
 });
 
