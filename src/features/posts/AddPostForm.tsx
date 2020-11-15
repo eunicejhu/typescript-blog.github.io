@@ -73,16 +73,14 @@ const AddPostForm: React.FC = () => {
             id="users"
             onChange={onUserChanged}
           >
+            <option value=""></option>
             {renderUsersOptions}
           </select>
         </div>
         <div className="field">
-          <button
-            type="button"
-            value="Add Post"
-            onClick={onAddPostClicked}
-            disabled={!canAdd}
-          />
+          <button type="button" onClick={onAddPostClicked} disabled={!canAdd}>
+            Add Post
+          </button>
         </div>
       </form>
     </div>
