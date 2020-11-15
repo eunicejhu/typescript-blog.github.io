@@ -29,13 +29,8 @@ test("load existing post in the form", () => {
   expect(getByText(/test!/i)).toBeInTheDocument();
 });
 
-test("edit post, submit it with all fields are filled, direct to home page ", () => {
-  const {
-    container,
-    getByTestId,
-    getByRole,
-    getByText,
-  } = renderWithStoreAndRouter(
+test.only("edit post, submit it with all fields are filled, direct to home page ", () => {
+  const { container, getByRole } = renderWithStoreAndRouter(
     <Route path="/editPost/:id">
       <EditPostForm />
     </Route>,
@@ -49,6 +44,6 @@ test("edit post, submit it with all fields are filled, direct to home page ", ()
   fireEvent.change(container.querySelector("#content"), {
     target: { value: "Updated Content 1" },
   });
-  fireEvent.submit(getByRole("button"));
+  fireEvent.click(getByRole("button"));
   expect(window.location.pathname).toBe("/");
 });

@@ -3,16 +3,17 @@ import { useRouteMatch, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { State } from "../../store";
 import { postUpdated } from "./postsSlice";
+
+interface Params {
+  id: string;
+}
 const EditPostForm: React.FC = () => {
   const {
     params: { id },
-  } = useRouteMatch();
+  } = useRouteMatch<Params>();
   const existingPost = useSelector((state: State) =>
     state.posts.find((post) => post.id === id)
-  );
-  if (!existingPost) {
-    return <div>No post found</div>;
-  }
+  ) || { id: "", title: "", content: "" };
   const [title, setTitle] = useState(existingPost.title);
   const [content, setContent] = useState(existingPost.content);
 
@@ -26,16 +27,18 @@ const EditPostForm: React.FC = () => {
     setContent(e.currentTarget.value);
   };
 
-  const onSavePostClicked = (e: React.MouseEvent<HTMLFormElement>) => {
+  const onSavePostClicked = (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (content && title) {
       dispatch(postUpdated({ id: existingPost.id, title, content }));
       history.push("/");
     }
   };
-
+  if (!existingPost.id) {
+    return <div>No post found</div>;
+  }
   return (
-    <form onSubmit={onSavePostClicked}>
+    <form>
       <h1>Edit Post</h1>
       <div>
         <label htmlFor="title">Title</label>
@@ -59,7 +62,7 @@ const EditPostForm: React.FC = () => {
         ></textarea>
       </div>
       <div>
-        <input type="button" value="Submit" />
+        <input type="button" value="Submit" onClick={onSavePostClicked} />
       </div>
     </form>
   );
