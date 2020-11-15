@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { useRouteMatch, match, Link } from "react-router-dom";
 import { State } from "../../store";
 import PostAuthor from "./PostAuthor";
+import TimeAgo from "./TimeAgo";
 
 interface MatchParams {
   id: string;
@@ -27,6 +28,7 @@ const SinglePostPage = () => {
         <h2>{post.title}</h2>
         <p>{post.content}</p>
         <PostAuthor userId={post.userId} />
+        <TimeAgo date={post.date} />
         <Link to={`/editPost/${postId}`}>Edit</Link>
       </article>
     </section>

@@ -4,6 +4,7 @@ import { useRouteMatch, Link } from "react-router-dom";
 import AddPostForm from "./AddPostForm";
 import { State } from "../../store";
 import PostAuthor from "./PostAuthor";
+import TimeAgo from "./TimeAgo";
 const PostsList = () => {
   const { path } = useRouteMatch();
   const posts = useSelector((state: State) => state.posts);
@@ -14,6 +15,7 @@ const PostsList = () => {
         <h3>{post.title}</h3>
         <p className="post-content">{post.content.substring(0, 100)}</p>
         <PostAuthor userId={post.userId} />
+        <TimeAgo date={post.date} />
         <p>
           <Link to={`${path}posts/${post.id}`}>See more</Link>
         </p>
