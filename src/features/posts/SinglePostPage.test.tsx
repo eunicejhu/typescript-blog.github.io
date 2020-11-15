@@ -2,7 +2,12 @@ import React from "react";
 import { MemoryRouter, Route, BrowserRouter, Router } from "react-router-dom";
 import SinglePostPage from "./SinglePostPage";
 import renderWithStore from "../../test/renderWithStore";
+import renderWithStoreAndRouter from "../../test/renderWithStoreAndRouter";
+import { fireEvent } from "@testing-library/react";
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
 test("load no post found if postId does not exist", () => {
   window.history.pushState({}, "Some Post", "/posts/unknown-post");
   const { getByText } = renderWithStore(
@@ -33,4 +38,14 @@ test("load post when postId exist", () => {
   );
 
   expect(getByText(/Second test Post/i)).toBeInTheDocument();
+});
+test("click edit of first post , go to /posts/edit/1", async () => {
+  const { getByText, findByText } = renderWithStoreAndRouter(
+    <Route path="/posts/:id">
+      <SinglePostPage />
+    </Route>,
+    { route: "/posts/1" }
+  );
+  fireEvent.click(getByText(/Edit/i));
+  expect(window.location.pathname).toBe("/editPost/1");
 });

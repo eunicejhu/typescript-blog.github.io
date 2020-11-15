@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 // eslint-disable-next-line
-import { useRouteMatch, match } from "react-router-dom";
+import { useRouteMatch, match, Link } from "react-router-dom";
 import { State } from "../../store";
 
 interface MatchParams {
@@ -11,12 +11,12 @@ interface MatchParams {
 const SinglePostPage = () => {
   const match: match<MatchParams> = useRouteMatch();
   const {
-    params: { id: PostId },
+    params: { id: postId },
   } = match;
   const post = useSelector((state: State) =>
-    state.posts.find((item) => item.id === PostId)
+    state.posts.find((item) => item.id === postId)
   );
-  if (!(PostId && post)) {
+  if (!(postId && post)) {
     return <div>No post found</div>;
   }
 
@@ -25,6 +25,7 @@ const SinglePostPage = () => {
       <article>
         <h2>{post.title}</h2>
         <p>{post.content}</p>
+        <Link to={`/editPost/${postId}`}>Edit</Link>
       </article>
     </section>
   );

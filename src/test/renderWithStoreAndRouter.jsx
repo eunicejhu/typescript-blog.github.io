@@ -1,8 +1,7 @@
 import React from "react";
 import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
-import { Router } from "react-router-dom";
-import { createMemoryHistory } from "history";
+import { BrowserRouter } from "react-router-dom";
 import { createStore, combineReducers } from "@reduxjs/toolkit";
 import postsReducer from "../features/posts/postsSlice.ts";
 
@@ -19,13 +18,12 @@ const renderWithStoreAndRouter = (
     initialState = INITIAL_STATE,
     store = createStore(combineReducers({ posts: postsReducer }), initialState),
     route = "/",
-  }
+  } = {}
 ) => {
-  const history = createMemoryHistory();
-  history.push(route);
+  window.history.pushState({}, "Home", route);
   const wrapper = ({ children }) => (
     <Provider store={store}>
-      <Router history={history}>{children}</Router>
+      <BrowserRouter>{children}</BrowserRouter>
     </Provider>
   );
 
