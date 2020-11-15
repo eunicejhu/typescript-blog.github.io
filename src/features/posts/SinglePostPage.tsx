@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 // eslint-disable-next-line
 import { useRouteMatch, match, Link } from "react-router-dom";
 import { State } from "../../store";
+import PostAuthor from "./PostAuthor";
 
 interface MatchParams {
   id: string;
@@ -25,6 +26,7 @@ const SinglePostPage = () => {
       <article>
         <h2>{post.title}</h2>
         <p>{post.content}</p>
+        <PostAuthor userId={post.userId} />
         <Link to={`/editPost/${postId}`}>Edit</Link>
       </article>
     </section>

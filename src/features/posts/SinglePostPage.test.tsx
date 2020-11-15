@@ -1,9 +1,10 @@
 import React from "react";
-import { MemoryRouter, Route, BrowserRouter, Router } from "react-router-dom";
+import { MemoryRouter, Route, BrowserRouter } from "react-router-dom";
 import SinglePostPage from "./SinglePostPage";
 import renderWithStore from "../../test/renderWithStore";
 import renderWithStoreAndRouter from "../../test/renderWithStoreAndRouter";
 import { fireEvent } from "@testing-library/react";
+import { INITIAL_STATE } from "../../test/mock_data";
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -27,13 +28,7 @@ test("load post when postId exist", () => {
       </Route>
     </MemoryRouter>,
     {
-      initialState: {
-        posts: [
-          { id: "1", title: "First test Post!", content: "test!" },
-          { id: "2", title: "Second test Post", content: "test" },
-          { id: "3", title: "Third test Post", content: "test" },
-        ],
-      },
+      initialState: INITIAL_STATE,
     }
   );
 
