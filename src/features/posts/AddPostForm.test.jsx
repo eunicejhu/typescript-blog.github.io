@@ -15,6 +15,10 @@ jest.mock("@reduxjs/toolkit", () => ({
   nanoid: () => "3R8imJks0AjrbC9ueNf_s",
 }));
 
+jest.mock("../../utils/getNowTimeStamps.ts", () =>
+  jest.fn().mockReturnValue("2020-11-15T16:16:08.493Z")
+);
+
 beforeEach(() => {
   jest.clearAllMocks();
 });
@@ -34,6 +38,7 @@ test("type text in title and content input, select a user from the dropdown of u
       title: "Title 3",
       content: "Content 3",
       userId: "2",
+      date: "2020-11-15T16:16:08.493Z",
     },
   });
 });
