@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, nanoid } from "@reduxjs/toolkit";
 
 export type State = Post[];
 export interface Post {
@@ -21,8 +21,13 @@ const postsSlice = createSlice({
   name: "posts",
   initialState: [],
   reducers: {
-    postAdded: (state: State, action: PostAddedAction) => {
-      state.push(action.payload);
+    postAdded: {
+      reducer(state: State, action: PostAddedAction) {
+        state.push(action.payload);
+      },
+      prepare({ title, content }) {
+        return { payload: { id: nanoid(), title, content } };
+      },
     },
     postUpdated: (state: State, action: PostUpdatedAction) => {
       const { id, title, content } = action.payload;

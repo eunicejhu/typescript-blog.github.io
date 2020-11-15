@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { postAdded } from "./postsSlice";
-import { nanoid } from "@reduxjs/toolkit";
 
 const AddPostForm: React.FC = () => {
   const [title, setTitle] = useState("");
@@ -10,7 +9,7 @@ const AddPostForm: React.FC = () => {
   const handleSubmit = (e: React.MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (title && content) {
-      dispatch(postAdded({ id: nanoid(), title, content }));
+      dispatch(postAdded({ title, content }));
       setTitle("");
       setContent("");
     }
