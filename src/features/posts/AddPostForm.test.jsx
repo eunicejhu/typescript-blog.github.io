@@ -46,7 +46,7 @@ test("Both title, content and userId should be provided to enable the submission
   fireEvent.change(getByTestId("title"), { target: { value: "Title 1" } });
 
   fireEvent.click(getByRole("button"));
-  expect(store.dispatch).toHaveBeenCalledTimes(0);
+  expect(getByRole("button").disabled).toBeTruthy();
   fireEvent.change(getByTestId("content"), {
     target: { value: "Content 1" },
   });

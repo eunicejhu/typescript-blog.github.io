@@ -28,12 +28,15 @@ const AddPostForm: React.FC = () => {
     setUserId(e.currentTarget.value);
   };
 
-  const onAddPostClicked = (e: React.SyntheticEvent<HTMLInputElement>) => {
+  const canAdd = Boolean(title) && Boolean(content) && Boolean(userId);
+
+  const onAddPostClicked = (e: React.SyntheticEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if (title && content && userId) {
+    if (canAdd) {
       dispatch(postAdded({ title, content, userId }));
       setTitle("");
       setContent("");
+      setUserId("");
     }
   };
 
@@ -62,6 +65,7 @@ const AddPostForm: React.FC = () => {
           ></textarea>
         </div>
         <div className="field">
+          <label htmlFor="users">Author</label>
           <select
             data-testid="users"
             value={userId}
@@ -73,7 +77,12 @@ const AddPostForm: React.FC = () => {
           </select>
         </div>
         <div className="field">
-          <input type="submit" value="Add Post" onClick={onAddPostClicked} />
+          <button
+            type="button"
+            value="Add Post"
+            onClick={onAddPostClicked}
+            disabled={!canAdd}
+          />
         </div>
       </form>
     </div>

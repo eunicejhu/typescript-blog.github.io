@@ -45,6 +45,11 @@ Array [
         <div
           className="field"
         >
+          <label
+            htmlFor="users"
+          >
+            Author
+          </label>
           <select
             data-testid="users"
             id="users"
@@ -72,9 +77,10 @@ Array [
         <div
           className="field"
         >
-          <input
+          <button
+            disabled={true}
             onClick={[Function]}
-            type="submit"
+            type="button"
             value="Add Post"
           />
         </div>
