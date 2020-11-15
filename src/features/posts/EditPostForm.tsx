@@ -13,7 +13,7 @@ const EditPostForm: React.FC = () => {
   } = useRouteMatch<Params>();
   const existingPost = useSelector((state: State) =>
     state.posts.find((post) => post.id === id)
-  ) || { id: "", title: "", content: "" };
+  ) || { id: "", title: "", content: "", userId: "" };
   const [title, setTitle] = useState(existingPost.title);
   const [content, setContent] = useState(existingPost.content);
 
@@ -30,7 +30,7 @@ const EditPostForm: React.FC = () => {
   const onSavePostClicked = (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (content && title) {
-      dispatch(postUpdated({ id: existingPost.id, title, content }));
+      dispatch(postUpdated({ ...existingPost, title, content }));
       history.push("/");
     }
   };
