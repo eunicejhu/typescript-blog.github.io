@@ -79,6 +79,9 @@ Array [
               value=""
             >
               <option
+                value=""
+              />
+              <option
                 value="0"
               >
                 Tianna Jenkins
@@ -102,8 +105,9 @@ Array [
               disabled={true}
               onClick={[Function]}
               type="button"
-              value="Add Post"
-            />
+            >
+              Add Post
+            </button>
           </div>
         </form>
       </div>
@@ -129,7 +133,7 @@ Array [
           className="post-author"
         >
           By 
-          Unknown author
+          Kevin Grant
         </span>
         <p>
           <a
@@ -155,7 +159,7 @@ Array [
           className="post-author"
         >
           By 
-          Unknown author
+          Tianna Jenkins
         </span>
         <p>
           <a
