@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useRouteMatch, Link } from "react-router-dom";
+import { isAfter, parseISO } from "date-fns";
 import AddPostForm from "./AddPostForm";
 import { State } from "../../store";
 import PostAuthor from "./PostAuthor";
@@ -8,9 +9,11 @@ import TimeAgo from "./TimeAgo";
 const PostsList = () => {
   const { path } = useRouteMatch();
   const posts = useSelector((state: State) => state.posts);
+  const sortedPosts =
+    posts && posts.slice().sort((a, b) => a.date.localeCompare(b.date));
   const renderPosts =
-    posts &&
-    posts.map((post) => (
+    sortedPosts &&
+    sortedPosts.map((post) => (
       <article className="post-excerpt" key={post.id}>
         <h3>{post.title}</h3>
         <p className="post-content">{post.content.substring(0, 100)}</p>
