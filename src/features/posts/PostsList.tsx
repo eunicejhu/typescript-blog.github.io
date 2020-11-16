@@ -1,7 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useRouteMatch, Link } from "react-router-dom";
-import { isAfter, parseISO } from "date-fns";
 import AddPostForm from "./AddPostForm";
 import { State } from "../../store";
 import PostAuthor from "./PostAuthor";

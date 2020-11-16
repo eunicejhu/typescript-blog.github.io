@@ -1,3 +1,5 @@
+import { sub, parseISO } from "date-fns";
+
 export const NOW = "2020-11-15T16:16:08.493Z";
 export const TIME_AGO = "28 minutes";
 export const INITIAL_STATE = {
@@ -7,14 +9,14 @@ export const INITIAL_STATE = {
       title: "First test Post!",
       content: "test!",
       userId: "1",
-      date: "",
+      date: sub(parseISO(NOW), { days: 1 }).toISOString(),
     },
     {
       id: "2",
       title: "Second test Post",
       content: "test",
       userId: "0",
-      date: "",
+      date: sub(parseISO(NOW), { days: 5 }).toISOString(),
     },
   ],
   users: [
