@@ -33,7 +33,7 @@
   "scripts": {
     "start": "react-scripts start",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx src/ --fix ",
-    "test": "  test",
+    "test": "react-scripts  test",
     "eject": "react-scripts eject",
     "postinstall": "husky install",
     "test:nowatch": "react-scripts test  --watchAll=false ",
