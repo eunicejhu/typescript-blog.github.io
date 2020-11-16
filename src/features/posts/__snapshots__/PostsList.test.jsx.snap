@@ -114,12 +114,15 @@ Array [
         By 
         Kevin Grant
       </span>
-      <div
+      <span
         className="date"
       >
-        
          
-      </div>
+        <i>
+          
+        </i>
+         
+      </span>
       <p>
         <a
           href="/posts/1"
@@ -146,12 +149,15 @@ Array [
         By 
         Tianna Jenkins
       </span>
-      <div
+      <span
         className="date"
       >
-        
          
-      </div>
+        <i>
+          
+        </i>
+         
+      </span>
       <p>
         <a
           href="/posts/2"
