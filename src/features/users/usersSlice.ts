@@ -4,11 +4,10 @@ export interface User {
   id: string;
   name: string;
 }
-export type State = User[];
 
 const usersSlice = createSlice({
   name: "users",
-  initialState: [],
+  initialState: [] as User[],
   reducers: {},
 });
 

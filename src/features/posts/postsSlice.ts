@@ -22,7 +22,7 @@ export interface PostUpdatedAction {
 
 const postsSlice = createSlice({
   name: "posts",
-  initialState: [],
+  initialState: [] as Post[],
   reducers: {
     postAdded: {
       reducer(state: State, action: PostAddedAction) {
