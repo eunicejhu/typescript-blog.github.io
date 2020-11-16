@@ -13,7 +13,7 @@ const EditPostForm: React.FC = () => {
   } = useRouteMatch<Params>();
   const existingPost = useSelector((state: State) =>
     state.posts.find((post) => post.id === id)
-  ) || { id: "", title: "", content: "", userId: "" };
+  ) || { id: "", title: "", content: "", userId: "", date: "" };
   const [title, setTitle] = useState(existingPost.title);
   const [content, setContent] = useState(existingPost.content);
 
