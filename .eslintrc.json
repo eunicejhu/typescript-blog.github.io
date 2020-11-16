@@ -4,20 +4,37 @@
     "es6": true,
     "jest/globals": true
   },
-  "extends": ["plugin:react/recommended", "airbnb", "eslint-config-prettier"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:react/recommended",
+    "airbnb-typescript",
+    "eslint-config-prettier",
+    "prettier",
+    "prettier/@typescript-eslint",
+    "prettier/react",
+    "plugin:prettier/recommended"
+    // "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": ["react", "react-hooks", "jest", "@typescript-eslint"],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
   "globals": {
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
-  "parser": "babel-eslint",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    },
-    "ecmaVersion": 2018,
-    "sourceType": "module"
-  },
-  "plugins": ["react", "jest"],
   "rules": {
     "react/jsx-props-no-spreading": 0,
     "jsx-a11y/label-has-associated-control": [
@@ -32,6 +49,12 @@
     "react/state-in-constructor": [0, "never"],
     "no-console": 0,
     "no-param-reassign": [2, { "ignorePropertyModificationsFor": ["draft"] }],
-    "react/jsx-curly-newline": [0]
+    "react/jsx-curly-newline": [0],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": ["**/*.stories.tsx", "**/*.test.{js,jsx,ts,tsx}"]
+      }
+    ]
   }
 }
