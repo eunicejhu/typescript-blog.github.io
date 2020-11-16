@@ -8,15 +8,14 @@ const useReducerSpy = jest.spyOn(React, "useReducer");
 
 describe("Login", () => {
   const onSubmit = jest.fn();
-  beforeAll(() => {
+  beforeEach(() => {
+    onSubmit.mockClear();
     useLogin.mockReturnValue({ login: onSubmit });
   });
 
-  beforeEach(() => {
-    onSubmit.mockClear();
-  });
-
-  test("Login button is diabled when identifier or password is blank", () => {
+  test("Login button is disabled when identifier or password is blank", () => {
+    useReducerSpy.mockImplementation(() => [{ error: "" }, jest.fn()]);
+    // useLogin.mockReturnValue({ login: onSubmit });
     const { getByDisplayValue } = render(<Login />);
     expect(getByDisplayValue(/login/i).disabled).toBeTruthy();
   });
@@ -25,6 +24,7 @@ describe("Login", () => {
       { error: "Invalid identifier or password" },
       jest.fn(),
     ]);
+    // useLogin.mockReturnValue({ login: onSubmit });
     onSubmit.mockRejectedValueOnce();
     const { container, getByPlaceholderText, getByLabelText } = render(
       <Login />

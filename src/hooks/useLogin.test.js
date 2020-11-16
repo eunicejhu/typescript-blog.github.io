@@ -1,33 +1,34 @@
-import { renderHook, cleanup } from "@testing-library/react-hooks";
+import { renderHook } from "@testing-library/react-hooks";
+import axios from "axios";
 import { useCookies } from "react-cookie";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
 import useLogin from "./useLogin";
 import { AUTH_STATUS } from "../reducers/authReducer";
 
-jest.mock("react-cookie", () => {
-  return { useCookies: jest.fn() };
-});
-jest.mock("react-router-dom", () => {
-  return { useHistory: jest.fn() };
-});
+jest.mock("react-cookie", () => ({ useCookies: jest.fn() }));
 jest.mock("axios");
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useHistory: jest.fn(),
+}));
 
 const dispatch = jest.fn();
 
-describe("login success", () => {
+describe(", ", () => {
   const setCookie = jest.fn();
   const replace = jest.fn();
 
-  beforeAll(() => {
-    axios.post.mockResolvedValue({
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  test("AUTH_SUCCESS dispatched, cookie updated, redirect to home page after login success, ", async () => {
+    useCookies.mockReturnValue([null, setCookie]);
+    axios.post = jest.fn().mockResolvedValue({
       data: { id: 1, username: "isabella" },
       status: 200,
     });
-    useCookies.mockImplementation(() => [null, setCookie]);
-    useHistory.mockImplementation(() => ({ replace }));
-  });
-  beforeEach(async () => {
+    useHistory.mockReturnValue({ replace });
     // renderHook, login
     const { result, waitForNextUpdate } = renderHook(() => useLogin(dispatch));
     result.current.login("isabella", "****");
@@ -36,38 +37,20 @@ describe("login success", () => {
     } catch (error) {
       expect(error.timeout).toBeTruthy();
     }
-  });
-  afterEach(() => {
-    cleanup();
-  });
-
-  test("Dispatch LOGIN_SUCCESS", async () => {
     expect(dispatch).toHaveBeenCalledWith({
       type: "AUTH_SUCCESS",
       payload: { id: 1, username: "isabella" },
     });
-  });
-  test("Store user into Cookie", async () => {
     expect(setCookie).toHaveBeenLastCalledWith(
       "auth",
       { id: 1, username: "isabella" },
       { path: "/" }
     );
-  });
-  test("Redirect to Home", () => {
     expect(replace).toHaveBeenLastCalledWith("/");
   });
-});
-
-describe("login failure", () => {
-  beforeAll(() => {
+  test("Dispatch LOGIN_FAILURE when login fails", async () => {
+    useCookies.mockReturnValue([null, setCookie]);
     axios.post.mockRejectedValueOnce("login error");
-  });
-
-  afterAll(() => {
-    cleanup();
-  });
-  test("Dispatch LOGIN_FAILURE", async () => {
     const { result, waitForNextUpdate } = renderHook(() => useLogin(dispatch));
     result.current.login({ identifier: "isabella", password: "****" });
     try {

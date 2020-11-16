@@ -1,12 +1,7 @@
 import getCatsSummary from "./getCatsSummary";
+import { avgWeight, avgLifeSpan, totalBreeds } from "../utils/cats_metrics";
 
-jest.mock("../utils/cats_metrics", () => {
-  return {
-    avgWeight: jest.fn().mockReturnValue(4),
-    avgLifeSpan: jest.fn().mockReturnValue(6),
-    totalBreeds: jest.fn().mockReturnValue(33),
-  };
-});
+jest.mock("../utils/cats_metrics");
 
 test("handle the passing data is null or [], undefined, {}", () => {
   expect(getCatsSummary([])).toEqual({
@@ -41,6 +36,9 @@ test("handle the passing data is null or [], undefined, {}", () => {
   });
 });
 test("handle the passing data ", () => {
+  avgWeight.mockReturnValue(4);
+  avgLifeSpan.mockReturnValue(6);
+  totalBreeds.mockReturnValue(33);
   expect(getCatsSummary([{ data: "SOME_FAKE_DATA" }])).toEqual({
     totalBreeds: 33,
     averageLifeSpan: 6,
