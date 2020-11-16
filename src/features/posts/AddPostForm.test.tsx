@@ -1,17 +1,17 @@
 import React from "react";
 import { fireEvent } from "@testing-library/react";
-import AddPostForm from "./AddPostForm.tsx";
-import store from "../../store/index.ts";
+import AddPostForm from "./AddPostForm";
+import store from "../../store/index";
+import { NOW, INITIAL_STATE } from "../../test/mock_data";
 
 import renderWithStore from "../../test/renderWithStore";
-import { INITIAL_STATE } from "../../test/mock_data";
 
 // option1: manually mock store
 jest.mock("../../store/index.ts");
-store.getState.mockImplementation(() => INITIAL_STATE);
+store.getState = jest.fn(() => INITIAL_STATE);
 
 jest.mock("@reduxjs/toolkit", () => ({
-  ...jest.requireActual("@reduxjs/toolkit"),
+  ...(jest.requireActual("@reduxjs/toolkit") as {}),
   nanoid: () => "3R8imJks0AjrbC9ueNf_s",
 }));
 
@@ -38,7 +38,7 @@ test("type text in title and content input, select a user from the dropdown of u
       title: "Title 3",
       content: "Content 3",
       userId: "2",
-      date: "2020-11-15T16:16:08.493Z",
+      date: NOW,
     },
   });
 });
