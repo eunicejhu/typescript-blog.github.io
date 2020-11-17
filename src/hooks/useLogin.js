@@ -16,7 +16,7 @@ export default function useLogin(dispatch) {
       setCookie("auth", data, { path: "/" });
       history.replace("/");
     } catch (error) {
-      console.log(error);
+      // console.log(error);
       dispatch({
         type: AUTH_STATUS.ERROR,
         payload: "Invalid Identifier or password",

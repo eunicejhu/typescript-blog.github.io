@@ -13,7 +13,7 @@ export default function useSignup() {
       localStorage.setItem("auth", JSON.stringify(data));
       history.push("/");
     } catch (err) {
-      console.error(err);
+      // console.error(err);
       setError("Identifier is taken");
     }
   };
