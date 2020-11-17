@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="reactions-container"
+  >
+    <button
+      name="thumbsUp"
+      type="button"
+    >
+      👍 0
+    </button>
+    <button
+      name="hooray"
+      type="button"
+    >
+      🎉 0
+    </button>
+    <button
+      name="heart"
+      type="button"
+    >
+      ❤️ 4
+    </button>
+    <button
+      name="rocket"
+      type="button"
+    >
+      🚀 0
+    </button>
+    <button
+      name="eyes"
+      type="button"
+    >
+      👀 0
+    </button>
+  </div>
+</DocumentFragment>
+`;
