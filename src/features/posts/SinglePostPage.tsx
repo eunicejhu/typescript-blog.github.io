@@ -5,6 +5,7 @@ import { useRouteMatch, match, Link } from "react-router-dom";
 import { State } from "../../store";
 import PostAuthor from "./PostAuthor";
 import TimeAgo from "./TimeAgo";
+import ReactionButtons from "./ReactionButtons";
 
 interface MatchParams {
   id: string;
@@ -30,6 +31,7 @@ const SinglePostPage = () => {
         <PostAuthor userId={post.userId} />
         <TimeAgo date={post.date} />
         <Link to={`/editPost/${postId}`}>Edit</Link>
+        <ReactionButtons post={post} />
       </article>
     </section>
   );

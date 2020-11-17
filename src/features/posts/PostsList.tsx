@@ -5,6 +5,7 @@ import AddPostForm from "./AddPostForm";
 import { State } from "../../store";
 import PostAuthor from "./PostAuthor";
 import TimeAgo from "./TimeAgo";
+import ReactionButtons from "./ReactionButtons";
 const PostsList = () => {
   const { path } = useRouteMatch();
   const posts = useSelector((state: State) => state.posts);
@@ -21,6 +22,7 @@ const PostsList = () => {
         <p>
           <Link to={`${path}posts/${post.id}`}>See more</Link>
         </p>
+        <ReactionButtons post={post} />
       </article>
     ));
 
