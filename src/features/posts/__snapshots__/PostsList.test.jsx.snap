@@ -131,6 +131,55 @@ Array [
           See more
         </a>
       </p>
+      <div
+        className="reactions-container"
+      >
+        <button
+          name="thumbsUp"
+          onClick={[Function]}
+          type="button"
+        >
+          👍
+           
+          3
+        </button>
+        <button
+          name="hooray"
+          onClick={[Function]}
+          type="button"
+        >
+          🎉
+           
+          0
+        </button>
+        <button
+          name="heart"
+          onClick={[Function]}
+          type="button"
+        >
+          ❤️
+           
+          0
+        </button>
+        <button
+          name="rocket"
+          onClick={[Function]}
+          type="button"
+        >
+          🚀
+           
+          0
+        </button>
+        <button
+          name="eyes"
+          onClick={[Function]}
+          type="button"
+        >
+          👀
+           
+          0
+        </button>
+      </div>
     </article>
     <article
       className="post-excerpt"
@@ -166,6 +215,55 @@ Array [
           See more
         </a>
       </p>
+      <div
+        className="reactions-container"
+      >
+        <button
+          name="thumbsUp"
+          onClick={[Function]}
+          type="button"
+        >
+          👍
+           
+          0
+        </button>
+        <button
+          name="hooray"
+          onClick={[Function]}
+          type="button"
+        >
+          🎉
+           
+          0
+        </button>
+        <button
+          name="heart"
+          onClick={[Function]}
+          type="button"
+        >
+          ❤️
+           
+          4
+        </button>
+        <button
+          name="rocket"
+          onClick={[Function]}
+          type="button"
+        >
+          🚀
+           
+          0
+        </button>
+        <button
+          name="eyes"
+          onClick={[Function]}
+          type="button"
+        >
+          👀
+           
+          0
+        </button>
+      </div>
     </article>
   </section>,
 ]
