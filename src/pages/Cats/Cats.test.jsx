@@ -1,39 +1,50 @@
 import React from "react";
 import { render } from "@testing-library/react";
+import { useRouteMatch } from "react-router-dom";
 import withTheme from "../../test/withTheme";
 import withRouter from "../../test/withRouter";
 
 import Cats from "./Cats";
+import Cat from "./Cat";
 import getCatsSummary from "../../helpers/getCatsSummary";
 
 import { MOCK_CATS_DATA } from "../../__mocks__/cats";
 import { API_STATUS } from "../../hooks/useApi";
 
-jest.mock("react-router-dom", () => {
-  return {
-    useRouteMatch: jest.fn().mockReturnValue({ url: "/cats" }),
-    Link: jest.requireActual("react-router-dom").Link,
-    Router: jest.requireActual("react-router-dom").Router,
-  };
-});
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useRouteMatch: jest.fn(),
+}));
 
 const mockUseQueryGet = jest.fn();
-jest.mock("../../hooks/useQuery", () => {
-  return () => ({ get: mockUseQueryGet.mockReturnValue() });
-});
+jest.mock("../../hooks/useQuery", () => ({
+  __esModule: true,
+  default: () => ({ get: mockUseQueryGet }),
+}));
 
 jest.mock("../../helpers/getCatsSummary");
-getCatsSummary.mockReturnValue({
-  totalBreeds: null,
-  averageLifeSpan: null,
-  averageWeight: null,
-});
+
 jest.mock("../../hooks/useApi");
 
-jest.mock("./Cat.jsx", () => jest.fn(() => <div data-testid="CatComponent" />));
+jest.mock("./Cat.jsx");
 
 const { useReducer } = React;
 const mockUseReducer = jest.spyOn(React, "useReducer");
+
+beforeEach(() => {
+  const mockInitial = {
+    data: MOCK_CATS_DATA,
+    status: API_STATUS.SUCCESS,
+    error: null,
+  };
+  mockUseReducer.mockImplementation(() => useReducer(jest.fn(), mockInitial));
+  useRouteMatch.mockReturnValue({ url: "/cats" });
+  getCatsSummary.mockReturnValue({
+    totalBreeds: null,
+    averageLifeSpan: null,
+    averageWeight: null,
+  });
+});
 
 test("Loading", () => {
   const mockInitial = { data: null, status: null, error: null };
@@ -99,9 +110,10 @@ test("Show No data when returned data is empty", () => {
 // REFERENCE dom standard https://dom.spec.whatwg.org/ html standard https://html.spec.whatwg.org/multipage/
 
 test("Render Cat Component when /cats?id=CAT_ID", () => {
-  mockUseQueryGet.mockReturnValueOnce("CAT_ID");
-  const { getByTestId } = render(<Cats />);
-  expect(getByTestId("CatComponent")).not.toBeNull();
+  Cat.mockReturnValue(<div>Cat component</div>);
+  mockUseQueryGet.mockReturnValue("CAT_ID");
+  const { getByText } = render(<Cats />);
+  expect(getByText("Cat component")).toBeInTheDocument();
 });
 
 test("Each cat item is a link to its cat page ", () => {

@@ -7,14 +7,15 @@ import { INITIAL_STATE } from "../../test/mock_data";
 import renderWithStore from "../../test/renderWithStore";
 
 // option1: manually mock store
-jest.mock("../../store/index.ts");
-
+jest.mock("../../store/index");
+beforeEach(() => {
+  store.getState = jest.fn(() => INITIAL_STATE);
+});
 beforeEach(() => {
   jest.clearAllMocks();
 });
 
 test("type text in title and content input, select a user from the dropdown of users, click save post button to add a post", () => {
-  store.getState = jest.fn(() => INITIAL_STATE);
   const { getByTestId, getByRole } = renderWithStore(<AddPostForm />, {
     store,
   });
