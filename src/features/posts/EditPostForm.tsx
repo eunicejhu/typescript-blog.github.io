@@ -3,6 +3,7 @@ import { useRouteMatch, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { State } from "../../store";
 import { postUpdated } from "./postsSlice";
+import { EMPTY_POST } from "../../test/mock_data";
 
 interface Params {
   id: string;
@@ -11,9 +12,9 @@ const EditPostForm: React.FC = () => {
   const {
     params: { id },
   } = useRouteMatch<Params>();
-  const existingPost = useSelector((state: State) =>
-    state.posts.find((post) => post.id === id)
-  ) || { id: "", title: "", content: "", userId: "", date: "" };
+  const existingPost =
+    useSelector((state: State) => state.posts.find((post) => post.id === id)) ||
+    EMPTY_POST;
   const [title, setTitle] = useState(existingPost.title);
   const [content, setContent] = useState(existingPost.content);
 
