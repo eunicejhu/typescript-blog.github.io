@@ -8,6 +8,13 @@ export interface Post {
   content: string;
   userId: string;
   date: string;
+  reactions: {
+    thumbsUp: number;
+    hooray: number;
+    heart: number;
+    rocket: number;
+    eyes: number;
+  };
 }
 
 export interface PostAddedAction {
@@ -18,6 +25,14 @@ export interface PostAddedAction {
 export interface PostUpdatedAction {
   type: string;
   payload: Post;
+}
+
+export interface ReactionAddedAction {
+  type: string;
+  payload: {
+    postId: string;
+    reaction: keyof Post["reactions"];
+  };
 }
 
 const postsSlice = createSlice({
@@ -36,6 +51,7 @@ const postsSlice = createSlice({
             content,
             userId,
             date: getNowTimeStamp(),
+            reactions: { thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0 },
           },
         };
       },
@@ -48,7 +64,14 @@ const postsSlice = createSlice({
         existingPost.content = content;
       }
     },
+    reactionAdded: (state: State, action: ReactionAddedAction) => {
+      const { postId, reaction } = action.payload;
+      const existingPost = state.find((post) => post.id === postId);
+      if (existingPost) {
+        existingPost.reactions[reaction] += 1;
+      }
+    },
   },
 });
-export const { postAdded, postUpdated } = postsSlice.actions;
+export const { postAdded, postUpdated, reactionAdded } = postsSlice.actions;
 export default postsSlice.reducer;
