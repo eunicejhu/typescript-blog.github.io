@@ -1,4 +1,5 @@
 import React from "react";
+import renderer from "react-test-renderer";
 import TimeAgo from "./TimeAgo";
 import getTimeAgo from "../../utils/getTimeAgo";
 
