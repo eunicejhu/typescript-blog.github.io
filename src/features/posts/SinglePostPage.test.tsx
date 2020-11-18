@@ -35,7 +35,7 @@ test("load post when postId exist", () => {
   expect(getByText(/Second test Post/i)).toBeInTheDocument();
 });
 test("click edit of first post , go to /posts/edit/1", async () => {
-  const { getByText, findByText } = renderWithStoreAndRouter(
+  const { getByText } = renderWithStoreAndRouter(
     <Route path="/posts/:id">
       <SinglePostPage />
     </Route>,

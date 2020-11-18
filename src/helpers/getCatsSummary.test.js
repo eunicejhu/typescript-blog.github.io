@@ -35,7 +35,7 @@ test("handle the passing data is null or [], undefined, {}", () => {
     avergageWeight: null,
   });
 });
-test("handle the passing data ", () => {
+test("handle the passing data", () => {
   avgWeight.mockReturnValue(4);
   avgLifeSpan.mockReturnValue(6);
   totalBreeds.mockReturnValue(33);

@@ -19,7 +19,7 @@ describe("Login", () => {
     const { getByDisplayValue } = render(<Login />);
     expect(getByDisplayValue(/login/i).disabled).toBeTruthy();
   });
-  test("Display 'Invalid Identifier or password' when incorrect indentifier or password ", () => {
+  test("Display 'Invalid Identifier or password' when incorrect indentifier or password", () => {
     useReducerSpy.mockImplementation(() => [
       { error: "Invalid identifier or password" },
       jest.fn(),

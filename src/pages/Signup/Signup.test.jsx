@@ -22,7 +22,7 @@ test("Signup button is disabled and show warnning message when two passwords are
   expect(getByDisplayValue(/signup/i).disabled).toBeTruthy();
   expect(getByText(/password is not identical/i).style.display).toBe("block");
 });
-test("Show 'Identifier is taken'  when Signup failure ", () => {
+test("Show 'Identifier is taken'  when Signup failure", () => {
   const { getByText, getByLabelText, getByDisplayValue } = render(<Signup />);
   fireEvent.change(getByLabelText(/email/i), {
     target: { value: "example@gmail.com" },

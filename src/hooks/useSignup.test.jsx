@@ -24,9 +24,7 @@ test("store user to localStorage and redirect to home page when signup API call 
   try {
     result.current.signup({ identifier: "isabella", password: "***" });
     await waitForNextUpdate({ timeout: 100 });
-  } catch (err) {
-    expect(err.timeout).toBeTruthy();
-  }
+  } catch (err) {}
   expect(history.location.pathname).toBe("/");
   expect(JSON.parse(localStorage.getItem("auth"))).toEqual({
     id: 1,

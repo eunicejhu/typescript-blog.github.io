@@ -5,7 +5,7 @@ import renderWithStoreAndRouter from "../../test/renderWithStoreAndRouter";
 import { fireEvent } from "@testing-library/react";
 
 test("show no post found when post does not exist", () => {
-  const { getByText, getByDisplayValue } = renderWithStoreAndRouter(
+  const { getByText } = renderWithStoreAndRouter(
     <Route path="/editPost/:id">
       <EditPostForm />
     </Route>,
@@ -29,7 +29,7 @@ test("load existing post in the form", () => {
   expect(getByText(/test!/i)).toBeInTheDocument();
 });
 
-test("edit post, submit it with all fields are filled, direct to home page ", () => {
+test("edit post, submit it with all fields are filled, direct to home page", () => {
   const { container, getByRole } = renderWithStoreAndRouter(
     <Route path="/editPost/:id">
       <EditPostForm />

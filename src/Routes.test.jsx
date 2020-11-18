@@ -24,7 +24,7 @@ test("route / load PostList page", () => {
   expect(container.querySelectorAll("article").length).toBe(2);
 });
 
-test("route /posts/1 load SinglePostPage ", () => {
+test("route /posts/1 load SinglePostPage", () => {
   renderWithStoreAndRouter(<Routes />, { route: "/posts/1" });
   expect(screen.getByText(/First test Post!/i)).toBeInTheDocument();
 });

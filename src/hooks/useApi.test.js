@@ -25,12 +25,12 @@ test("succeed when successfully get data", async () => {
   try {
     await waitForNextUpdate({ timeout: 100 });
   } catch (err) {
-    expect(err.timeout).toBeTruthy();
+  } finally {
+    expect(dispatch).toHaveBeenLastCalledWith({
+      type: API_STATUS.SUCCESS,
+      payload: { data: "FAKE DATA" },
+    });
   }
-  expect(dispatch).toHaveBeenLastCalledWith({
-    type: API_STATUS.SUCCESS,
-    payload: { data: "FAKE DATA" },
-  });
 });
 test("throw error when failed get data", async () => {
   axios.get.mockRejectedValueOnce(new Error("error"));
@@ -38,7 +38,7 @@ test("throw error when failed get data", async () => {
   try {
     await waitForNextUpdate({ timeout: 100 });
   } catch (err) {
-    expect(err.timeout).toBeTruthy();
+  } finally {
     expect(dispatch).toHaveBeenLastCalledWith({
       type: API_STATUS.ERROR,
       payload: { error: Error("error") },

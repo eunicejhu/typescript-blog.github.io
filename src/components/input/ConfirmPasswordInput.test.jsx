@@ -3,7 +3,7 @@ import { render, unmountComponentAtNode } from "react-dom";
 import { act } from "react-dom/test-utils";
 
 import { fireEvent } from "@testing-library/react";
-import { getByTestId } from "@testing-library/dom";
+import { getByTestId } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 
 import ConfirmPasswordInput from "./ConfirmPasswordInput";
@@ -19,7 +19,7 @@ afterEach(() => {
   container = null;
 });
 
-it("validate password when input password,  ", () => {
+it("validate password when input password,", () => {
   const validate = jest.fn();
 
   act(() => {

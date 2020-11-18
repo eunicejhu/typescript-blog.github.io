@@ -116,7 +116,7 @@ test("Render Cat Component when /cats?id=CAT_ID", () => {
   expect(getByText("Cat component")).toBeInTheDocument();
 });
 
-test("Each cat item is a link to its cat page ", () => {
+test("Each cat item is a link to its cat page", () => {
   const mockInitial = {
     data: MOCK_CATS_DATA,
     status: API_STATUS.SUCCESS,

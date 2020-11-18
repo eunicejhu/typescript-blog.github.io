@@ -14,7 +14,7 @@ jest.mock("react-router-dom", () => ({
 
 const dispatch = jest.fn();
 
-describe(", ", () => {
+describe(",", () => {
   const setCookie = jest.fn();
   const replace = jest.fn();
 
@@ -22,7 +22,7 @@ describe(", ", () => {
     jest.clearAllMocks();
   });
 
-  test("AUTH_SUCCESS dispatched, cookie updated, redirect to home page after login success, ", async () => {
+  test("AUTH_SUCCESS dispatched, cookie updated, redirect to home page after login success,", async () => {
     useCookies.mockReturnValue([null, setCookie]);
     axios.post = jest.fn().mockResolvedValue({
       data: { id: 1, username: "isabella" },
@@ -35,18 +35,18 @@ describe(", ", () => {
     try {
       await waitForNextUpdate({ timeout: 100 });
     } catch (error) {
-      expect(error.timeout).toBeTruthy();
+    } finally {
+      expect(dispatch).toHaveBeenCalledWith({
+        type: "AUTH_SUCCESS",
+        payload: { id: 1, username: "isabella" },
+      });
+      expect(setCookie).toHaveBeenLastCalledWith(
+        "auth",
+        { id: 1, username: "isabella" },
+        { path: "/" }
+      );
+      expect(replace).toHaveBeenLastCalledWith("/");
     }
-    expect(dispatch).toHaveBeenCalledWith({
-      type: "AUTH_SUCCESS",
-      payload: { id: 1, username: "isabella" },
-    });
-    expect(setCookie).toHaveBeenLastCalledWith(
-      "auth",
-      { id: 1, username: "isabella" },
-      { path: "/" }
-    );
-    expect(replace).toHaveBeenLastCalledWith("/");
   });
   test("Dispatch LOGIN_FAILURE when login fails", async () => {
     useCookies.mockReturnValue([null, setCookie]);
@@ -56,7 +56,7 @@ describe(", ", () => {
     try {
       await waitForNextUpdate({ timeout: 100 });
     } catch (error) {
-      expect(error.timeout).toBeTruthy();
+    } finally {
       expect(dispatch).toHaveBeenLastCalledWith({
         type: AUTH_STATUS.ERROR,
         payload: "Invalid Identifier or password",
