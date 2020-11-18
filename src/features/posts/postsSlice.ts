@@ -1,5 +1,9 @@
-import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
-import getNowTimeStamp from "../../utils/getNowTimeStamps";
+import {
+  createSlice,
+  nanoid,
+  createAsyncThunk,
+  PayloadAction,
+} from "@reduxjs/toolkit";
 // import client from "../../api/client";
 import { INITIAL_STATE } from "../../test/mock_data";
 
@@ -23,7 +27,7 @@ export interface Post {
   };
 }
 
-export interface PostAddedAction {
+export interface AddNewPostAction {
   type: string;
   payload: Post;
 }
@@ -52,29 +56,32 @@ export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   res = await fetch;
   return res.posts;
 });
+
+type addNewPostThunkArg = { title: string; content: string; userId: string };
+export const addNewPost = createAsyncThunk<Post, addNewPostThunkArg>(
+  "posts/addNewPost",
+  async ({ title, content, userId }) => {
+    let res;
+    const addPostApiCallRes = new Promise<Post>((resolve) => {
+      return resolve({
+        id: nanoid(),
+        title,
+        content,
+        userId,
+        date: new Date().toISOString(),
+        reactions: { thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0 },
+      });
+    });
+    res = await addPostApiCallRes;
+    return res;
+  }
+);
 const initialState: PostsState = { data: [], status: "idle", error: null };
 const postsSlice = createSlice({
   name: "posts",
   initialState: initialState,
   reducers: {
-    postAdded: {
-      reducer(state: PostsState, action: PostAddedAction) {
-        state.data.push(action.payload);
-      },
-      prepare({ title, content, userId }) {
-        return {
-          payload: {
-            id: nanoid(),
-            title,
-            content,
-            userId,
-            date: getNowTimeStamp(),
-            reactions: { thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0 },
-          },
-        };
-      },
-    },
-    postUpdated: (state: PostsState, action: PostUpdatedAction) => {
+    postUpdated: (state: PostsState, action: PayloadAction<Post>) => {
       const { id, title, content } = action.payload;
       const existingPost = state.data.find((post) => post.id === id);
       if (existingPost) {
@@ -102,8 +109,11 @@ const postsSlice = createSlice({
       state.error = action.error.message;
       state.status = "failed";
     },
+    [(addNewPost.fulfilled as unknown) as string]: (state, action) => {
+      state.data.push(action.payload);
+    },
   },
 });
 
-export const { postAdded, postUpdated, reactionAdded } = postsSlice.actions;
+export const { postUpdated, reactionAdded } = postsSlice.actions;
 export default postsSlice.reducer;
