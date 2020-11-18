@@ -17,7 +17,7 @@ jest.mock("./postsSlice.ts", () => ({
 
 test("render correctly", () => {
   const { asFragment } = renderWithStoreAndRouter(
-    <ReactionButtons post={INITIAL_STATE.posts[0]} />
+    <ReactionButtons post={INITIAL_STATE.posts.data[0]} />
   );
   expect(asFragment()).toMatchSnapshot();
 });
@@ -26,7 +26,7 @@ test("click reaction", async () => {
   const dispatch = jest.fn();
   (useDispatch as jest.Mock).mockReturnValue(dispatch);
   const { container } = renderWithStoreAndRouter(
-    <ReactionButtons post={INITIAL_STATE.posts[0]} />
+    <ReactionButtons post={INITIAL_STATE.posts.data[0]} />
   );
   fireEvent.click(container.querySelector("[name=heart]") as Element);
   expect(dispatch).toHaveBeenCalled();
