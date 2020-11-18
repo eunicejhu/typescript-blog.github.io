@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useRouteMatch, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { State } from "../../store";
-import { postUpdated } from "./postsSlice";
-import { EMPTY_POST } from "../../test/mock_data";
+import { selectPostById, State } from "../../store";
+import { postUpdated, Post } from "./postsSlice";
 
 interface Params {
   id: string;
@@ -12,11 +11,11 @@ const EditPostForm: React.FC = () => {
   const {
     params: { id },
   } = useRouteMatch<Params>();
-  const existingPost =
-    useSelector((state: State) => state.posts.find((post) => post.id === id)) ||
-    EMPTY_POST;
-  const [title, setTitle] = useState(existingPost.title);
-  const [content, setContent] = useState(existingPost.content);
+  const existingPost = useSelector<State, Post | undefined>((state) =>
+    selectPostById(state, id)
+  );
+  const [title, setTitle] = useState(existingPost?.title);
+  const [content, setContent] = useState(existingPost?.content);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -31,11 +30,11 @@ const EditPostForm: React.FC = () => {
   const onSavePostClicked = (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (content && title) {
-      dispatch(postUpdated({ ...existingPost, title, content }));
+      dispatch(postUpdated({ ...existingPost, title, content } as Post));
       history.push("/");
     }
   };
-  if (!existingPost.id) {
+  if (!existingPost) {
     return <div>No post found</div>;
   }
   return (

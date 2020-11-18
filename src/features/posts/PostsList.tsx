@@ -2,13 +2,13 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useRouteMatch, Link } from "react-router-dom";
 import AddPostForm from "./AddPostForm";
-import { State } from "../../store";
+import { selectAllPosts } from "../../store";
 import PostAuthor from "./PostAuthor";
 import TimeAgo from "./TimeAgo";
 import ReactionButtons from "./ReactionButtons";
 const PostsList = () => {
   const { path } = useRouteMatch();
-  const posts = useSelector((state: State) => state.posts);
+  const posts = useSelector(selectAllPosts);
   const sortedPosts =
     posts && posts.slice().sort((a, b) => a.date.localeCompare(b.date));
   const renderPosts =
