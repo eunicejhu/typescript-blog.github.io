@@ -1,14 +1,14 @@
 import { store } from "../../test/store";
-import { postAdded, postUpdated, reactionAdded, Post } from "./postsSlice";
+import { addNewPost, postUpdated, reactionAdded, Post } from "./postsSlice";
 
 it("initial values", () => {
   const initialPosts = store.getState().posts.data;
   expect(initialPosts[0].id).toBe("1");
   expect(initialPosts[1].title).toBe("Second test Post");
 });
-it("postAdded test", () => {
-  store.dispatch(
-    postAdded({ title: "title 3", content: "Content 3", userId: "1" })
+it("postAdded test", async () => {
+  await store.dispatch(
+    addNewPost({ title: "title 3", content: "Content 3", userId: "1" })
   );
   expect(store.getState().posts.data.length).toBe(3);
 });
