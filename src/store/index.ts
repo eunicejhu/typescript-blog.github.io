@@ -7,4 +7,9 @@ const store = configureStore({
 });
 
 export type State = ReturnType<typeof store.getState>;
+// selectors
+export const selectAllPosts = (state: State) => state.posts;
+export const selectPostById = (state: State, postId: string) =>
+  state.posts.find((post) => post.id === postId);
+
 export default store;
