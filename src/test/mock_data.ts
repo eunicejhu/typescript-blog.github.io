@@ -9,7 +9,7 @@ export const EMPTY_STATE: State = {
     error: null,
     data: [],
   },
-  users: [],
+  users: { data: [], status: "succeeded", error: null },
 };
 export const INITIAL_STATE: State = {
   posts: {
