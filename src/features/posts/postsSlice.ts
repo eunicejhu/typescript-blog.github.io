@@ -1,9 +1,11 @@
-import { createSlice, nanoid } from "@reduxjs/toolkit";
+import { createSlice, nanoid, createAsyncThunk } from "@reduxjs/toolkit";
 import getNowTimeStamp from "../../utils/getNowTimeStamps";
+// import client from "../../api/client";
+import { INITIAL_STATE } from "../../test/mock_data";
 
 export type PostsState = {
   data: Post[];
-  status: string;
+  status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 };
 export interface Post {
@@ -39,6 +41,17 @@ export interface ReactionAddedAction {
   };
 }
 
+export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
+  let res;
+  /** TODO: client */
+  const fetch = new Promise<{ posts: Post[] }>((resolve, reject) => {
+    setTimeout(() => {
+      return resolve({ posts: INITIAL_STATE.posts.data });
+    }, 1000);
+  });
+  res = await fetch;
+  return res.posts;
+});
 const initialState: PostsState = { data: [], status: "idle", error: null };
 const postsSlice = createSlice({
   name: "posts",
@@ -77,6 +90,20 @@ const postsSlice = createSlice({
       }
     },
   },
+  extraReducers: {
+    [(fetchPosts.pending as unknown) as string]: (state) => {
+      state.status = "loading";
+    },
+    [(fetchPosts.fulfilled as unknown) as string]: (state, action) => {
+      state.data = action.payload;
+      state.status = "succeeded";
+    },
+    [(fetchPosts.rejected as unknown) as string]: (state, action) => {
+      state.error = action.error.message;
+      state.status = "failed";
+    },
+  },
 });
+
 export const { postAdded, postUpdated, reactionAdded } = postsSlice.actions;
 export default postsSlice.reducer;
