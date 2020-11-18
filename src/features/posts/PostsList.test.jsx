@@ -1,11 +1,8 @@
 import React from "react";
-import renderer from "react-test-renderer";
 import { fireEvent, screen } from "@testing-library/react";
-import StoreWrapper from "../../test/StoreWrapper";
 import PostsList from "./PostsList.tsx";
 import { INITIAL_STATE } from "../../test/mock_data";
 import renderWithStoreAndRouter from "../../test/renderWithStoreAndRouter";
-import BrowserRouterWrapper from "../../test/BrowserRouterWrapper.tsx";
 
 test("show initial postsList", () => {
   const { container, getByText } = renderWithStoreAndRouter(<PostsList />, {
@@ -28,17 +25,4 @@ test("show no posts when posts is []", () => {
     initialState: { posts: [] },
   });
   expect(getByText(/No Posts/i)).toBeInTheDocument();
-});
-
-test("render correctly", () => {
-  const tree = renderer
-    .create(
-      <BrowserRouterWrapper>
-        <StoreWrapper>
-          <PostsList />
-        </StoreWrapper>
-      </BrowserRouterWrapper>
-    )
-    .toJSON();
-  expect(tree).toMatchSnapshot();
 });
