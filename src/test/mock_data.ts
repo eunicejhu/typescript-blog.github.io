@@ -3,14 +3,6 @@ import { State } from "../store/index";
 
 export const NOW = "2020-11-15T16:16:08.493Z";
 export const TIME_AGO = "28 minutes";
-export const EMPTY_POST = {
-  id: "",
-  title: "",
-  content: "",
-  userId: "",
-  date: "",
-  reactions: { thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0 },
-};
 export const INITIAL_STATE: State = {
   posts: [
     {
