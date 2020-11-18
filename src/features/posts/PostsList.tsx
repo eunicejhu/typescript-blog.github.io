@@ -23,7 +23,7 @@ const PostsList = () => {
   const posts = useSelector(selectAllPosts);
   const sortedPosts = posts
     .slice()
-    .sort((a, b) => a.date.localeCompare(b.date));
+    .sort((a, b) => b.date.localeCompare(a.date));
   const renderedPosts = sortedPosts.map((post) => (
     <article className="post-excerpt" key={post.id}>
       <h3>{post.title}</h3>
