@@ -4,7 +4,7 @@ import { State } from "../../store";
 
 const PostAuthor: React.FC<{ userId: string }> = ({ userId }) => {
   const user = useSelector((state: State) =>
-    state.users.find((user) => user.id === userId)
+    state.users.data.find((user) => user.id === userId)
   );
   return (
     <span className="post-author">

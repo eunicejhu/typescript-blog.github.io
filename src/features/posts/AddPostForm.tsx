@@ -9,7 +9,7 @@ const AddPostForm: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const users = useSelector((state: State) => state.users);
+  const users = useSelector((state: State) => state.users.data);
 
   const renderUsersOptions =
     users &&
