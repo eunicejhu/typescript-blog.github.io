@@ -4,19 +4,8 @@
     "es6": true,
     "jest/globals": true
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:react-hooks/recommended",
-    "plugin:react/recommended",
-    "airbnb-typescript",
-    "eslint-config-prettier",
-    "prettier",
-    "prettier/@typescript-eslint",
-    "prettier/react",
-    "plugin:prettier/recommended"
-    // "plugin:@typescript-eslint/recommended"
-  ],
-  "plugins": ["react", "react-hooks", "jest", "@typescript-eslint"],
+  "extends": ["react-app", "react-app/jest"],
+  "plugins": [],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "project": "./tsconfig.json",
@@ -55,6 +44,16 @@
       {
         "devDependencies": ["**/*.stories.tsx", "**/*.test.{js,jsx,ts,tsx}"]
       }
-    ]
+    ],
+    "no-use-before-define": "off",
+    "import/no-anonymous-default-export": [
+      "error",
+      {
+        "allowArray": true,
+        "allowObject": true,
+        "allowArrowFunction": true
+      }
+    ],
+    "jest/no-mocks-import": "off"
   }
 }
