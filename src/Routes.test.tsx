@@ -2,26 +2,26 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { createMemoryHistory } from "history";
-import Routes from "./Routes.tsx";
+import Routes from "./Routes";
 import renderWithStoreAndRouter from "./test/renderWithStoreAndRouter";
-import renderWithBrowserRouter from "./test/renderWithBrowserRouter.tsx";
-import BrowserRouterWrapper from "./test/BrowserRouterWrapper.tsx";
+import renderWithBrowserRouter from "./test/renderWithBrowserRouter";
+import BrowserRouterWrapper from "./test/BrowserRouterWrapper";
 import StoreWrapper from "./test/StoreWrapper";
 
 // It provides 3 ways to wrap App with router for testing.
 
 // wrap it with Router providing history. in case we need history
-test("route / load PostList page", () => {
+test("route / load PostList page", async () => {
   const history = createMemoryHistory({ initialEntries: ["/inital"] });
   history.push("/");
-  const { container } = render(
+  const { findByText } = render(
     <MemoryRouter initialEntries={["/inital", "/"]} initialIndex={1}>
       <StoreWrapper>
         <Routes />
       </StoreWrapper>
     </MemoryRouter>
   );
-  expect(container.querySelectorAll("article").length).toBe(2);
+  expect(await findByText("Posts")).toBeInTheDocument();
 });
 
 test("route /posts/1 load SinglePostPage", () => {
