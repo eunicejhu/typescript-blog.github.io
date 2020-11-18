@@ -7,19 +7,19 @@ export const API_STATUS = {
   LOADING: "LOADING",
 };
 const useApi = (url, dispatch) => {
-  const fetchData = async () => {
-    try {
-      dispatch({ type: API_STATUS.LOADING });
-      const result = await axios.get(url);
-      const { data } = result;
-      dispatch({ type: API_STATUS.SUCCESS, payload: { data } });
-    } catch (error) {
-      dispatch({ type: API_STATUS.ERROR, payload: { error } });
-    }
-  };
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        dispatch({ type: API_STATUS.LOADING });
+        const result = await axios.get(url);
+        const { data } = result;
+        dispatch({ type: API_STATUS.SUCCESS, payload: { data } });
+      } catch (error) {
+        dispatch({ type: API_STATUS.ERROR, payload: { error } });
+      }
+    };
     fetchData();
-  }, []);
+  }, [dispatch, url]);
 };
 
 export default useApi;

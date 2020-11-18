@@ -6,7 +6,7 @@ const Input = React.forwardRef((props, ref) => {
   const [value, setValue] = useState(props.value);
   useEffect(() => {
     setValue(props.value);
-  }, []);
+  }, [props.value]);
   const onChange = (e) => {
     const { onChange: otherHandler } = props;
     if (otherHandler) otherHandler(e);
