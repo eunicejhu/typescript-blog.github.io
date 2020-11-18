@@ -30,11 +30,15 @@ export const INITIAL_STATE: State = {
       reactions: { thumbsUp: 3, hooray: 0, heart: 0, rocket: 0, eyes: 0 },
     },
   ],
-  users: [
-    { id: "0", name: "Tianna Jenkins" },
-    { id: "1", name: "Kevin Grant" },
-    { id: "2", name: "Madison Price" },
-  ],
+  users: {
+    data: [
+      { id: "0", name: "Tianna Jenkins" },
+      { id: "1", name: "Kevin Grant" },
+      { id: "2", name: "Madison Price" },
+    ],
+    status: "succeeded",
+    error: null,
+  },
 };
 
 export default { INITIAL_STATE };
