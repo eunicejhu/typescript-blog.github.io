@@ -63,14 +63,16 @@ export const addNewPost = createAsyncThunk<Post, addNewPostThunkArg>(
   async ({ title, content, userId }) => {
     let res;
     const addPostApiCallRes = new Promise<Post>((resolve) => {
-      return resolve({
-        id: nanoid(),
-        title,
-        content,
-        userId,
-        date: new Date().toISOString(),
-        reactions: { thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0 },
-      });
+      setTimeout(() => {
+        return resolve({
+          id: nanoid(),
+          title,
+          content,
+          userId,
+          date: new Date().toISOString(),
+          reactions: { thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0 },
+        });
+      }, 1000);
     });
     res = await addPostApiCallRes;
     return res;

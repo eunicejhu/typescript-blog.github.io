@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { addNewPost } from "./postsSlice";
-import { State } from "../../store";
+import { State, useAppDispatch } from "../../store";
+import { unwrapResult } from "@reduxjs/toolkit";
 const AddPostForm: React.FC = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [userId, setUserId] = useState("");
+  const [addRequestStatus, setAddRequestStatus] = useState("idle");
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const users = useSelector((state: State) => state.users.data);
 
@@ -28,15 +30,25 @@ const AddPostForm: React.FC = () => {
     setUserId(e.currentTarget.value);
   };
 
-  const canAdd = Boolean(title) && Boolean(content) && Boolean(userId);
+  const canAdd =
+    [title, content, userId].every(Boolean) && addRequestStatus === "idle";
 
-  const onAddPostClicked = (e: React.SyntheticEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+  const onAddPostClicked = async () => {
     if (canAdd) {
-      dispatch(addNewPost({ title, content, userId }));
-      setTitle("");
-      setContent("");
-      setUserId("");
+      try {
+        setAddRequestStatus("pending");
+        const resultAction = await dispatch(
+          addNewPost({ title, content, userId })
+        );
+        unwrapResult(resultAction);
+        setTitle("");
+        setContent("");
+        setUserId("");
+      } catch (error) {
+        console.error("Failed to save the post: ", error);
+      } finally {
+        setAddRequestStatus("idle");
+      }
     }
   };
 
