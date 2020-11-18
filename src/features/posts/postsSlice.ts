@@ -1,7 +1,11 @@
 import { createSlice, nanoid } from "@reduxjs/toolkit";
 import getNowTimeStamp from "../../utils/getNowTimeStamps";
 
-export type State = Post[];
+export type PostsState = {
+  data: Post[];
+  status: string;
+  error: string | null;
+};
 export interface Post {
   id: string;
   title: string;
@@ -35,13 +39,14 @@ export interface ReactionAddedAction {
   };
 }
 
+const initialState: PostsState = { data: [], status: "idle", error: null };
 const postsSlice = createSlice({
   name: "posts",
-  initialState: [] as Post[],
+  initialState: initialState,
   reducers: {
     postAdded: {
-      reducer(state: State, action: PostAddedAction) {
-        state.push(action.payload);
+      reducer(state: PostsState, action: PostAddedAction) {
+        state.data.push(action.payload);
       },
       prepare({ title, content, userId }) {
         return {
@@ -56,17 +61,17 @@ const postsSlice = createSlice({
         };
       },
     },
-    postUpdated: (state: State, action: PostUpdatedAction) => {
+    postUpdated: (state: PostsState, action: PostUpdatedAction) => {
       const { id, title, content } = action.payload;
-      const existingPost = state.find((post) => post.id === id);
+      const existingPost = state.data.find((post) => post.id === id);
       if (existingPost) {
         existingPost.title = title;
         existingPost.content = content;
       }
     },
-    reactionAdded: (state: State, action: ReactionAddedAction) => {
+    reactionAdded: (state: PostsState, action: ReactionAddedAction) => {
       const { postId, reaction } = action.payload;
-      const existingPost = state.find((post) => post.id === postId);
+      const existingPost = state.data.find((post) => post.id === postId);
       if (existingPost) {
         existingPost.reactions[reaction] += 1;
       }

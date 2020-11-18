@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import postsReducer from "../features/posts/postsSlice";
+import postsReducer, { Post } from "../features/posts/postsSlice";
 import usersReducer from "../features/users/usersSlice";
 
 const store = configureStore({
@@ -8,8 +8,10 @@ const store = configureStore({
 
 export type State = ReturnType<typeof store.getState>;
 // selectors
-export const selectAllPosts = (state: State) => state.posts;
-export const selectPostById = (state: State, postId: string) =>
-  state.posts.find((post) => post.id === postId);
+export const selectAllPosts = (state: State): Post[] => state.posts.data;
+export const selectPostById = (
+  state: State,
+  postId: string
+): Post | undefined => state.posts.data.find((post) => post.id === postId);
 
 export default store;
