@@ -8,13 +8,14 @@ Tech stack:
 
 - React
 - React Router
-- Redux
+- Redux (redux toolkit)
 - Redux-thunk
 - Axios
 - Jest
 - React testing library
 - React hooks testing library
 - Sass
+- typescript
 
 Development harness
 
