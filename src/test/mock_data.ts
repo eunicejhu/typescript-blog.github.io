@@ -6,15 +6,17 @@ export const TIME_AGO = "28 minutes";
 export const EMPTY_STATE: State = {
   posts: {
     status: "succeeded",
-    error: null,
+    error: undefined,
     data: [],
+    updatePostError: undefined,
   },
   users: { data: [], status: "succeeded", error: null },
 };
 export const INITIAL_STATE: State = {
   posts: {
     status: "idle",
-    error: null,
+    error: undefined,
+    updatePostError: undefined,
     data: [
       {
         id: "1",

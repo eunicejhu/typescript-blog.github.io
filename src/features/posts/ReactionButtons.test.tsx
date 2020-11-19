@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import ReactionButtons from "./ReactionButtons";
 import { INITIAL_STATE } from "../../test/mock_data";
 import renderWithStoreAndRouter from "../../test/renderWithStoreAndRouter";
-import { reactionAdded } from "./postsSlice";
+import { addReaction } from "./postsSlice";
 
 jest.mock("react-redux", () => ({
   ...(jest.requireActual("react-redux") as {}),
@@ -12,7 +12,7 @@ jest.mock("react-redux", () => ({
 }));
 jest.mock("./postsSlice.ts", () => ({
   ...(jest.requireActual("./postsSlice.ts") as {}),
-  reactionAdded: jest.fn(),
+  addReaction: jest.fn(),
 }));
 
 test("render correctly", () => {
@@ -30,5 +30,5 @@ test("click reaction", async () => {
   );
   fireEvent.click(container.querySelector("[name=heart]") as Element);
   expect(dispatch).toHaveBeenCalled();
-  expect(reactionAdded).toHaveBeenCalled();
+  expect(addReaction).toHaveBeenCalled();
 });
