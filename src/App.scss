@@ -1,0 +1,139 @@
+@import "./styles/validate.css";
+
+html {
+  height: 100%;
+}
+body {
+  margin: 0;
+  color: #4eade4;
+  background: #e3e4eb;
+  font: 600 16px/18px "Open Sans", sans-serif;
+  padding: 0 8em;
+}
+*,
+:after,
+:before {
+  box-sizing: border-box;
+}
+.clearfix:after,
+.clearfix:before {
+  content: "";
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+  display: block;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#root {
+  height: 100vh;
+}
+
+nav {
+  display: flex;
+  height: 4em;
+  line-height: 4em;
+
+  li {
+    list-style: none;
+    margin: 0 10px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+main {
+  position: relative;
+  min-height: 70%;
+}
+
+footer {
+  margin: 3em 0;
+  line-height: 3em;
+}
+
+.add-post-form {
+  width: 100%;
+  div {
+    width: 100%;
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+div.field {
+  display: flex;
+  padding: 10px 0;
+  justify-content: center;
+  width: 100%;
+  label {
+    width: 6em;
+    display: inline-block;
+  }
+  input,
+  textarea,
+  select {
+    width: 80%;
+    border: none;
+    border-radius: 4px;
+  }
+  input,
+  select {
+    height: 2em;
+    outline: none;
+  }
+  textarea {
+    height: 8em;
+    outline: none;
+  }
+  button,
+  input[type="button"] {
+    padding: 0.6em 1.2em;
+    border-radius: 4px;
+    width: 9em;
+    &:hover {
+      cursor: pointer;
+      font-weight: bold;
+    }
+  }
+}
+
+section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    margin: 2em;
+  }
+
+  article {
+    width: 100%;
+    margin: 20px;
+    border: 1px solid;
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 2px 2px;
+  }
+  .reactions-container {
+    button {
+      outline: none;
+      margin-right: 1em;
+      border: 0px;
+      border-radius: 26px;
+      padding: 4px 16px;
+      &:hover {
+        cursor: pointer;
+        background-color: #4eade4;
+      }
+    }
+  }
+}
