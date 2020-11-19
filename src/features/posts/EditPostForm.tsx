@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useRouteMatch, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { selectPostById, State } from "../../store";
-import { postUpdated, Post } from "./postsSlice";
+import { updatePost, Post } from "./postsSlice";
 
 interface Params {
   id: string;
@@ -30,7 +30,7 @@ const EditPostForm: React.FC = () => {
   const onSavePostClicked = (e: React.MouseEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (content && title) {
-      dispatch(postUpdated({ ...existingPost, title, content } as Post));
+      dispatch(updatePost({ ...existingPost, title, content } as Post));
       history.push("/");
     }
   };
