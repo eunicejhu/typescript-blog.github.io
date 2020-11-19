@@ -8,6 +8,7 @@ const AddPostForm: React.FC = () => {
   const [content, setContent] = useState("");
   const [userId, setUserId] = useState("");
   const [addRequestStatus, setAddRequestStatus] = useState("idle");
+  const [addRequestError, setAddRequestError] = useState(undefined);
 
   const dispatch = useAppDispatch();
 
@@ -45,7 +46,11 @@ const AddPostForm: React.FC = () => {
         setContent("");
         setUserId("");
       } catch (error) {
-        console.error("Failed to save the post: ", error);
+        setAddRequestError(error.message);
+        setTimeout(() => {
+          setAddRequestError(undefined);
+        }, 1000);
+        console.error("Failed to save the post: ", error.message);
       } finally {
         setAddRequestStatus("idle");
       }
@@ -92,7 +97,8 @@ const AddPostForm: React.FC = () => {
         <div className="field">
           <button type="button" onClick={onAddPostClicked} disabled={!canAdd}>
             Add Post
-          </button>
+          </button>{" "}
+          <span>{addRequestError}</span>
         </div>
       </form>
     </div>
