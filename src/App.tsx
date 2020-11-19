@@ -5,7 +5,7 @@ import Routes from "./Routes";
 import { useDispatch } from "react-redux";
 import { fetchUsers } from "./features/users/usersSlice";
 
-import "./App.css";
+import "./App.scss";
 
 const App = () => {
   const dispatch = useDispatch();

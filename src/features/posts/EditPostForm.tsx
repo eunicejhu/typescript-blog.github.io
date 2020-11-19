@@ -27,7 +27,7 @@ const EditPostForm: React.FC = () => {
     setContent(e.currentTarget.value);
   };
 
-  const onSavePostClicked = (e: React.MouseEvent<HTMLInputElement>) => {
+  const onSavePostClicked = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (content && title) {
       dispatch(updatePost({ ...existingPost, title, content } as Post));
@@ -39,8 +39,8 @@ const EditPostForm: React.FC = () => {
   }
   return (
     <form>
-      <h1>Edit Post</h1>
-      <div>
+      <h2>Edit Post</h2>
+      <div className="field">
         <label htmlFor="title">Title</label>
         <input
           id="title"
@@ -50,7 +50,7 @@ const EditPostForm: React.FC = () => {
           onChange={onTitleChanged}
         />
       </div>
-      <div>
+      <div className="field">
         <label htmlFor="content">Content</label>
         <textarea
           name="content"
@@ -61,8 +61,10 @@ const EditPostForm: React.FC = () => {
           onChange={onContentChanged}
         ></textarea>
       </div>
-      <div>
-        <input type="button" value="Submit" onClick={onSavePostClicked} />
+      <div className="field">
+        <button value="Submit" onClick={onSavePostClicked}>
+          Submit
+        </button>
       </div>
     </form>
   );

@@ -27,11 +27,14 @@ const SinglePostPage = () => {
   return (
     <section className="post">
       <article>
-        <h2>{post.title}</h2>
+        <h3>{post.title}</h3>
         <p>{post.content}</p>
         <PostAuthor userId={post.userId} />
         <TimeAgo date={post.date} />
-        <Link to={`/editPost/${postId}`}>Edit</Link>
+        <p>
+          <Link to={`/editPost/${postId}`}>Edit</Link>
+        </p>
+
         <ReactionButtons post={post} />
       </article>
     </section>
