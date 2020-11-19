@@ -17,7 +17,7 @@ beforeEach(() => {
 
 test("type text in title and content input, select a user from the dropdown of users, click save post button to add a post", async () => {
   const dispatch = jest.fn();
-  useAppDispatch.mockReturnValue(dispatch);
+  (useAppDispatch as jest.Mock).mockReturnValue(dispatch);
   const { getByTestId, getByRole } = renderWithStore(<AddPostForm />, {
     store,
   });
