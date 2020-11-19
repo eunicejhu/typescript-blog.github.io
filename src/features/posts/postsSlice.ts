@@ -1,16 +1,10 @@
-import {
-  createSlice,
-  nanoid,
-  createAsyncThunk,
-  PayloadAction,
-} from "@reduxjs/toolkit";
-// import client from "../../api/client";
-import { INITIAL_STATE } from "../../test/mock_data";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import Client from "../../api/client";
 
 export type PostsState = {
   data: Post[];
   status: "idle" | "loading" | "succeeded" | "failed";
-  error: string | null;
+  error: string | undefined;
 };
 export interface Post {
   id: string;
@@ -47,38 +41,24 @@ export interface ReactionAddedAction {
 
 export const fetchPosts = createAsyncThunk("posts/fetchPosts", async () => {
   let res;
-  /** TODO: client */
-  const fetch = new Promise<{ posts: Post[] }>((resolve, reject) => {
-    setTimeout(() => {
-      return resolve({ posts: INITIAL_STATE.posts.data });
-    }, 1000);
-  });
-  res = await fetch;
-  return res.posts;
+  res = await Client.fetchPost<Post[]>();
+  return res;
 });
 
 type addNewPostThunkArg = { title: string; content: string; userId: string };
-export const addNewPost = createAsyncThunk<Post, addNewPostThunkArg>(
+export const addNewPost = createAsyncThunk(
   "posts/addNewPost",
-  async ({ title, content, userId }) => {
+  async ({ title, content, userId }: addNewPostThunkArg) => {
     let res;
-    const addPostApiCallRes = new Promise<Post>((resolve) => {
-      setTimeout(() => {
-        return resolve({
-          id: nanoid(),
-          title,
-          content,
-          userId,
-          date: new Date().toISOString(),
-          reactions: { thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0 },
-        });
-      }, 1000);
-    });
-    res = await addPostApiCallRes;
+    res = await Client.addNewPost<Post>({
+      title,
+      content,
+      userId,
+    } as Post);
     return res;
   }
 );
-const initialState: PostsState = { data: [], status: "idle", error: null };
+const initialState: PostsState = { data: [], status: "idle", error: undefined };
 const postsSlice = createSlice({
   name: "posts",
   initialState: initialState,
@@ -99,21 +79,23 @@ const postsSlice = createSlice({
       }
     },
   },
-  extraReducers: {
-    [(fetchPosts.pending as unknown) as string]: (state) => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchPosts.pending, (state) => {
       state.status = "loading";
-    },
-    [(fetchPosts.fulfilled as unknown) as string]: (state, action) => {
-      state.data = action.payload;
+    });
+    builder.addCase(fetchPosts.fulfilled, (state, action) => {
+      state.data = action.payload.data;
       state.status = "succeeded";
-    },
-    [(fetchPosts.rejected as unknown) as string]: (state, action) => {
+      state.error = undefined;
+    });
+    builder.addCase(fetchPosts.rejected, (state, action) => {
       state.error = action.error.message;
       state.status = "failed";
-    },
-    [(addNewPost.fulfilled as unknown) as string]: (state, action) => {
-      state.data.push(action.payload);
-    },
+      state.data = [];
+    });
+    builder.addCase(addNewPost.fulfilled, (state, action) => {
+      state.data.push(action.payload.data);
+    });
   },
 });
 
