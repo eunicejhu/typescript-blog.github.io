@@ -1,5 +1,5 @@
-import { AxiosResponse } from "axios";
-import { INITIAL_STATE } from "../test/mock_data";
+import axios, { AxiosResponse } from "axios";
+import { INITIAL_STATE, NOTIFICATIONS } from "../test/mock_data";
 import { nanoid } from "@reduxjs/toolkit";
 class Client {
   static async fetchPost<T>(): Promise<AxiosResponse<T>> {
@@ -22,7 +22,6 @@ class Client {
      * const url = "add_new_post_url";
      * res = await axios.post(url, {data });
      */
-
     res = new Promise<AxiosResponse<T>>((resolve, reject) => {
       setTimeout(() => {
         return resolve({
@@ -68,6 +67,20 @@ class Client {
     res = new Promise<AxiosResponse<Return>>((resolve) => {
       return resolve({ data } as AxiosResponse<Return>);
     });
+    return res;
+  }
+
+  static async fetchAllNotifications<T>(
+    timestamp: string | undefined
+  ): Promise<AxiosResponse<T>> {
+    let res;
+    /**
+     * const url = "fetch_all_notifications_url"
+     * res = axios.get(url, {after: timestamp})
+     */
+    res = new Promise<AxiosResponse<T>>((resolve) =>
+      resolve({ data: NOTIFICATIONS } as AxiosResponse)
+    );
     return res;
   }
 }
