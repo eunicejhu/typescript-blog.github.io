@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { INITIAL_STATE, NOTIFICATIONS } from "../test/mock_data";
 import { nanoid } from "@reduxjs/toolkit";
 class Client {
