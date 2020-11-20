@@ -2,7 +2,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 // eslint-disable-next-line
 import { useRouteMatch, match, Link } from "react-router-dom";
-import { State, selectPostById } from "../../store";
+import { selectPostById } from "../../store/selectors";
+import { State } from "../../store/types";
 import { Post } from "./postsSlice";
 import PostAuthor from "./PostAuthor";
 import TimeAgo from "./TimeAgo";

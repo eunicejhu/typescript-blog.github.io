@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useRouteMatch, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { selectPostById, State } from "../../store";
+import { selectPostById } from "../../store/selectors";
+import { State } from "../../store/types";
 import { updatePost, Post } from "./postsSlice";
 
 interface Params {

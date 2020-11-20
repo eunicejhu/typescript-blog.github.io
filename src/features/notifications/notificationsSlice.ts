@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { selectAllNotifications, State } from "../../store/index";
+import { selectAllNotifications } from "../../store/selectors";
+import { State } from "../../store/types";
 import Client from "../../api/client";
 
 export interface Notification {
@@ -8,6 +9,9 @@ export interface Notification {
   userId: string;
   message: string;
 }
+
+export type NotificationsState = Notification[];
+
 export const fetchAll = createAsyncThunk(
   "notifications/fetchAll",
   async (_, { getState }) => {
@@ -18,7 +22,6 @@ export const fetchAll = createAsyncThunk(
     return res;
   }
 );
-type NotificationsState = Notification[];
 const notificationsSlice = createSlice({
   name: "notifications",
   initialState: [] as NotificationsState,
@@ -30,4 +33,6 @@ const notificationsSlice = createSlice({
   },
 });
 
-export default notificationsSlice.reducer;
+const { reducer } = notificationsSlice;
+
+export default reducer;
