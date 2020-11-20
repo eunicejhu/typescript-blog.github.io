@@ -18,9 +18,9 @@ beforeEach(() => {
 test("type text in title and content input, select a user from the dropdown of users, click save post button to add a post", async () => {
   const dispatch = jest.fn();
   (useAppDispatch as jest.Mock).mockReturnValue(dispatch);
-  const { getByTestId, getByRole } = renderWithStore(<AddPostForm />, {
-    store,
-  });
+  const { getByTestId, getByRole, findAllByText } = renderWithStore(
+    <AddPostForm />
+  );
   fireEvent.change(getByTestId("title"), { target: { value: "Title 3" } });
   fireEvent.change(getByTestId("content"), {
     target: { value: "Content 3" },
@@ -28,27 +28,29 @@ test("type text in title and content input, select a user from the dropdown of u
 
   fireEvent.change(getByTestId("users"), { target: { value: "2" } });
   fireEvent.click(getByRole("button"));
-
+  await findAllByText(/ /i);
   expect(dispatch).toHaveBeenCalledTimes(1);
 });
 
 // option2: use customRender
-test("Both title, content and userId should be provided to enable the submission", () => {
+test("Both title, content and userId should be provided to enable the submission", async () => {
   const dispatch = jest.fn();
-  useAppDispatch.mockReturnValue(dispatch);
-  const { getByTestId, getByRole } = renderWithStore(<AddPostForm />, {
-    store,
-  });
+  (useAppDispatch as jest.Mock).mockReturnValue(dispatch);
+  const { getByTestId, getByRole, findAllByText } = renderWithStore(
+    <AddPostForm />
+  );
   fireEvent.change(getByTestId("title"), { target: { value: "Title 1" } });
 
   fireEvent.click(getByRole("button"));
-  expect(getByRole("button").disabled).toBeTruthy();
+  expect((getByRole("button") as HTMLButtonElement).disabled).toBeTruthy();
   fireEvent.change(getByTestId("content"), {
     target: { value: "Content 1" },
   });
   fireEvent.click(getByRole("button"));
   expect(dispatch).toHaveBeenCalledTimes(0);
   fireEvent.change(getByTestId("users"), { target: { value: "1" } });
+
   fireEvent.click(getByRole("button"));
+  await findAllByText(/ /i);
   expect(dispatch).toHaveBeenCalledTimes(1);
 });

@@ -1,17 +1,9 @@
 import React from "react";
 import { render } from "@testing-library/react";
-import { createStore } from "@reduxjs/toolkit";
 import { Provider } from "react-redux";
-import { INITIAL_STATE } from "./mock_data";
-import { rootReducer } from "./store.ts";
+import store from "../store/index";
 
-const renderWithStore = (
-  ui,
-  {
-    initialState = INITIAL_STATE,
-    store = createStore(rootReducer, initialState),
-  } = {}
-) => {
+const renderWithStore = (ui) => {
   const wrapper = ({ children }) => (
     <Provider store={store}>{children}</Provider>
   );

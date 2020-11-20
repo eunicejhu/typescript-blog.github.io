@@ -4,7 +4,6 @@ import { MemoryRouter } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import Routes from "./Routes";
 import renderWithStoreAndRouter from "./test/renderWithStoreAndRouter";
-import renderWithBrowserRouter from "./test/renderWithBrowserRouter";
 import BrowserRouterWrapper from "./test/BrowserRouterWrapper";
 import StoreWrapper from "./test/StoreWrapper";
 
