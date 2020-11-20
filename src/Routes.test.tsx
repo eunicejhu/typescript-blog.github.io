@@ -35,10 +35,10 @@ test("route /posts/edit/1 load EditPostForm", () => {
 });
 
 // in case we don't need history, we can use renderWithRouter boilerplate
-test("route /cats load Cats page", () => {
-  renderWithBrowserRouter(<Routes />, { route: "/cats" });
-  expect(screen.getByText(/Cats/i)).toBeInTheDocument();
-});
+// test("route /cats load Cats page", () => {
+//   renderWithBrowserRouter(<Routes />, { route: "/cats" });
+//   expect(screen.getByText(/Cats/i)).toBeInTheDocument();
+// });
 
 // BrowserRouterWrapper expose window globals by default,
 test("load No Match when unknown route", () => {

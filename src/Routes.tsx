@@ -4,15 +4,11 @@ import SinglePostPage from "./features/posts/SinglePostPage";
 import PostsList from "./features/posts/PostsList";
 import EditPostForm from "./features/posts/EditPostForm";
 
-const Cats = () => <>Cats</>;
 const NoMatch = () => <>No match</>;
 const Routes = () => (
   <Switch>
     <Route exact path="/">
       <PostsList />
-    </Route>
-    <Route exact path="/cats">
-      <Cats />
     </Route>
     <Route exact path="/posts/:id">
       <SinglePostPage />

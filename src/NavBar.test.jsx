@@ -10,11 +10,11 @@ test("click Home, location pathname set to /", () => {
   expect(window.location.pathname).toBe("/");
 });
 
-test("click Cats, location pathname set to /cats", () => {
-  render(<NavBar />, { wrapper: BrowserRouterWrapper });
-  fireEvent.click(screen.getByText(/Cats/i));
-  expect(window.location.pathname).toBe("/cats");
-});
+// test("click Cats, location pathname set to /cats", () => {
+//   render(<NavBar />, { wrapper: BrowserRouterWrapper });
+//   fireEvent.click(screen.getByText(/Cats/i));
+//   expect(window.location.pathname).toBe("/cats");
+// });
 
 test("renders correctly", () => {
   const tree = renderer

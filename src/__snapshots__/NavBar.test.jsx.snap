@@ -10,13 +10,5 @@ exports[`renders correctly 1`] = `
       Home
     </a>
   </li>
-  <li>
-    <a
-      href="/cats"
-      onClick={[Function]}
-    >
-      Cats
-    </a>
-  </li>
 </nav>
 `;
