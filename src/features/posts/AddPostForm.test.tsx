@@ -1,56 +1,67 @@
 import React from "react";
-import { fireEvent } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import AddPostForm from "./AddPostForm";
-import store, { useAppDispatch } from "../../store/index";
+import { Provider } from "react-redux";
+import store from "../../store/index";
 import { INITIAL_STATE } from "../../test/mock_data";
+import Client from "../../api/client";
 
-import renderWithStore from "../../test/renderWithStore";
+import { fetchUsers } from "../users/usersSlice";
 
-// option1: manually mock store
-jest.mock("../../store/index");
-beforeEach(() => {
-  store.getState = jest.fn(() => INITIAL_STATE);
+jest.mock("../../api/client");
+beforeAll(() => {
+  console.error = jest.fn();
 });
-beforeEach(() => {
-  jest.clearAllMocks();
+beforeEach(async () => {
+  Client.addNewPost = jest
+    .fn()
+    .mockResolvedValueOnce({ data: { ...INITIAL_STATE.posts.data[0] } });
+  await store.dispatch(fetchUsers());
 });
 
 test("type text in title and content input, select a user from the dropdown of users, click save post button to add a post", async () => {
-  const dispatch = jest.fn();
-  (useAppDispatch as jest.Mock).mockReturnValue(dispatch);
-  const { getByTestId, getByRole, findAllByText } = renderWithStore(
-    <AddPostForm />
+  expect(store.getState().users.data.length).toBe(3);
+  const { getByTestId, getByRole, findAllByText } = render(
+    <Provider store={store}>
+      <AddPostForm />
+    </Provider>
   );
-  fireEvent.change(getByTestId("title"), { target: { value: "Title 3" } });
-  fireEvent.change(getByTestId("content"), {
+  const addPostButton = getByRole("button") as HTMLButtonElement;
+  const titleInput = getByTestId("title") as HTMLInputElement;
+  const contentTextArea = getByTestId("content") as HTMLTextAreaElement;
+  fireEvent.change(titleInput, { target: { value: "Title 3" } });
+  fireEvent.change(contentTextArea, {
     target: { value: "Content 3" },
   });
+  expect(addPostButton.disabled).toBeTruthy();
+  fireEvent.change(getByTestId("users"), { target: { value: "0" } });
 
-  fireEvent.change(getByTestId("users"), { target: { value: "2" } });
-  fireEvent.click(getByRole("button"));
+  expect(addPostButton.disabled).toBeFalsy();
+  fireEvent.click(addPostButton);
+
+  expect(Client.addNewPost).toHaveBeenCalledTimes(1);
   await findAllByText(/ /i);
-  expect(dispatch).toHaveBeenCalledTimes(1);
+  expect(titleInput.value).toBe("");
+  expect(contentTextArea.value).toBe("");
+  expect(addPostButton.disabled).toBeTruthy();
 });
 
-// option2: use customRender
-test("Both title, content and userId should be provided to enable the submission", async () => {
-  const dispatch = jest.fn();
-  (useAppDispatch as jest.Mock).mockReturnValue(dispatch);
-  const { getByTestId, getByRole, findAllByText } = renderWithStore(
-    <AddPostForm />
+test("show error message when failed to add new post", async () => {
+  Client.addNewPost = jest
+    .fn()
+    .mockRejectedValueOnce(new Error("Failed to add new post"));
+  const { getByTestId, getByRole, findAllByText, getByText } = render(
+    <Provider store={store}>
+      <AddPostForm />
+    </Provider>
   );
   fireEvent.change(getByTestId("title"), { target: { value: "Title 1" } });
-
-  fireEvent.click(getByRole("button"));
-  expect((getByRole("button") as HTMLButtonElement).disabled).toBeTruthy();
   fireEvent.change(getByTestId("content"), {
     target: { value: "Content 1" },
   });
-  fireEvent.click(getByRole("button"));
-  expect(dispatch).toHaveBeenCalledTimes(0);
   fireEvent.change(getByTestId("users"), { target: { value: "1" } });
-
   fireEvent.click(getByRole("button"));
+  expect(Client.addNewPost).toHaveBeenCalled();
   await findAllByText(/ /i);
-  expect(dispatch).toHaveBeenCalledTimes(1);
+  expect(getByText(/Failed to add new post/i)).toBeInTheDocument();
 });
