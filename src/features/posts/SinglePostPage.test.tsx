@@ -1,47 +1,69 @@
 import React from "react";
 import { MemoryRouter, Route, BrowserRouter } from "react-router-dom";
 import SinglePostPage from "./SinglePostPage";
-import renderWithStore from "../../test/renderWithStore";
 import store from "../../store/index";
-import renderWithStoreAndRouter from "../../test/renderWithStoreAndRouter";
-import { fireEvent } from "@testing-library/react";
-import { INITIAL_STATE } from "../../test/mock_data";
+import { fireEvent, render } from "@testing-library/react";
+import { Provider } from "react-redux";
+import { fetchPosts } from "./postsSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
 
-jest.mock("../../store/index");
-beforeEach(() => {
-  jest.clearAllMocks();
-});
-test("load no post found if postId does not exist", () => {
-  store.getState = jest.fn().mockReturnValue(INITIAL_STATE);
-  window.history.pushState({}, "Some Post", "/posts/unknown-post");
-  const { getByText } = renderWithStore(
-    <BrowserRouter>
-      <Route path="/posts/:id">
-        <SinglePostPage />
-      </Route>
-    </BrowserRouter>
+test("load no post found if postId does not exist", async () => {
+  const ui = (
+    <Provider store={store}>
+      <MemoryRouter initialEntries={["/posts/unknown-post"]} initialIndex={0}>
+        <Route path="/posts/:id">
+          <SinglePostPage />
+        </Route>
+      </MemoryRouter>
+    </Provider>
   );
-  expect(getByText(/No post found/i)).toBeInTheDocument();
+  const { getByText } = render(ui);
+  const ResultAction = await store.dispatch(fetchPosts());
+  try {
+    unwrapResult(ResultAction);
+  } catch (error) {
+  } finally {
+    expect(getByText(/No post found/i)).toBeInTheDocument();
+  }
 });
-test("load post when postId exist", () => {
-  store.getState = jest.fn().mockReturnValue(INITIAL_STATE);
-  const { getByText } = renderWithStore(
-    <MemoryRouter initialEntries={["/posts/1", "/posts/2"]} initialIndex={1}>
-      <Route path="/posts/:id">
-        <SinglePostPage />
-      </Route>
-    </MemoryRouter>
+test("load post when postId exist", async () => {
+  const ui = (
+    <Provider store={store}>
+      <MemoryRouter initialEntries={["/posts/1", "/posts/2"]} initialIndex={1}>
+        <Route path="/posts/:id">
+          <SinglePostPage />
+        </Route>
+      </MemoryRouter>
+    </Provider>
   );
-
-  expect(getByText(/Second test Post/i)).toBeInTheDocument();
+  const { getByText } = render(ui);
+  const ResultAction = await store.dispatch(fetchPosts());
+  try {
+    unwrapResult(ResultAction);
+  } catch (error) {
+  } finally {
+    expect(getByText(/Second test Post/i)).toBeInTheDocument();
+  }
 });
 test("click edit of first post , go to /posts/edit/1", async () => {
-  const { getByText } = renderWithStoreAndRouter(
-    <Route path="/posts/:id">
-      <SinglePostPage />
-    </Route>,
-    { route: "/posts/1" }
+  // pushState should happen before render ui
+  window.history.pushState({}, "Post page", "/posts/1");
+  const ui = (
+    <Provider store={store}>
+      <BrowserRouter>
+        <Route path="/posts/:id">
+          <SinglePostPage />
+        </Route>
+      </BrowserRouter>
+    </Provider>
   );
-  fireEvent.click(getByText(/Edit/i));
-  expect(window.location.pathname).toBe("/editPost/1");
+  const { getByText } = render(ui);
+  const ResultAction = await store.dispatch(fetchPosts());
+  try {
+    unwrapResult(ResultAction);
+  } catch (error) {
+  } finally {
+    fireEvent.click(getByText(/Edit/i));
+    expect(window.location.pathname).toBe("/editPost/1");
+  }
 });
