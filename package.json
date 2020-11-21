@@ -92,7 +92,9 @@
   },
   "jest": {
     "collectCoverageFrom": [
-      "**/*.{js,jsx,tsx,ts}",
+      "**/api/*.{js,jsx,tsx,ts}",
+      "**/features/**/*.{js,jsx,tsx,ts}",
+      "**/{NavBar,Routes}.*{js,jsx,tsx,ts}",
       "!**/node_modules/**",
       "!**/stories/**",
       "!**/*.stories.jsx"
