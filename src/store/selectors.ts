@@ -3,6 +3,7 @@ import { State } from "./index";
 import { Notification } from "../features/notifications/notificationsSlice";
 import { Post } from "../features/posts/postsSlice";
 import { User } from "../features/users/usersSlice";
+
 export const selectAllPosts = (state: State): Post[] => state.posts.data;
 export const selectPostById = (
   state: State,
