@@ -15,7 +15,7 @@ const PostsList = () => {
   const dispatch = useAppDispatch();
   const postsStatus = useSelector((state: State) => state.posts.status);
   const postsError = useSelector((state: State) => state.posts.error);
-  const posts = useSelector((state: State) => state.posts.data);
+  const posts = useSelector(selectAllPosts);
 
   let content;
 
