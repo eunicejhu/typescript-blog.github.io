@@ -1,33 +1,34 @@
 import React from "react";
 import { render, fireEvent, screen } from "@testing-library/react";
-import renderer from "react-test-renderer";
 import NavBar from "./NavBar";
-import BrowserRouterWrapper from "./test/BrowserRouterWrapper.tsx";
+import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store/index";
 
+const withBrowserRouterAndStore = (ui, route = "/initial") => {
+  window.history.pushState({}, "", route);
+  return (
+    <BrowserRouter>
+      <Provider store={store}>{ui}</Provider>
+    </BrowserRouter>
+  );
+};
 test("click Home, location pathname set to /", () => {
-  render(<NavBar />, { wrapper: BrowserRouterWrapper });
+  const ui = withBrowserRouterAndStore(<NavBar />);
+  render(ui);
   fireEvent.click(screen.getByText(/Home/i));
   expect(window.location.pathname).toBe("/");
 });
 test("click Notifications, location pathname set to /notifications", () => {
-  render(<NavBar />, { wrapper: BrowserRouterWrapper });
+  const ui = withBrowserRouterAndStore(<NavBar />);
+  render(ui);
   fireEvent.click(screen.getByText(/Notifications/i));
   expect(window.location.pathname).toBe("/notifications");
 });
 
-// test("click Cats, location pathname set to /cats", () => {
-//   render(<NavBar />, { wrapper: BrowserRouterWrapper });
-//   fireEvent.click(screen.getByText(/Cats/i));
-//   expect(window.location.pathname).toBe("/cats");
-// });
-
 test("renders correctly", () => {
-  const tree = renderer
-    .create(
-      <BrowserRouterWrapper>
-        <NavBar />
-      </BrowserRouterWrapper>
-    )
-    .toJSON();
-  expect(tree).toMatchSnapshot();
+  const ui = withBrowserRouterAndStore(<NavBar />);
+  const { asFragment } = render(ui);
+
+  expect(asFragment()).toMatchSnapshot();
 });
