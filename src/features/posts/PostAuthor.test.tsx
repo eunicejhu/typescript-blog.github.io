@@ -1,25 +1,33 @@
 import React from "react";
 import PostAuthor from "./PostAuthor";
 import renderer from "react-test-renderer";
-import StoreWrapper from "../../test/StoreWrapper";
 import { render } from "@testing-library/react";
+import { Provider } from "react-redux";
+import store from "../../store";
+import { fetchUsers } from "../users/usersSlice";
 
-test("render correctly", () => {
-  const tree = renderer
-    .create(
-      <StoreWrapper>
+describe("PostAuthor test", () => {
+  beforeEach(async () => {
+    await store.dispatch(fetchUsers());
+  });
+
+  test("render correctly", () => {
+    const ui = (
+      <Provider store={store}>
         <PostAuthor userId={"2"} />
-      </StoreWrapper>
-    )
-    .toJSON();
-  expect(tree).toMatchSnapshot();
-});
+      </Provider>
+    );
+    const tree = renderer.create(ui).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
 
-test("show By Unknown author if user does not exist", () => {
-  const { getByText } = render(
-    <StoreWrapper>
-      <PostAuthor userId={"unknown"} />
-    </StoreWrapper>
-  );
-  expect(getByText(/Unknown author/i)).toBeInTheDocument();
+  test("show By Unknown author if user does not exist", () => {
+    const ui = (
+      <Provider store={store}>
+        <PostAuthor userId={"unknown"} />
+      </Provider>
+    );
+    const { getByText } = render(ui);
+    expect(getByText(/Unknown author/i)).toBeInTheDocument();
+  });
 });
