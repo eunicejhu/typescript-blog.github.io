@@ -10,5 +10,13 @@ exports[`renders correctly 1`] = `
       Home
     </a>
   </li>
+  <li>
+    <a
+      href="/notifications"
+      onClick={[Function]}
+    >
+      Notifications
+    </a>
+  </li>
 </nav>
 `;

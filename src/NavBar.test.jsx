@@ -9,6 +9,11 @@ test("click Home, location pathname set to /", () => {
   fireEvent.click(screen.getByText(/Home/i));
   expect(window.location.pathname).toBe("/");
 });
+test("click Notifications, location pathname set to /notifications", () => {
+  render(<NavBar />, { wrapper: BrowserRouterWrapper });
+  fireEvent.click(screen.getByText(/Notifications/i));
+  expect(window.location.pathname).toBe("/notifications");
+});
 
 // test("click Cats, location pathname set to /cats", () => {
 //   render(<NavBar />, { wrapper: BrowserRouterWrapper });
