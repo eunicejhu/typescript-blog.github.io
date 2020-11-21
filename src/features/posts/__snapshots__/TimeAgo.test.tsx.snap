@@ -1,13 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`render correctly 1`] = `
-<span
-  className="date"
->
-   
-  <i>
-    28 minutes ago
-  </i>
-   
-</span>
+<DocumentFragment>
+  <span
+    class="date"
+  >
+     
+    <i>
+      28 minutes ago
+    </i>
+     
+  </span>
+</DocumentFragment>
 `;
