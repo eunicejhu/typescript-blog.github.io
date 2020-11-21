@@ -3,6 +3,8 @@ import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { createMemoryHistory } from "history";
 import Routes from "./Routes";
+import store from "./store/index";
+import { Provider } from "react-redux";
 import renderWithStoreAndRouter from "./test/renderWithStoreAndRouter";
 import BrowserRouterWrapper from "./test/BrowserRouterWrapper";
 import StoreWrapper from "./test/StoreWrapper";
@@ -38,6 +40,18 @@ test("route /posts/edit/1 load EditPostForm", () => {
 //   renderWithBrowserRouter(<Routes />, { route: "/cats" });
 //   expect(screen.getByText(/Cats/i)).toBeInTheDocument();
 // });
+
+test("route /notifications load NotificationsList", async () => {
+  const ui = (
+    <MemoryRouter initialEntries={["/notifications"]} initialIndex={0}>
+      <Provider store={store}>
+        <Routes />
+      </Provider>
+    </MemoryRouter>
+  );
+  const { findByText } = render(ui);
+  expect(await findByText(/Notifications List/i)).toBeInTheDocument();
+});
 
 // BrowserRouterWrapper expose window globals by default,
 test("load No Match when unknown route", () => {
