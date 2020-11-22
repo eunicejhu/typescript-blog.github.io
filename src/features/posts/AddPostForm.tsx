@@ -90,7 +90,7 @@ const AddPostForm: React.FC = () => {
             id="users"
             onChange={onUserChanged}
           >
-            <option value="1">hello</option>
+            <option value=""></option>
             {renderUsersOptions}
           </select>
         </div>
