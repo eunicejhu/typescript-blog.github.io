@@ -1,24 +1,32 @@
 import React from "react";
 import PostAuthor from "./PostAuthor";
-import renderer from "react-test-renderer";
 import { render } from "@testing-library/react";
 import { Provider } from "react-redux";
 import store from "../../store";
 import { fetchUsers } from "../users/usersSlice";
 
+import { makeServer } from "../../server";
+import { Server } from "miragejs";
 describe("PostAuthor test", () => {
+  let server: Server;
   beforeEach(async () => {
-    await store.dispatch(fetchUsers());
+    server = makeServer();
+    server.createList("user", 3);
+
+    store.dispatch(fetchUsers());
+  });
+  afterEach(() => {
+    server.shutdown();
   });
 
-  test("render correctly", () => {
+  test("render correctly", async () => {
     const ui = (
       <Provider store={store}>
-        <PostAuthor userId={"2"} />
+        <PostAuthor userId={"3"} />
       </Provider>
     );
-    const tree = renderer.create(ui).toJSON();
-    expect(tree).toMatchSnapshot();
+    const { findByText } = render(ui);
+    expect(await findByText(/Madison Price/i)).toBeInTheDocument();
   });
 
   test("show By Unknown author if user does not exist", () => {

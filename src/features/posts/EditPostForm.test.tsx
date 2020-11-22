@@ -6,11 +6,20 @@ import { Provider } from "react-redux";
 import store from "../../store/index";
 import { fetchPosts } from "./postsSlice";
 
+import { makeServer } from "../../server";
+import { Server } from "miragejs";
 describe("EditPostFrom test", () => {
-  beforeEach(async () => {
-    await store.dispatch(fetchPosts());
+  let server: Server;
+  beforeEach(() => {
+    server = makeServer();
+    server.createList("post", 2);
+
+    store.dispatch(fetchPosts());
   });
-  test("show no post found when post does not exist", () => {
+  afterEach(() => {
+    server.shutdown();
+  });
+  test("show no post found when post does not exist", async () => {
     const ui = (
       <MemoryRouter initialEntries={["/editPost/unknown-id"]} initialIndex={0}>
         <Provider store={store}>
@@ -20,11 +29,11 @@ describe("EditPostFrom test", () => {
         </Provider>
       </MemoryRouter>
     );
-    const { getByText } = render(ui);
-    expect(getByText(/No post found/i)).toBeInTheDocument();
+    const { findByText } = render(ui);
+    expect(await findByText(/No post found/i)).toBeInTheDocument();
   });
 
-  test("load existing post in the form", () => {
+  test("load existing post in the form", async () => {
     const ui = (
       <MemoryRouter initialEntries={["/editPost/1"]} initialIndex={0}>
         <Provider store={store}>
@@ -34,12 +43,12 @@ describe("EditPostFrom test", () => {
         </Provider>
       </MemoryRouter>
     );
-    const { getByText, getByDisplayValue } = render(ui);
-    expect(getByDisplayValue(/First test Post!/i)).toBeInTheDocument();
-    expect(getByText(/test!/i)).toBeInTheDocument();
+    const { findByText, findByDisplayValue } = render(ui);
+    expect(await findByDisplayValue(/First test Post/i)).toBeInTheDocument();
+    expect(await findByText(/test/i)).toBeInTheDocument();
   });
 
-  test("edit post, submit it with all fields are filled, direct to home page", () => {
+  test("edit post, submit it with all fields are filled, direct to home page", async () => {
     window.history.pushState({}, "Edit post", "/editPost/1");
     const ui = (
       <BrowserRouter>
@@ -50,13 +59,15 @@ describe("EditPostFrom test", () => {
         </Provider>
       </BrowserRouter>
     );
-    const { getByRole, getByLabelText } = render(ui);
+    const { getByRole, getByLabelText, findByTestId } = render(ui);
+    await findByTestId("title");
     fireEvent.change(getByLabelText("Title"), {
       target: { value: "Updated Title 1" },
     });
     fireEvent.change(getByLabelText("Content"), {
       target: { value: "Updated Content 1" },
     });
+
     fireEvent.click(getByRole("button"));
     expect(window.location.pathname).toBe("/");
   });

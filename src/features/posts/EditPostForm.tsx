@@ -13,8 +13,8 @@ const EditPostForm: React.FC = () => {
     params: { id },
   } = useRouteMatch<Params>();
   const existingPost = useSelector((state: State) => selectPostById(state, id));
-  const [title, setTitle] = useState(existingPost?.title);
-  const [content, setContent] = useState(existingPost?.content);
+  const [title, setTitle] = useState(existingPost?.title || "");
+  const [content, setContent] = useState(existingPost?.content || "");
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -46,6 +46,7 @@ const EditPostForm: React.FC = () => {
           <label htmlFor="title">Title</label>
           <input
             id="title"
+            data-testid="title"
             name="title"
             type="text"
             value={title}

@@ -4,21 +4,24 @@ import PostsList from "./PostsList";
 import { MemoryRouter, Route, BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "../../store/index";
-import Client from "../../api/client";
-import { INITIAL_STATE } from "../../test/mock_data";
 import { fetchPosts } from "./postsSlice";
 
-jest.mock("../../api/client");
+import { makeServer } from "../../server";
+import { Server, Response } from "miragejs";
 
+let server: Server;
 describe("PostsList test:", () => {
+  beforeAll(() => {
+    console.error = jest.fn();
+  });
   beforeEach(() => {
-    jest.clearAllMocks();
+    server = makeServer();
+    server.createList("post", 2);
+  });
+  afterEach(() => {
+    server.shutdown();
   });
   test("show initial postsList", async () => {
-    Client.fetchPost = jest
-      .fn()
-      .mockResolvedValueOnce({ data: INITIAL_STATE.posts.data });
-
     const ui = (
       <MemoryRouter initialEntries={["/posts"]} initialIndex={0}>
         <Provider store={store}>
@@ -29,17 +32,14 @@ describe("PostsList test:", () => {
       </MemoryRouter>
     );
     const { container, findByText } = render(ui);
-    expect(await findByText(/First test Post!/i)).toBeInTheDocument();
+    expect(await findByText(/First test Post/i)).toBeInTheDocument();
     expect(store.getState().posts.data.length).toBe(2);
 
     expect(container.querySelectorAll(".post-excerpt").length).toBe(2);
   });
 
   test("click Seemore of first post direct to SinglePostPage", async () => {
-    Client.fetchPost = jest
-      .fn()
-      .mockResolvedValueOnce({ data: INITIAL_STATE.posts.data });
-    window.history.pushState({}, "Posts List", "/");
+    window.history.pushState({}, "Posts List", "/posts");
     const ui = (
       <BrowserRouter>
         <Provider store={store}>
@@ -55,7 +55,9 @@ describe("PostsList test:", () => {
     expect(window.location.pathname).toBe("/posts/1");
   });
   test("show no posts when posts is []", async () => {
-    Client.fetchPost = jest.fn().mockResolvedValueOnce({ data: [] });
+    server.get("/posts", () => {
+      return { posts: [] };
+    });
     const ui = (
       <MemoryRouter initialEntries={["/posts"]} initialIndex={0}>
         <Provider store={store}>
@@ -68,6 +70,29 @@ describe("PostsList test:", () => {
     const { findByText } = render(ui);
     store.dispatch(fetchPosts());
     expect(await findByText(/No Post/i)).toBeInTheDocument();
+    expect(store.getState().posts.data.length).toBe(0);
+  });
+
+  test("what happen when server 400", async () => {
+    server.get("/posts", () => {
+      return new Response(
+        400,
+        { some: "header" },
+        { errors: ["name cannot be blank"] }
+      );
+    });
+    const ui = (
+      <MemoryRouter initialEntries={["/posts"]} initialIndex={0}>
+        <Provider store={store}>
+          <Route exact path="/posts">
+            <PostsList />
+          </Route>
+        </Provider>
+      </MemoryRouter>
+    );
+    const { findByText } = render(ui);
+    store.dispatch(fetchPosts());
+    expect(await findByText(/Failed to fetch posts/i)).toBeInTheDocument();
     expect(store.getState().posts.data.length).toBe(0);
   });
 });

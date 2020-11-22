@@ -2,27 +2,29 @@ import React from "react";
 import { Provider } from "react-redux";
 import NotificationsList from "./NotificationsList";
 import { render } from "@testing-library/react";
-import Client from "../../api/client";
-import { NOTIFICATIONS } from "../../test/mock_data";
 import store from "../../store/index";
 import { fetchUsers } from "../users/usersSlice";
-jest.mock("../../api/client");
+
+import { makeServer } from "../../server";
 
 describe("NotificationsList test", () => {
-  beforeAll(() => {
+  let server;
+  beforeEach(() => {
+    server = makeServer();
+    server.createList("user", 3);
+    server.createList("notification", 3);
+
     store.dispatch(fetchUsers());
   });
-  it.only("render correctly", async () => {
-    Client.fetchAllNotifications = jest
-      .fn()
-      .mockResolvedValue({ data: NOTIFICATIONS });
-    const { getByText, findAllByText, container } = render(
+  it("render correctly", async () => {
+    const { getByText, findByText, container } = render(
       <Provider store={store}>
         <NotificationsList />
       </Provider>
     );
     expect(getByText(/Loading/i)).toBeInTheDocument();
-    await findAllByText(/ /i); // technique to render after update
+    expect(await findByText(/Glad to know you/i)).toBeInTheDocument();
+    expect(store.getState().notifications.length).toBe(3);
     expect(container.querySelectorAll("article").length).toBe(3);
   });
 });
