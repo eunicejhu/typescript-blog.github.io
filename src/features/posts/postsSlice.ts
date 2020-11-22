@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Client from "../../api/client";
 const UPDATE_POST_ERROR_MSG = "Failed to update post";
-const FETCH_POSTS_ERROR_MSG = "Failed to fetch posts";
+export const FETCH_POSTS_ERROR_MSG = "Failed to fetch posts";
 export type PostsState = {
   data: Post[];
   status: "idle" | "loading" | "succeeded" | "failed";
@@ -111,7 +111,7 @@ const postsSlice = createSlice({
       state.error = undefined;
     });
     builder.addCase(fetchPosts.rejected, (state, action) => {
-      let errorMessageForDev = `${action.type}: Error from REST API (action.error.message)`;
+      let errorMessageForDev = `${action.type}: Error from REST API (${action.error.message})`;
       console.error(errorMessageForDev);
       state.error = FETCH_POSTS_ERROR_MSG;
       state.status = "failed";

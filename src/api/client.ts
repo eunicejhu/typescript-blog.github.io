@@ -1,20 +1,12 @@
-import { AxiosResponse } from "axios";
-import { INITIAL_STATE, NOTIFICATIONS } from "../test/mock_data";
+import axios, { AxiosResponse } from "axios";
 import { nanoid } from "@reduxjs/toolkit";
-class Client {
-  static async fetchPost<T>(): Promise<AxiosResponse<T>> {
-    /**
-     * TODO: Actual Implementation when server is ready
-     const url = "fetch_post_url";
-    const res = await axios.get<T>(url); */
-    const res = new Promise<AxiosResponse<T>>((resolve) => {
-      setTimeout(() => {
-        return resolve({ data: INITIAL_STATE.posts.data } as AxiosResponse);
-      }, 1000);
-    });
-    return res;
-  }
 
+export const get_users_url = "/api/users";
+export const get_posts_url = "/api/posts";
+export const get_notifications_url = "/api/notifications";
+// TODO: to change type for real server
+
+class Client {
   static async addNewPost<T>(data: T): Promise<AxiosResponse<T>> {
     let res;
     /**
@@ -69,19 +61,25 @@ class Client {
     });
     return res;
   }
+  static async fetchPost<T>() {
+    const res = await axios.get<{ posts: T }>(get_posts_url);
+    return { data: res.data.posts };
+  }
 
-  static async fetchAllNotifications<T>(
-    timestamp: string | undefined
-  ): Promise<AxiosResponse<T>> {
+  static async fetchAllNotifications<T>(timestamp: string | undefined) {
     let res;
-    /**
-     * const url = "fetch_all_notifications_url"
-     * res = axios.get(url, {after: timestamp})
-     */
-    res = new Promise<AxiosResponse<T>>((resolve) =>
-      resolve({ data: NOTIFICATIONS } as AxiosResponse)
+    const reqConfig = { params: { timestamp } };
+    res = await axios.get<{ notifications: T }>(
+      get_notifications_url,
+      reqConfig
     );
-    return res;
+    return { data: res.data.notifications };
+  }
+
+  static async fetchUsers<T>() {
+    let res;
+    res = await axios.get<{ users: T }>(get_users_url);
+    return { data: res.data.users };
   }
 }
 
