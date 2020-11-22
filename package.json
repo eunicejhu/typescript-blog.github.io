@@ -85,6 +85,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-plugin-testing-library": "^3.10.0",
     "husky": "^5.0.0-beta.0",
+    "miragejs": "^0.1.41",
     "node-sass": "^4.14.1",
     "prettier": "^2.1.2",
     "react-is": "^17.0.1",
