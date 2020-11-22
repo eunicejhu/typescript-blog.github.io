@@ -40,7 +40,7 @@ export const makeServer = ({ environment = "test" } = {}) => {
           return sub(new Date(), { days: i }).toISOString();
         },
         userId(i) {
-          return i + 1;
+          return `${i + 1}`;
         },
         message(i) {
           const candidates = [
