@@ -9,6 +9,10 @@ import store from "./store/index.ts";
 
 import App from "./App";
 import "./index.css";
+import { makeServer } from "./server";
+if (process.env.NODE_ENV === "development") {
+  makeServer({ environment: "developement" });
+}
 
 const Entry = () => {
   const [theme, setTheme] = useState(themes.dark);
