@@ -33,7 +33,7 @@ const PostsList = () => {
       <PostAuthor userId={post.userId} />
       <TimeAgo date={post.date} />
       <p>
-        <Link to={`${path}/${post.id}`}>See more</Link>
+        <Link to={`${path}posts/${post.id}`}>See more</Link>
       </p>
       <ReactionButtons post={post} />
     </article>

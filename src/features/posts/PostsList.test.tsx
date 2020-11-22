@@ -39,11 +39,11 @@ describe("PostsList test:", () => {
     Client.fetchPost = jest
       .fn()
       .mockResolvedValueOnce({ data: INITIAL_STATE.posts.data });
-    window.history.pushState({}, "Posts List", "/posts");
+    window.history.pushState({}, "Posts List", "/");
     const ui = (
       <BrowserRouter>
         <Provider store={store}>
-          <Route exact path="/posts">
+          <Route exact path="/">
             <PostsList />
           </Route>
         </Provider>

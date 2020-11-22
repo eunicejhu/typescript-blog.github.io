@@ -5,7 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store/index";
 
-const withBrowserRouterAndStore = (ui, route = "/initial") => {
+const withBrowserRouterAndStore = (ui: React.ReactNode, route = "/initial") => {
   window.history.pushState({}, "", route);
   return (
     <BrowserRouter>
