@@ -137,11 +137,12 @@ const postsSlice = createSlice({
     });
     // updatePost
     builder.addCase(updatePost.fulfilled, (state, action) => {
-      let { id, title, content } = action.payload.data;
+      let { id, ...rest } = action.payload.data;
       const existingPost = state.data.find((post) => post.id === id);
       if (existingPost) {
-        existingPost.title = title;
-        existingPost.content = content;
+        Object.entries(rest).forEach(([attr, value]) => {
+          (existingPost as Post)[attr as keyof Post] = value;
+        });
       } else {
         // TODO: log detailed error message for developer
         let errorMessageForDev = `${
@@ -163,10 +164,12 @@ const postsSlice = createSlice({
     });
     // addReaction
     builder.addCase(addReaction.fulfilled, (state, action) => {
-      const { id, reactions } = action.payload.data;
+      const { id, ...rest } = action.payload.data;
       const existingPost = state.data.find((post) => post.id === id);
       if (existingPost) {
-        existingPost.reactions = reactions;
+        Object.entries(rest).forEach(([attr, value]) => {
+          (existingPost as Post)[attr as keyof Post] = value;
+        });
       } else {
         let errorMessageForDev = `${
           action.type
