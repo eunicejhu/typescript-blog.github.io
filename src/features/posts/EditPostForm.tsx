@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouteMatch, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { selectPostById } from "../../store/selectors";
@@ -13,11 +13,16 @@ const EditPostForm: React.FC = () => {
     params: { id },
   } = useRouteMatch<Params>();
   const existingPost = useSelector((state: State) => selectPostById(state, id));
-  const [title, setTitle] = useState(existingPost?.title || "");
-  const [content, setContent] = useState(existingPost?.content || "");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
 
   const dispatch = useDispatch();
   const history = useHistory();
+
+  useEffect(() => {
+    setTitle(existingPost?.title || "");
+    setContent(existingPost?.content || "");
+  }, [existingPost?.title, existingPost?.content]);
 
   const onTitleChanged = (e: React.FormEvent<HTMLInputElement>) => {
     setTitle(e.currentTarget.value);
@@ -30,7 +35,7 @@ const EditPostForm: React.FC = () => {
     e.preventDefault();
     if (content && title) {
       dispatch(updatePost({ ...existingPost, title, content } as Post));
-      history.push("/");
+      history.push(`/posts/${id}`);
     }
   };
 
@@ -58,6 +63,7 @@ const EditPostForm: React.FC = () => {
           <textarea
             name="content"
             id="content"
+            data-testid="content"
             cols={30}
             rows={10}
             value={content}

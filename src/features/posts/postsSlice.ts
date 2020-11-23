@@ -66,7 +66,7 @@ export const updatePost = createAsyncThunk(
   "posts/updatePost",
   async ({ id, title, content }: updatePostThunkArg) => {
     let res;
-    res = await Client.updatePost<updatePostThunkArg>({
+    res = await Client.updatePost<Post>({
       id,
       title,
       content,
@@ -119,21 +119,24 @@ const postsSlice = createSlice({
     });
     // addNewPost
     builder.addCase(addNewPost.fulfilled, (state, action) => {
-      state.data.push(action.payload);
+      state.data.push(action.payload.data);
     });
     // updatePost
     builder.addCase(updatePost.fulfilled, (state, action) => {
-      let { id, title, content } = action.payload.data;
+      let { id, ...attrs } = action.payload.data;
       const existingPost = state.data.find((post) => post.id === id);
       if (existingPost) {
-        existingPost.title = title;
-        existingPost.content = content;
+        Object.entries(attrs).forEach(([attr, value]) => {
+          existingPost[attr] = value;
+        });
+        // existingPost.title = title;
+        // existingPost.content = content;
       } else {
         // TODO: log detailed error message for developer
         let errorMessageForDev = `${
           action.type
         }: Error from client: existingPost not found for data from server ${JSON.stringify(
-          action.payload.data
+          action.payload
         )}`;
         console.error(errorMessageForDev);
 
@@ -142,7 +145,7 @@ const postsSlice = createSlice({
       }
     });
     builder.addCase(updatePost.rejected, (state, action) => {
-      let errorMessageForDev = `${action.type}: Error from REST API (action.error.message)`;
+      let errorMessageForDev = `${action.type}: Error from REST API ${action.error.message}`;
       console.error(errorMessageForDev);
       let errorMessageForUser = UPDATE_POST_ERROR_MSG;
       state.updatePostError = errorMessageForUser;

@@ -2,6 +2,8 @@ import EditPostForm from "./EditPostForm";
 import React from "react";
 import { MemoryRouter, Route, BrowserRouter } from "react-router-dom";
 import { render, fireEvent } from "@testing-library/react";
+// eslint-disable-next-line testing-library/no-dom-import
+import { waitFor } from "@testing-library/dom";
 import { Provider } from "react-redux";
 import store from "../../store/index";
 import { fetchPosts } from "./postsSlice";
@@ -33,7 +35,7 @@ describe("EditPostFrom test", () => {
     expect(await findByText(/No post found/i)).toBeInTheDocument();
   });
 
-  test("load existing post in the form", async () => {
+  it("load existing post in the form", async () => {
     const ui = (
       <MemoryRouter initialEntries={["/editPost/1"]} initialIndex={0}>
         <Provider store={store}>
@@ -43,9 +45,20 @@ describe("EditPostFrom test", () => {
         </Provider>
       </MemoryRouter>
     );
-    const { findByText, findByDisplayValue } = render(ui);
-    expect(await findByDisplayValue(/First test Post/i)).toBeInTheDocument();
-    expect(await findByText(/test/i)).toBeInTheDocument();
+    const { findByTestId } = render(ui);
+
+    await waitFor(() => {
+      expect(store.getState().posts.data.length).toBe(2);
+    });
+    const titleInput = (await findByTestId("title")) as HTMLInputElement;
+    const contentTextArea = (await findByTestId(
+      "content"
+    )) as HTMLTextAreaElement;
+
+    await waitFor(() => {
+      expect(titleInput.value).toBe("First test Post");
+      expect(contentTextArea.value).toBe("test");
+    });
   });
 
   test("edit post, submit it with all fields are filled, direct to home page", async () => {
@@ -59,16 +72,26 @@ describe("EditPostFrom test", () => {
         </Provider>
       </BrowserRouter>
     );
-    const { getByRole, getByLabelText, findByTestId } = render(ui);
-    await findByTestId("title");
-    fireEvent.change(getByLabelText("Title"), {
+    const { getByRole, getByLabelText } = render(ui);
+
+    await waitFor(() => expect(store.getState().posts.data.length).toBe(2));
+
+    const titleInput = getByLabelText("Title");
+    const contentTextArea = getByLabelText("Content");
+    const saveButton = getByRole("button");
+    fireEvent.change(titleInput, {
       target: { value: "Updated Title 1" },
     });
-    fireEvent.change(getByLabelText("Content"), {
+    fireEvent.change(contentTextArea, {
       target: { value: "Updated Content 1" },
     });
+    fireEvent.click(saveButton);
 
-    fireEvent.click(getByRole("button"));
-    expect(window.location.pathname).toBe("/");
+    await waitFor(() =>
+      expect(
+        store.getState().posts.data.find((post) => post.id === "1")?.title
+      ).toBe("Updated Title 1")
+    );
+    expect(window.location.pathname).toBe("/posts/1");
   });
 });
