@@ -56,7 +56,7 @@ export const addNewPost = createAsyncThunk(
       title,
       content,
       userId,
-    } as Post);
+    });
     return res;
   }
 );
@@ -119,7 +119,7 @@ const postsSlice = createSlice({
     });
     // addNewPost
     builder.addCase(addNewPost.fulfilled, (state, action) => {
-      state.data.push(action.payload.data);
+      state.data.push(action.payload);
     });
     // updatePost
     builder.addCase(updatePost.fulfilled, (state, action) => {
