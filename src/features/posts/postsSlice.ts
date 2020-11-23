@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Client from "../../api/client";
+import { State } from "../../store/index";
 const UPDATE_POST_ERROR_MSG = "Failed to update post";
 export const FETCH_POSTS_ERROR_MSG = "Failed to fetch posts";
 export type PostsState = {
@@ -81,13 +82,26 @@ export type addReactionThunkArg = {
 };
 export const addReaction = createAsyncThunk(
   "posts/addReaction",
-  async ({ postId, reaction }: addReactionThunkArg) => {
+  async ({ postId, reaction }: addReactionThunkArg, { getState }) => {
     let res;
-    res = await Client.addReaction<addReactionThunkArg>({
-      postId,
-      reaction,
-    });
-    return res;
+    const reactions = (getState() as State).posts.data.find(
+      (post) => post.id === postId
+    )?.reactions;
+    if (reactions) {
+      const updatedReactions: Post["reactions"] = {
+        ...reactions,
+        [reaction]: reactions[reaction] + 1,
+      };
+      res = await Client.addReaction<Post>({
+        id: postId,
+        reactions: updatedReactions,
+      });
+      return res;
+    } else {
+      throw Error(
+        `posts/addReaction: post (id: ${postId}) does not exist in store. BEFORE Rest API call `
+      );
+    }
   }
 );
 const initialState: PostsState = {
@@ -152,23 +166,23 @@ const postsSlice = createSlice({
     });
     // addReaction
     builder.addCase(addReaction.fulfilled, (state, action) => {
-      const existingPost = state.data.find(
-        (post) => post.id === action.payload.data.postId
-      );
+      const { id, ...attrs } = action.payload.data;
+      const existingPost = state.data.find((post) => post.id === id);
       if (existingPost) {
-        let reaction = action.payload.data.reaction;
-        existingPost.reactions[reaction] += 1;
+        Object.entries(attrs).forEach(([attr, value]) => {
+          existingPost[attr] = value;
+        });
       } else {
         let errorMessageForDev = `${
           action.type
         }: Error from client: existingPost not found for data from server ${JSON.stringify(
           action.payload.data
-        )}`;
+        )}. AFTER REST api call`;
         console.error(errorMessageForDev);
       }
     });
     builder.addCase(addReaction.rejected, (state, action) => {
-      let errorMessageForDev = `${action.type}: Error from REST API (action.error.message)`;
+      let errorMessageForDev = `${action.type}: Error from REST API ${action.error.message}`;
       console.error(errorMessageForDev);
     });
   },
