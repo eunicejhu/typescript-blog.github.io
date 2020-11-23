@@ -72,10 +72,20 @@ export const makeServer = ({ environment = "test" } = {}) => {
       this.post("/posts", (schema, request) => {
         const { requestBody } = request;
         const { data } = JSON.parse(requestBody);
-        return schema.posts.create({
-          ...data,
-          reactions: { thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0 },
-        });
+        const { id: postId, reactions } = data;
+
+        if (postId) {
+          // add Reaction
+          const post = schema.posts.find(postId);
+          post.update("reactions", reactions);
+          return post;
+        } else {
+          //create Post
+          return schema.posts.create({
+            ...data,
+            reactions: { thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0 },
+          });
+        }
       });
 
       this.put("/posts", (schema, request) => {
