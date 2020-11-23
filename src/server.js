@@ -16,12 +16,12 @@ export const makeServer = ({ environment = "test" } = {}) => {
       post: Factory.extend({
         title(i) {
           const candidates = ["First", "Second"];
-          return `${candidates[i]} test Post`;
+          return `${candidates[i % 2]} test Post`;
         },
         content: "test",
         userId() {
-          const candidates = [1, 2];
-          return `${candidates[Math.floor(Math.random() * 2)]}`;
+          const candidates = [1, 2, 3];
+          return `${candidates[Math.floor(Math.random() * 3)]}`;
         },
         date(i) {
           return sub(new Date(), { days: i }).toISOString();
@@ -40,7 +40,8 @@ export const makeServer = ({ environment = "test" } = {}) => {
           return sub(new Date(), { days: i }).toISOString();
         },
         userId(i) {
-          return `${i + 1}`;
+          const candidates = [1, 2, 3];
+          return `${candidates[Math.floor(Math.random() * 3)]}`;
         },
         message(i) {
           const candidates = [
@@ -54,8 +55,8 @@ export const makeServer = ({ environment = "test" } = {}) => {
     },
     seeds(server) {
       server.createList("user", 3);
-      server.createList("notification", 3);
-      server.createList("post", 2);
+      server.createList("notification", 30);
+      server.createList("post", 20);
     },
     routes() {
       this.namespace = "api";
