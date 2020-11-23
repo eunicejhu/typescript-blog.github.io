@@ -77,8 +77,20 @@ export const makeServer = ({ environment = "test" } = {}) => {
           reactions: { thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0 },
         });
       });
+
+      this.put("/posts", (schema, request) => {
+        const { requestBody } = request;
+        const {
+          data: { id, ...attrs },
+        } = JSON.parse(requestBody);
+
+        const existingPost = schema.posts.find(id);
+        Object.entries(attrs).forEach(([attr, value]) => {
+          existingPost.update(attr, value);
+        });
+        return existingPost;
+      });
     },
   });
-
   return server;
 };
