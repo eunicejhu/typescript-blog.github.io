@@ -24,7 +24,7 @@ describe("AddPostForm test", () => {
     server.shutdown();
   });
 
-  it("type text in title and content input, select a user from the dropdown of users, click save post button to add a post", async () => {
+  it.only("type text in title and content input, select a user from the dropdown of users, click save post button to add a post", async () => {
     const { getByTestId, getByRole } = render(
       <Provider store={store}>
         <AddPostForm />
@@ -53,6 +53,7 @@ describe("AddPostForm test", () => {
     await waitFor(() => {
       expect(store.getState().posts.data.length).toBe(1);
       expect(store.getState().posts.data[0].title).toBe("Title 3");
+      expect(store.getState().posts.data[0].date).not.toBeUndefined();
     });
   });
 
