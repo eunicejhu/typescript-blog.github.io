@@ -1,5 +1,5 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, render, waitFor } from "@testing-library/react";
 import PostsList from "./PostsList";
 import { MemoryRouter, Route, BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
@@ -23,9 +23,9 @@ describe("PostsList test:", () => {
   });
   test("show initial postsList", async () => {
     const ui = (
-      <MemoryRouter initialEntries={["/posts"]} initialIndex={0}>
+      <MemoryRouter initialEntries={["/"]} initialIndex={0}>
         <Provider store={store}>
-          <Route exact path="/posts">
+          <Route exact path="/">
             <PostsList />
           </Route>
         </Provider>
@@ -39,7 +39,7 @@ describe("PostsList test:", () => {
   });
 
   test("click Seemore of first post direct to SinglePostPage", async () => {
-    window.history.pushState({}, "Posts List", "/posts");
+    window.history.pushState({}, "Posts List", "/");
     const ui = (
       <BrowserRouter>
         <Provider store={store}>
@@ -50,6 +50,7 @@ describe("PostsList test:", () => {
       </BrowserRouter>
     );
     const { findAllByText } = render(ui);
+
     const firstPostSeeMoreButton = (await findAllByText(/See more/i))[0];
     fireEvent.click(firstPostSeeMoreButton);
     expect(window.location.pathname).toBe("/posts/1");
@@ -59,9 +60,9 @@ describe("PostsList test:", () => {
       return { posts: [] };
     });
     const ui = (
-      <MemoryRouter initialEntries={["/posts"]} initialIndex={0}>
+      <MemoryRouter initialEntries={["/"]} initialIndex={0}>
         <Provider store={store}>
-          <Route exact path="/posts">
+          <Route exact path="/">
             <PostsList />
           </Route>
         </Provider>
@@ -82,9 +83,9 @@ describe("PostsList test:", () => {
       );
     });
     const ui = (
-      <MemoryRouter initialEntries={["/posts"]} initialIndex={0}>
+      <MemoryRouter initialEntries={["/"]} initialIndex={0}>
         <Provider store={store}>
-          <Route exact path="/posts">
+          <Route exact path="/">
             <PostsList />
           </Route>
         </Provider>

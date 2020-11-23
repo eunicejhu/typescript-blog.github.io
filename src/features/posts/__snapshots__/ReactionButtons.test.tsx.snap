@@ -6,30 +6,35 @@ exports[`ReactionButtons test render correctly 1`] = `
     class="reactions-container"
   >
     <button
+      data-testid="thumbsUp"
       name="thumbsUp"
       type="button"
     >
       👍 0
     </button>
     <button
+      data-testid="hooray"
       name="hooray"
       type="button"
     >
       🎉 0
     </button>
     <button
+      data-testid="heart"
       name="heart"
       type="button"
     >
       ❤️ 4
     </button>
     <button
+      data-testid="rocket"
       name="rocket"
       type="button"
     >
       🚀 0
     </button>
     <button
+      data-testid="eyes"
       name="eyes"
       type="button"
     >
