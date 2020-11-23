@@ -81,8 +81,10 @@ export const makeServer = ({ environment = "test" } = {}) => {
           return post;
         } else {
           //create Post
+          const date = new Date().toISOString();
           return schema.posts.create({
             ...data,
+            date,
             reactions: { thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0 },
           });
         }
