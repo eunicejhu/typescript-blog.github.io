@@ -1,5 +1,4 @@
-import axios, { AxiosResponse } from "axios";
-
+import axios from "axios";
 export const get_users_url = "/api/users";
 export const get_notifications_url = "/api/notifications";
 export const posts_endpoint = "/api/posts";
@@ -17,20 +16,10 @@ class Client {
     return { data: res.data.post };
   }
 
-  static async addReaction<Return>(
-    data: Return
-  ): Promise<AxiosResponse<Return>> {
+  static async addReaction<T>(data: Partial<T>): Promise<{ data: T }> {
     let res;
-    /**
-     * TODO: Actual Implementation when server is ready
-     * const url = "add_reaction_url";
-     * res = await axios.post<Return>(url, data);
-     * */
-
-    res = new Promise<AxiosResponse<Return>>((resolve) => {
-      return resolve({ data } as AxiosResponse<Return>);
-    });
-    return res;
+    res = await axios.post<{ post: T }>(posts_endpoint, { data });
+    return { data: res.data.post };
   }
   static async fetchPost<T>() {
     const res = await axios.get<{ posts: T }>(posts_endpoint);
