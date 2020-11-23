@@ -69,8 +69,14 @@ export const makeServer = ({ environment = "test" } = {}) => {
         return schema.notifications.all();
       });
 
-      //TODO
-      this.post("/posts/:id");
+      this.post("/posts", (schema, request) => {
+        const { requestBody } = request;
+        const { data } = JSON.parse(requestBody);
+        return schema.posts.create({
+          ...data,
+          reactions: { thumbsUp: 0, hooray: 0, heart: 0, rocket: 0, eyes: 0 },
+        });
+      });
     },
   });
 
