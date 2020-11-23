@@ -1,31 +1,20 @@
 import axios, { AxiosResponse } from "axios";
 
 export const get_users_url = "/api/users";
-export const get_posts_url = "/api/posts";
 export const get_notifications_url = "/api/notifications";
-export const add_new_post_url = "/api/posts";
+export const posts_endpoint = "/api/posts";
 
 class Client {
-  static async addNewPost<T>(data: Partial<T>) {
+  static async addNewPost<T>(data: Partial<T>): Promise<{ data: T }> {
     let res;
-    const url = add_new_post_url;
-    res = await axios.post<{ post: T }>(url, { data });
-    return res.data.post;
+    res = await axios.post<{ post: T }>(posts_endpoint, { data });
+    return { data: res.data.post };
   }
 
-  static async updatePost<T>(data: T): Promise<AxiosResponse<T>> {
+  static async updatePost<T>(data: Partial<T>): Promise<{ data: T }> {
     let res;
-    /**
-     * TODO: Actual Implementation when server is ready
-     * const url = "update_post_url";
-     * res = await axios.post<T>(url, data);
-     * */
-    res = new Promise<AxiosResponse<T>>((resolve) => {
-      setTimeout(() => {
-        return resolve({ data } as AxiosResponse);
-      }, 1000);
-    });
-    return res;
+    res = await axios.put<{ post: T }>(posts_endpoint, { data });
+    return { data: res.data.post };
   }
 
   static async addReaction<Return>(
@@ -44,7 +33,7 @@ class Client {
     return res;
   }
   static async fetchPost<T>() {
-    const res = await axios.get<{ posts: T }>(get_posts_url);
+    const res = await axios.get<{ posts: T }>(posts_endpoint);
     return { data: res.data.posts };
   }
 
