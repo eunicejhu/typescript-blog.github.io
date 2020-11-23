@@ -3,12 +3,15 @@ import { useSelector } from "react-redux";
 import { addNewPost } from "./postsSlice";
 import { State, useAppDispatch } from "../../store";
 import { unwrapResult } from "@reduxjs/toolkit";
+
+const ERROR_MSG_FOR_USER = "Failed to add new post";
+
 const AddPostForm: React.FC = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [userId, setUserId] = useState("");
   const [addRequestStatus, setAddRequestStatus] = useState("idle");
-  const [addRequestError, setAddRequestError] = useState(undefined);
+  const [addRequestError, setAddRequestError] = useState("");
 
   const dispatch = useAppDispatch();
 
@@ -46,9 +49,12 @@ const AddPostForm: React.FC = () => {
         setContent("");
         setUserId("");
       } catch (error) {
-        setAddRequestError(error.message);
+        //Improve: log error for Dev
+        console.error(error.message);
+
+        setAddRequestError(ERROR_MSG_FOR_USER);
         setTimeout(() => {
-          setAddRequestError(undefined);
+          setAddRequestError("");
         }, 1000);
         console.error("Failed to save the post: ", error.message);
       } finally {
