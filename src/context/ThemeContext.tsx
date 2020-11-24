@@ -5,7 +5,7 @@ export const themes = {
   light: "light",
 };
 
-const ThemeContext = React.createContext({
+const ThemeContext = React.createContext<{ theme: string; setTheme: any }>({
   theme: themes.dark,
   setTheme: () => {},
 });

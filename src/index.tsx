@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
-import history from "./helpers/history";
 import ThemeContext, { themes } from "./context/ThemeContext";
-import store from "./store/index.ts";
+import store from "./store/index";
 
 import App from "./App";
 import "./index.css";
 import { makeServer } from "./server";
 if (process.env.NODE_ENV === "development") {
-  makeServer({ environment: "developement" });
+  makeServer({ environment: "development" });
 }
 
 const Entry = () => {
@@ -20,9 +19,9 @@ const Entry = () => {
     <Provider store={store}>
       <ThemeContext.Provider value={{ theme, setTheme }}>
         <CookiesProvider>
-          <Router history={history}>
+          <BrowserRouter>
             <App />
-          </Router>
+          </BrowserRouter>
         </CookiesProvider>
       </ThemeContext.Provider>
     </Provider>
