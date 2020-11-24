@@ -40,9 +40,14 @@ describe("Routes test", () => {
   it("route /posts/edit/1 load EditPostForm", async () => {
     server.createList("post", 2);
     store.dispatch(fetchPosts());
+    await waitFor(() => {
+      expect(store.getState().posts.data.length).toBe(2);
+    });
     const ui = withMemoryRouterAndStore(<Routes />, "/editPost/1");
-    const { findByText } = render(ui);
-    expect(await findByText(/Edit Post/i)).toBeInTheDocument();
+    const { getByText } = render(ui);
+    await waitFor(async () => {
+      expect(getByText(/Edit Post/i)).toBeInTheDocument();
+    });
   });
 
   test("route /notifications load NotificationsList", async () => {
