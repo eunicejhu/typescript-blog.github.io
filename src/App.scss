@@ -1,49 +1,24 @@
-@import "./styles/validate.css";
-
-html {
-  height: 100%;
-}
-body {
-  width: 100%;
-  margin: 0;
-  color: #4eade4;
-  background: #e3e4eb;
-  font: 600 16px/18px "Open Sans", sans-serif;
-  padding: 0 8em;
-}
-*,
-:after,
-:before {
-  box-sizing: border-box;
-}
-.clearfix:after,
-.clearfix:before {
-  content: "";
-  display: table;
-}
-.clearfix:after {
-  clear: both;
-  display: block;
-}
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 #root {
   width: 100%;
   height: 100vh;
 }
 
-header {
+a {
+  text-decoration: none;
 }
-main {
-  position: relative;
-  min-height: 70%;
+
+header,
+main,
+footer {
+  padding: 0 var(--spacing);
 }
 footer {
-  margin: 3em 0;
-  line-height: 3em;
+  margin: var(--spacing) 0;
+  line-height: var(--spacing);
+}
+
+article {
+  box-sizing: border-box;
 }
 
 nav {
@@ -52,11 +27,12 @@ nav {
   line-height: 4em;
 
   li {
-    list-style: none;
     margin: 0 10px;
-
+    list-style: none;
     &:hover {
       cursor: pointer;
+      color: var(--color-primary-light);
+      background-color: var(--color-primary-dark);
     }
   }
 }
@@ -136,14 +112,8 @@ section {
       padding: 4px 16px;
       &:hover {
         cursor: pointer;
-        background-color: #4eade4;
+        background-color: var(--color-primary);
       }
     }
-  }
-}
-
-@media (max-width: 799px) {
-  body {
-    padding: 0 1em;
   }
 }

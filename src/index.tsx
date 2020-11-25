@@ -5,9 +5,9 @@ import { BrowserRouter } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
 import ThemeContext, { themes } from "./context/ThemeContext";
 import store from "./store/index";
-
-import App from "./App";
+import "normalize.css";
 import "./index.css";
+import App from "./App";
 import { makeServer } from "./server";
 if (process.env.NODE_ENV === "development") {
   makeServer({ environment: "development" });
