@@ -1,0 +1,142 @@
+html {
+    /** mobile first **/
+    --gutter: 8px;
+    --font-size: 8px;
+    --spacing: 16px;
+
+    font-family: "Montserrat", sans-serif;
+    color: var(--color-text-primary);
+    background-color: var(--color-background);
+    font-size: var(--font-size);
+    transition: all ease-in-out 0.2s;
+}
+
+* {
+    outline: none;
+}
+@media only screen and (min-width: 600px) {
+    html {
+        --gutter: 16px;
+        --font-size: 16px;
+        --spacing: 32px;
+    }
+}
+body {
+    padding: 0 var(--spacing);
+    box-sizing: border-box;
+}
+#root {
+    width: 100%;
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 6ch auto minmax(30px, 60px);
+}
+
+header,
+main,
+footer {
+    padding: 0 var(--spacing);
+}
+footer {
+    display: flex;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+    color: var(--color-primary-dark);
+
+    &:hover {
+        color: white;
+        background-color: var(--color-primary-dark);
+    }
+}
+
+article {
+    box-sizing: border-box;
+}
+
+nav {
+    display: flex;
+    height: 4em;
+    line-height: 4em;
+
+    li {
+        margin: 0 10px;
+        list-style: none;
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.add-post-form {
+    width: 100%;
+    div {
+        width: 100%;
+    }
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+div.field {
+    display: flex;
+    padding: 10px 0;
+    justify-content: center;
+    width: 100%;
+    label {
+        width: 6em;
+        display: inline-block;
+    }
+    input,
+    textarea,
+    select {
+        width: 80%;
+        border: none;
+        border-radius: 4px;
+    }
+    input,
+    select {
+        height: 2em;
+        outline: none;
+    }
+    textarea {
+        height: 8em;
+        outline: none;
+    }
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h2 {
+        margin: 2em;
+    }
+
+    article {
+        width: 100%;
+        margin: 20px;
+        border: 1px solid;
+        padding: 20px;
+        border-radius: 4px;
+        box-shadow: 2px 2px;
+    }
+    .reactions-container {
+        button {
+            outline: none;
+            margin-right: 1em;
+            border: 0px;
+            border-radius: 26px;
+            padding: 4px 16px;
+            &:hover {
+                cursor: pointer;
+                background-color: var(--color-primary);
+            }
+        }
+    }
+}

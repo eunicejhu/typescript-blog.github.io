@@ -3,29 +3,35 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { CookiesProvider } from "react-cookie";
-import ThemeContext, { themes } from "./context/ThemeContext";
+import ThemeContext, { themes, Mode } from "./context/ThemeContext";
+
 import store from "./store/index";
+
 import "normalize.css";
-import "./index.css";
+import "./index.scss";
+
 import App from "./App";
+
 import { makeServer } from "./server";
 if (process.env.NODE_ENV === "development") {
-  makeServer({ environment: "development" });
+    makeServer({ environment: "development" });
 }
 
 const Entry = () => {
-  const [theme, setTheme] = useState(themes.dark);
-  return (
-    <Provider store={store}>
-      <ThemeContext.Provider value={{ theme, setTheme }}>
-        <CookiesProvider>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </CookiesProvider>
-      </ThemeContext.Provider>
-    </Provider>
-  );
+    const [themeMode, setThemeMode] = useState<Mode>("pink");
+    return (
+        <Provider store={store}>
+            <ThemeContext.Provider
+                value={{ mode: themeMode, setTheme: setThemeMode, themes }}
+            >
+                <CookiesProvider>
+                    <BrowserRouter>
+                        <App />
+                    </BrowserRouter>
+                </CookiesProvider>
+            </ThemeContext.Provider>
+        </Provider>
+    );
 };
 
 ReactDOM.render(<Entry />, document.getElementById("root"));
