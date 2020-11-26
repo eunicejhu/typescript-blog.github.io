@@ -26,7 +26,7 @@ const Entry = () => {
             >
                 <CookiesProvider>
                     <BrowserRouter>
-                        <App />
+                        <App mode={themeMode} themes={themes} />
                     </BrowserRouter>
                 </CookiesProvider>
             </ThemeContext.Provider>
