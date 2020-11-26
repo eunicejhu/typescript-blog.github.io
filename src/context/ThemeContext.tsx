@@ -1,14 +1,45 @@
 import React from "react";
 
-export const themes = {
-  dark: "dark",
-  light: "light",
+const PINK = {
+  color: {
+    primary: {
+      light: "#ffeeff",
+      default: "#f8bbd0",
+      dark: "#c48b9f",
+    },
+    secondary: {
+      light: "#ffffff",
+      default: "#fce4ec",
+      dark: "#c9b2ba",
+    },
+    text: {
+      primary: "#3e2723",
+      secondary: "#5d4037",
+    },
+    bg: "#e1e2e1",
+  },
+  borderRadius: "4px",
 };
 
-const ThemeContext = React.createContext<{ theme: string; setTheme: any }>({
-  theme: themes.dark,
-  setTheme: () => {},
-});
+const DARK = {
+  /**TODO */
+};
+
+const LIGHT = {
+  /**TODO */
+};
+export const themes = {
+  dark: DARK,
+  light: LIGHT,
+  pink: PINK,
+};
+
+const ThemeContext = React.createContext<{ theme: typeof PINK; setTheme: any }>(
+  {
+    theme: themes.pink,
+    setTheme: () => {},
+  }
+);
 
 ThemeContext.displayName = "ThemeContext";
 
