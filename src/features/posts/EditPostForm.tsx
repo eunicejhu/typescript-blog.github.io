@@ -6,6 +6,7 @@ import { updatePost, Post } from "./postsSlice";
 import { State } from "../../store/index";
 import Button from "../../components/buttons/Button";
 import useTheme from "../../hooks/useTheme";
+import StyledForm from "../../components/form/StyledForm";
 
 interface Params {
     id: string;
@@ -51,7 +52,7 @@ const EditPostForm: React.FC = () => {
         renderContent = <div>No post found</div>;
     } else {
         renderContent = (
-            <form>
+            <StyledForm>
                 <h2>Edit Post</h2>
                 <div className="field">
                     <label htmlFor="title">Title</label>
@@ -86,7 +87,7 @@ const EditPostForm: React.FC = () => {
                         Submit
                     </Button>
                 </div>
-            </form>
+            </StyledForm>
         );
     }
     return renderContent;
