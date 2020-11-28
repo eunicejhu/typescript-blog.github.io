@@ -12,78 +12,82 @@ import { Server, Response } from "miragejs";
 
 let server: Server;
 describe("AddPostForm test", () => {
-  beforeAll(() => {
-    console.error = jest.fn();
-  });
-  beforeEach(() => {
-    server = makeServer();
-    server.createList("user", 3);
-    store.dispatch(fetchUsers());
-  });
-  afterEach(() => {
-    server.shutdown();
-  });
-
-  it("type text in title and content input, select a user from the dropdown of users, click save post button to add a post", async () => {
-    const { getByTestId, getByRole } = render(
-      <Provider store={store}>
-        <AddPostForm />
-      </Provider>
-    );
-
-    await waitFor(() => {
-      expect(store.getState().users.data.length).toBe(3);
+    beforeAll(() => {
+        console.error = jest.fn();
+    });
+    beforeEach(() => {
+        server = makeServer();
+        server.createList("user", 3);
+        store.dispatch(fetchUsers());
+    });
+    afterEach(() => {
+        server.shutdown();
     });
 
-    const titleInput = getByTestId("title");
-    const contentTextArea = getByTestId("content");
-    const usersSelect = getByTestId("users");
-    const addPostButton = getByRole("button") as HTMLButtonElement;
+    it("type text in title and content input, select a user from the dropdown of users, click save post button to add a post", async () => {
+        const { getByTestId, getByRole } = render(
+            <Provider store={store}>
+                <AddPostForm />
+            </Provider>
+        );
 
-    fireEvent.change(titleInput, { target: { value: "Title 3" } });
-    fireEvent.change(contentTextArea, {
-      target: { value: "Content 3" },
+        await waitFor(() => {
+            expect(store.getState().users.data.length).toBe(3);
+        });
+
+        const titleInput = getByTestId("title");
+        const contentTextArea = getByTestId("content");
+        const usersSelect = getByTestId("users").querySelector(
+            "input"
+        ) as HTMLInputElement;
+        const addPostButton = getByRole("button") as HTMLButtonElement;
+
+        fireEvent.change(titleInput, { target: { value: "Title 3" } });
+        fireEvent.change(contentTextArea, {
+            target: { value: "Content 3" },
+        });
+        expect(addPostButton.disabled).toBeTruthy();
+
+        fireEvent.change(usersSelect, { target: { value: "1" } });
+        expect(addPostButton.disabled).toBeFalsy();
+        fireEvent.click(addPostButton);
+
+        await waitFor(() => {
+            expect(store.getState().posts.data.length).toBe(1);
+            expect(store.getState().posts.data[0].title).toBe("Title 3");
+            expect(store.getState().posts.data[0].date).not.toBeUndefined();
+        });
     });
-    expect(addPostButton.disabled).toBeTruthy();
 
-    fireEvent.change(usersSelect, { target: { value: "1" } });
-    expect(addPostButton.disabled).toBeFalsy();
-    fireEvent.click(addPostButton);
+    it("show error message when failed to add new post", async () => {
+        server.post("/posts", () => {
+            return new Response(400);
+        });
+        const { getByTestId, getByRole, getByText } = render(
+            <Provider store={store}>
+                <AddPostForm />
+            </Provider>
+        );
+        await waitFor(() => {
+            expect(store.getState().users.data.length).toBe(3);
+        });
 
-    await waitFor(() => {
-      expect(store.getState().posts.data.length).toBe(1);
-      expect(store.getState().posts.data[0].title).toBe("Title 3");
-      expect(store.getState().posts.data[0].date).not.toBeUndefined();
+        const titleInput = getByTestId("title");
+        const contentTextArea = getByTestId("content");
+        const usersSelect = getByTestId("users").querySelector(
+            "input"
+        ) as HTMLInputElement;
+        const addPostButton = getByRole("button") as HTMLButtonElement;
+
+        fireEvent.change(titleInput, { target: { value: "Title 1" } });
+        fireEvent.change(contentTextArea, {
+            target: { value: "Content 1" },
+        });
+        fireEvent.change(usersSelect, { target: { value: "1" } });
+        fireEvent.click(addPostButton);
+
+        await waitFor(() => {
+            expect(getByText(/Failed to add new post/i)).toBeInTheDocument();
+        });
     });
-  });
-
-  test("show error message when failed to add new post", async () => {
-    server.post("/posts", () => {
-      return new Response(400);
-    });
-    const { getByTestId, getByRole, getByText } = render(
-      <Provider store={store}>
-        <AddPostForm />
-      </Provider>
-    );
-    await waitFor(() => {
-      expect(store.getState().users.data.length).toBe(3);
-    });
-
-    const titleInput = getByTestId("title");
-    const contentTextArea = getByTestId("content");
-    const usersSelect = getByTestId("users");
-    const addPostButton = getByRole("button") as HTMLButtonElement;
-
-    fireEvent.change(titleInput, { target: { value: "Title 1" } });
-    fireEvent.change(contentTextArea, {
-      target: { value: "Content 1" },
-    });
-    fireEvent.change(usersSelect, { target: { value: "1" } });
-    fireEvent.click(addPostButton);
-
-    await waitFor(() => {
-      expect(getByText(/Failed to add new post/i)).toBeInTheDocument();
-    });
-  });
 });

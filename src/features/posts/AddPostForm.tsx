@@ -5,6 +5,8 @@ import { State, useAppDispatch } from "../../store";
 import { unwrapResult } from "@reduxjs/toolkit";
 import useTheme from "../../hooks/useTheme";
 import Button from "../../components/buttons/Button";
+import Select from "../../components/select/Select";
+import StyledForm from "../../components/form/StyledForm";
 
 const ERROR_MSG_FOR_USER = "Failed to add new post";
 
@@ -15,27 +17,20 @@ const AddPostForm: React.FC = () => {
     const [addRequestStatus, setAddRequestStatus] = useState("idle");
     const [addRequestError, setAddRequestError] = useState("");
 
-    const theme = useTheme();
+    const { themes, mode } = useTheme();
 
     const dispatch = useAppDispatch();
 
     const users = useSelector((state: State) => state.users.data);
 
-    const renderUsersOptions =
-        users &&
-        users.map((user) => (
-            <option key={user.id} value={user.id}>
-                {user.name}
-            </option>
-        ));
     const onTitleChanged = (e: React.SyntheticEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value);
     };
     const onContentChanged = (e: React.SyntheticEvent<HTMLTextAreaElement>) => {
         setContent(e.currentTarget.value);
     };
-    const onUserChanged = (e: React.SyntheticEvent<HTMLSelectElement>) => {
-        setUserId(e.currentTarget.value);
+    const onUserChanged = (value: string) => {
+        setUserId(value);
     };
 
     const canAdd =
@@ -68,57 +63,57 @@ const AddPostForm: React.FC = () => {
     };
 
     return (
-        <div className="add-post">
-            <form>
-                <div className="field">
-                    <label htmlFor="title">Title</label>
-                    <input
-                        id="title"
-                        data-testid="title"
-                        name="title"
-                        width={20}
-                        value={title}
-                        onChange={onTitleChanged}
-                    />
-                </div>
-                <div className="field">
-                    <label htmlFor="content">Content</label>
-                    <textarea
-                        id="content"
-                        data-testid="content"
-                        name="content"
-                        value={content}
-                        onChange={onContentChanged}
-                    ></textarea>
-                </div>
-                <div className="field">
-                    <label htmlFor="users">Author</label>
-                    <select
+        <StyledForm>
+            <div className="field">
+                <label htmlFor="title">Title</label>
+                <input
+                    id="title"
+                    data-testid="title"
+                    name="title"
+                    value={title}
+                    onChange={onTitleChanged}
+                />
+            </div>
+            <div className="field">
+                <label htmlFor="content">Content</label>
+                <textarea
+                    id="content"
+                    data-testid="content"
+                    name="content"
+                    value={content}
+                    onChange={onContentChanged}
+                ></textarea>
+            </div>
+            <div className="field">
+                <label htmlFor="users">Author</label>
+                <div>
+                    <Select
                         data-testid="users"
                         value={userId}
                         name="users"
                         id="users"
                         onChange={onUserChanged}
-                    >
-                        <option value=""></option>
-                        {renderUsersOptions}
-                    </select>
+                        themes={themes}
+                        mode={mode}
+                        placeholder={"choose the user"}
+                        data={users}
+                    ></Select>
                 </div>
-                <div className="field">
-                    <Button
-                        themes={theme.themes}
-                        mode={theme.mode}
-                        variant="primary"
-                        type="button"
-                        onClick={onAddPostClicked}
-                        disabled={!canAdd}
-                    >
-                        Add Post
-                    </Button>
-                    <span>{addRequestError}</span>
-                </div>
-            </form>
-        </div>
+            </div>
+            <div className="field">
+                <Button
+                    themes={themes}
+                    mode={mode}
+                    variant="primary"
+                    type="button"
+                    onClick={onAddPostClicked}
+                    disabled={!canAdd}
+                >
+                    Add Post
+                </Button>
+                <span>{addRequestError}</span>
+            </div>
+        </StyledForm>
     );
 };
 
