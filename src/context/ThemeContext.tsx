@@ -36,6 +36,7 @@ const OTHER = {
     borderRadius: "4px",
     transition: "all 0.2s",
     spacing: "10px",
+    width: "100%",
 };
 
 export const themes = {
