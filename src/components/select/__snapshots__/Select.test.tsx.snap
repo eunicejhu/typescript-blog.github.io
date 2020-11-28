@@ -2,7 +2,7 @@
 
 exports[`Select test Select test: 1`] = `
 <div
-  class="sc-bdfBwQ fgijum"
+  class="sc-bdfBwQ cFpOKA"
   mode="pink"
 >
   <input
@@ -17,22 +17,25 @@ exports[`Select test Select test: 1`] = `
   >
     <li
       class="selectInput-li"
+      data-id="1"
+      data-name="Chris"
       data-testid="1"
-      value="Chris"
     >
       Chris
     </li>
     <li
       class="selectInput-li"
+      data-id="3"
+      data-name="Isa"
       data-testid="3"
-      value="Isa"
     >
       Isa
     </li>
     <li
       class="selectInput-li"
+      data-id="2"
+      data-name="Bob"
       data-testid="2"
-      value="Bob"
     >
       Bob
     </li>

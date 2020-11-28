@@ -30,10 +30,10 @@ it("Button test:", () => {
         }
 
         .c0:hover {
-          color: var(btn-text-hover);
+          color: var(--btn-text-hover);
           cursor: pointer;
-          background-color: var(btn-bg-hover);
-          border: 1px solid var(btn-text-hover);
+          background-color: var(--btn-bg-hover);
+          border: 1px solid var(--btn-text-hover);
         }
 
         .c0:disabled {

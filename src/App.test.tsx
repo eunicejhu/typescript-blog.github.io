@@ -18,7 +18,7 @@ it("render correctly", () => {
     const { container } = render(ui);
     expect(container.firstChild).toMatchInlineSnapshot(`
         <div
-          class="sc-gsTCUz gEWqvE"
+          class="sc-hKgILt cOkwlq"
           mode="pink"
         >
           <header>
@@ -43,73 +43,82 @@ it("render correctly", () => {
             <section
               class="add-post-form"
             >
-              <div
-                class="add-post"
+              <form
+                class="sc-dlfnbm iJLUVS"
               >
-                <form>
-                  <div
-                    class="field"
+                <div
+                  class="field"
+                >
+                  <label
+                    for="title"
                   >
-                    <label
-                      for="title"
-                    >
-                      Title
-                    </label>
-                    <input
-                      data-testid="title"
-                      id="title"
-                      name="title"
-                      value=""
-                      width="20"
-                    />
-                  </div>
-                  <div
-                    class="field"
+                    Title
+                  </label>
+                  <input
+                    data-testid="title"
+                    id="title"
+                    name="title"
+                    value=""
+                  />
+                </div>
+                <div
+                  class="field"
+                >
+                  <label
+                    for="content"
                   >
-                    <label
-                      for="content"
-                    >
-                      Content
-                    </label>
-                    <textarea
-                      data-testid="content"
-                      id="content"
-                      name="content"
-                    />
-                  </div>
-                  <div
-                    class="field"
+                    Content
+                  </label>
+                  <textarea
+                    data-testid="content"
+                    id="content"
+                    name="content"
+                  />
+                </div>
+                <div
+                  class="field"
+                >
+                  <label
+                    for="users"
                   >
-                    <label
-                      for="users"
-                    >
-                      Author
-                    </label>
-                    <select
+                    Author
+                  </label>
+                  <div>
+                    <div
+                      class="sc-gsTCUz dbNivE"
                       data-testid="users"
                       id="users"
+                      mode="pink"
                       name="users"
+                      value=""
                     >
-                      <option
+                      <input
+                        class="selectInput"
+                        data-testid="selectInput"
+                        placeholder="choose the user"
+                        type="text"
                         value=""
                       />
-                    </select>
+                      <ul
+                        class="close"
+                      />
+                    </div>
                   </div>
-                  <div
-                    class="field"
+                </div>
+                <div
+                  class="field"
+                >
+                  <button
+                    class="sc-bdfBwQ eCPQds"
+                    disabled=""
+                    mode="pink"
+                    type="button"
                   >
-                    <button
-                      class="sc-bdfBwQ eCPQds"
-                      disabled=""
-                      mode="pink"
-                      type="button"
-                    >
-                      Add Post
-                    </button>
-                    <span />
-                  </div>
-                </form>
-              </div>
+                    Add Post
+                  </button>
+                  <span />
+                </div>
+              </form>
             </section>
             <section
               class="posts-list"
