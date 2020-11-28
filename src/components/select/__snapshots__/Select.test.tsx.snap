@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Select test Select test: 1`] = `
+<div
+  class="sc-bdfBwQ fgijum"
+  mode="pink"
+>
+  <input
+    class="selectInput"
+    data-testid="selectInput"
+    placeholder="choose the user"
+    type="text"
+    value=""
+  />
+  <ul
+    class="close"
+  >
+    <li
+      class="selectInput-li"
+      data-testid="1"
+      value="Chris"
+    >
+      Chris
+    </li>
+    <li
+      class="selectInput-li"
+      data-testid="3"
+      value="Isa"
+    >
+      Isa
+    </li>
+    <li
+      class="selectInput-li"
+      data-testid="2"
+      value="Bob"
+    >
+      Bob
+    </li>
+  </ul>
+</div>
+`;
