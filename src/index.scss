@@ -56,20 +56,6 @@ article {
     box-sizing: border-box;
 }
 
-nav {
-    display: flex;
-    height: 4em;
-    line-height: 4em;
-
-    li {
-        margin: 0 10px;
-        list-style: none;
-        &:hover {
-            cursor: pointer;
-        }
-    }
-}
-
 section {
     display: flex;
     flex-direction: column;

@@ -18,15 +18,13 @@ if (process.env.NODE_ENV === "development") {
 }
 
 const Entry = () => {
-    const [themeMode, setThemeMode] = useState<Mode>("pink");
+    const [mode, setMode] = useState<Mode>("pink");
     return (
         <Provider store={store}>
-            <ThemeContext.Provider
-                value={{ mode: themeMode, setTheme: setThemeMode, themes }}
-            >
+            <ThemeContext.Provider value={{ mode, setMode: setMode, themes }}>
                 <CookiesProvider>
                     <BrowserRouter>
-                        <App mode={themeMode} themes={themes} />
+                        <App mode={mode} themes={themes} setMode={setMode} />
                     </BrowserRouter>
                 </CookiesProvider>
             </ThemeContext.Provider>

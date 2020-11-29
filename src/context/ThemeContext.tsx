@@ -47,15 +47,16 @@ export const themes = {
 
 export type Mode = "pink" | "dark" | "light";
 export type Themes = typeof themes;
+export type SetMode = (mode: Mode) => void;
 
 const ThemeContext = React.createContext<{
     mode: Mode;
     themes: Themes;
-    setTheme: any;
+    setMode: SetMode;
 }>({
     mode: "pink",
     themes: themes,
-    setTheme: () => {},
+    setMode: () => {},
 });
 
 ThemeContext.displayName = "ThemeContext";
