@@ -1,25 +1,41 @@
 import React from "react";
 import PostAuthor from "./PostAuthor";
-import renderer from "react-test-renderer";
-import StoreWrapper from "../../test/StoreWrapper";
 import { render } from "@testing-library/react";
+import { Provider } from "react-redux";
+import store from "../../store";
+import { fetchUsers } from "../users/usersSlice";
 
-test("render correctly", () => {
-  const tree = renderer
-    .create(
-      <StoreWrapper>
-        <PostAuthor userId={"2"} />
-      </StoreWrapper>
-    )
-    .toJSON();
-  expect(tree).toMatchSnapshot();
-});
+import { makeServer } from "../../server";
+import { Server } from "miragejs";
+describe("PostAuthor test", () => {
+  let server: Server;
+  beforeEach(async () => {
+    server = makeServer();
+    server.createList("user", 3);
 
-test("show By Unknown author if user does not exist", () => {
-  const { getByText } = render(
-    <StoreWrapper>
-      <PostAuthor userId={"unknown"} />
-    </StoreWrapper>
-  );
-  expect(getByText(/Unknown author/i)).toBeInTheDocument();
+    store.dispatch(fetchUsers());
+  });
+  afterEach(() => {
+    server.shutdown();
+  });
+
+  test("render correctly", async () => {
+    const ui = (
+      <Provider store={store}>
+        <PostAuthor userId={"3"} />
+      </Provider>
+    );
+    const { findByText } = render(ui);
+    expect(await findByText(/Madison Price/i)).toBeInTheDocument();
+  });
+
+  test("show By Unknown author if user does not exist", () => {
+    const ui = (
+      <Provider store={store}>
+        <PostAuthor userId={"unknown"} />
+      </Provider>
+    );
+    const { getByText } = render(ui);
+    expect(getByText(/Unknown author/i)).toBeInTheDocument();
+  });
 });

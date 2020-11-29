@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { INITIAL_STATE } from "../../test/mock_data";
+import Client from "../../api/client";
 
 export interface User {
   id: string;
@@ -14,15 +14,7 @@ export interface UsersState {
 
 export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
   let res;
-  /**
-   * TODO: axios
-   */
-  const fetch = new Promise<User[]>((resolve) => {
-    setTimeout(() => {
-      return resolve(INITIAL_STATE.users.data);
-    }, 1000);
-  });
-  res = await fetch;
+  res = await Client.fetchUsers<User[]>();
   return res;
 });
 
@@ -36,12 +28,13 @@ const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {},
-  extraReducers: {
-    [(fetchUsers.fulfilled as unknown) as string]: (state, action) => {
-      // eslint-disable-next-line no-param-reassign
-      state.data = action.payload;
-    },
+  extraReducers: (builder) => {
+    builder.addCase(fetchUsers.fulfilled, (state, action) => {
+      state.data = action.payload.data;
+    });
   },
 });
 
-export default usersSlice.reducer;
+const { reducer } = usersSlice;
+
+export default reducer;

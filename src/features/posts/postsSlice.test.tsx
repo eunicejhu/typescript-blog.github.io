@@ -170,8 +170,8 @@ describe("addReaction Test", () => {
   it("succeeded", async () => {
     Client.addReaction = jest.fn().mockResolvedValueOnce({
       data: {
-        postId: "1",
-        reaction: "heart",
+        id: "1",
+        reactions: { thumbsUp: 0, hooray: 0, heart: 5, rocket: 0, eyes: 0 },
       },
     });
     await store.dispatch(addReaction({ postId: "1", reaction: "heart" }));

@@ -1,18 +1,21 @@
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { useRouteMatch, Link } from "react-router-dom";
 import AddPostForm from "./AddPostForm";
-import { selectAllPosts, State } from "../../store";
+import { selectAllPosts } from "../../store/selectors";
+import { State } from "../../store/types";
 import PostAuthor from "./PostAuthor";
 import TimeAgo from "./TimeAgo";
 import ReactionButtons from "./ReactionButtons";
 import { fetchPosts } from "./postsSlice";
+import { useAppDispatch } from "../../store/index";
 
 const PostsList = () => {
   const { path } = useRouteMatch();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const postsStatus = useSelector((state: State) => state.posts.status);
   const postsError = useSelector((state: State) => state.posts.error);
+  const posts = useSelector(selectAllPosts);
 
   let content;
 
@@ -20,7 +23,6 @@ const PostsList = () => {
     if (postsStatus === "idle") dispatch(fetchPosts());
   }, [dispatch, postsStatus]);
 
-  const posts = useSelector(selectAllPosts);
   const sortedPosts = posts
     .slice()
     .sort((a, b) => b.date.localeCompare(a.date));

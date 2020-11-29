@@ -1,34 +1,66 @@
 import React from "react";
-import { fireEvent } from "@testing-library/react";
-import { useDispatch } from "react-redux";
+import { fireEvent, render } from "@testing-library/react";
+// eslint-disable-next-line testing-library/no-dom-import
+import { waitFor } from "@testing-library/dom";
+import { Provider } from "react-redux";
 import ReactionButtons from "./ReactionButtons";
-import { INITIAL_STATE } from "../../test/mock_data";
-import renderWithStoreAndRouter from "../../test/renderWithStoreAndRouter";
-import { addReaction } from "./postsSlice";
+import { fetchPosts } from "./postsSlice";
+import store from "../../store";
 
-jest.mock("react-redux", () => ({
-  ...(jest.requireActual("react-redux") as {}),
-  useDispatch: jest.fn(),
-}));
-jest.mock("./postsSlice.ts", () => ({
-  ...(jest.requireActual("./postsSlice.ts") as {}),
-  addReaction: jest.fn(),
-}));
+import { makeServer } from "../../server";
+import { Server } from "miragejs";
+let server: Server;
+describe("ReactionButtons test", () => {
+  beforeEach(() => {
+    server = makeServer();
+    server.createList("post", 2);
+    store.dispatch(fetchPosts());
+  });
+  afterEach(() => {
+    server.shutdown();
+  });
+  it("render correctly", async () => {
+    await waitFor(() => {
+      expect(store.getState().posts.data.length).toBe(2);
+    });
+    const post = store.getState().posts.data[0];
+    const ui = (
+      <Provider store={store}>
+        <ReactionButtons post={post} />
+      </Provider>
+    );
+    const { asFragment } = render(ui);
+    expect(asFragment()).toMatchSnapshot();
+  });
 
-test("render correctly", () => {
-  const { asFragment } = renderWithStoreAndRouter(
-    <ReactionButtons post={INITIAL_STATE.posts.data[0]} />
-  );
-  expect(asFragment()).toMatchSnapshot();
-});
+  it("click reaction", async () => {
+    await waitFor(() => {
+      expect(store.getState().posts.data.length).toBe(2);
+    });
+    let post;
+    post = store.getState().posts.data[0];
+    const ui = (
+      <Provider store={store}>
+        <ReactionButtons post={post} />
+      </Provider>
+    );
+    const { getByTestId, rerender } = render(ui);
+    const heartButton = getByTestId("heart");
 
-test("click reaction", async () => {
-  const dispatch = jest.fn();
-  (useDispatch as jest.Mock).mockReturnValue(dispatch);
-  const { container } = renderWithStoreAndRouter(
-    <ReactionButtons post={INITIAL_STATE.posts.data[0]} />
-  );
-  fireEvent.click(container.querySelector("[name=heart]") as Element);
-  expect(dispatch).toHaveBeenCalled();
-  expect(addReaction).toHaveBeenCalled();
+    fireEvent.click(heartButton);
+    await waitFor(() => {
+      expect(store.getState().posts.data[0].reactions["heart"]).toBe(5);
+    });
+
+    // get updated post from store
+    post = store.getState().posts.data[0];
+    rerender(
+      <Provider store={store}>
+        <ReactionButtons post={post} />
+      </Provider>
+    );
+    await waitFor(() => {
+      expect(heartButton).toHaveTextContent(/5/i);
+    });
+  });
 });

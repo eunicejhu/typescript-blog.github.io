@@ -2,8 +2,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 // eslint-disable-next-line
 import { useRouteMatch, match, Link } from "react-router-dom";
-import { State, selectPostById } from "../../store";
-import { Post } from "./postsSlice";
+import { selectPostById } from "../../store/selectors";
+import { State } from "../../store/types";
 import PostAuthor from "./PostAuthor";
 import TimeAgo from "./TimeAgo";
 import ReactionButtons from "./ReactionButtons";
@@ -17,9 +17,7 @@ const SinglePostPage = () => {
   const {
     params: { id: postId },
   } = match;
-  const post = useSelector<State, Post | undefined>((state) =>
-    selectPostById(state, postId)
-  );
+  const post = useSelector((state: State) => selectPostById(state, postId));
   if (!post) {
     return <div>No post found</div>;
   }

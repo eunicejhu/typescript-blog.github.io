@@ -1,54 +1,93 @@
 import React from "react";
-import { fireEvent } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
+// eslint-disable-next-line testing-library/no-dom-import
+import { waitFor } from "@testing-library/dom";
 import AddPostForm from "./AddPostForm";
-import store, { useAppDispatch } from "../../store/index";
-import { INITIAL_STATE } from "../../test/mock_data";
+import { Provider } from "react-redux";
+import store from "../../store/index";
 
-import renderWithStore from "../../test/renderWithStore";
+import { fetchUsers } from "../users/usersSlice";
+import { makeServer } from "../../server";
+import { Server, Response } from "miragejs";
 
-// option1: manually mock store
-jest.mock("../../store/index");
-beforeEach(() => {
-  store.getState = jest.fn(() => INITIAL_STATE);
-});
-beforeEach(() => {
-  jest.clearAllMocks();
-});
+let server: Server;
+describe("AddPostForm test", () => {
+    beforeAll(() => {
+        console.error = jest.fn();
+    });
+    beforeEach(() => {
+        server = makeServer();
+        server.createList("user", 3);
+        store.dispatch(fetchUsers());
+    });
+    afterEach(() => {
+        server.shutdown();
+    });
 
-test("type text in title and content input, select a user from the dropdown of users, click save post button to add a post", async () => {
-  const dispatch = jest.fn();
-  (useAppDispatch as jest.Mock).mockReturnValue(dispatch);
-  const { getByTestId, getByRole } = renderWithStore(<AddPostForm />, {
-    store,
-  });
-  fireEvent.change(getByTestId("title"), { target: { value: "Title 3" } });
-  fireEvent.change(getByTestId("content"), {
-    target: { value: "Content 3" },
-  });
+    it("type text in title and content input, select a user from the dropdown of users, click save post button to add a post", async () => {
+        const { getByTestId, getByRole } = render(
+            <Provider store={store}>
+                <AddPostForm />
+            </Provider>
+        );
 
-  fireEvent.change(getByTestId("users"), { target: { value: "2" } });
-  fireEvent.click(getByRole("button"));
+        await waitFor(() => {
+            expect(store.getState().users.data.length).toBe(3);
+        });
 
-  expect(dispatch).toHaveBeenCalledTimes(1);
-});
+        const titleInput = getByTestId("title");
+        const contentTextArea = getByTestId("content");
+        const usersSelectOption = getByTestId("users").querySelector(
+            "li.selectInput-li"
+        ) as HTMLLIElement;
+        const addPostButton = getByRole("button") as HTMLButtonElement;
 
-// option2: use customRender
-test("Both title, content and userId should be provided to enable the submission", () => {
-  const dispatch = jest.fn();
-  useAppDispatch.mockReturnValue(dispatch);
-  const { getByTestId, getByRole } = renderWithStore(<AddPostForm />, {
-    store,
-  });
-  fireEvent.change(getByTestId("title"), { target: { value: "Title 1" } });
+        fireEvent.change(titleInput, { target: { value: "Title 3" } });
+        fireEvent.change(contentTextArea, {
+            target: { value: "Content 3" },
+        });
+        expect(addPostButton.disabled).toBeTruthy();
 
-  fireEvent.click(getByRole("button"));
-  expect(getByRole("button").disabled).toBeTruthy();
-  fireEvent.change(getByTestId("content"), {
-    target: { value: "Content 1" },
-  });
-  fireEvent.click(getByRole("button"));
-  expect(dispatch).toHaveBeenCalledTimes(0);
-  fireEvent.change(getByTestId("users"), { target: { value: "1" } });
-  fireEvent.click(getByRole("button"));
-  expect(dispatch).toHaveBeenCalledTimes(1);
+        fireEvent.click(usersSelectOption);
+        expect(addPostButton.disabled).toBeFalsy();
+        fireEvent.click(addPostButton);
+
+        await waitFor(() => {
+            expect(store.getState().posts.data.length).toBe(1);
+            expect(store.getState().posts.data[0].title).toBe("Title 3");
+            expect(store.getState().posts.data[0].date).not.toBeUndefined();
+        });
+    });
+
+    it("show error message when failed to add new post", async () => {
+        server.post("/posts", () => {
+            return new Response(400);
+        });
+        const { getByTestId, getByRole, getByText } = render(
+            <Provider store={store}>
+                <AddPostForm />
+            </Provider>
+        );
+        await waitFor(() => {
+            expect(store.getState().users.data.length).toBe(3);
+        });
+
+        const titleInput = getByTestId("title");
+        const contentTextArea = getByTestId("content");
+        const usersSelectOption = getByTestId("users").querySelector(
+            "li.selectInput-li"
+        ) as HTMLLIElement;
+        const addPostButton = getByRole("button") as HTMLButtonElement;
+
+        fireEvent.change(titleInput, { target: { value: "Title 1" } });
+        fireEvent.change(contentTextArea, {
+            target: { value: "Content 1" },
+        });
+        fireEvent.click(usersSelectOption);
+        fireEvent.click(addPostButton);
+
+        await waitFor(() => {
+            expect(getByText(/Failed to add new post/i)).toBeInTheDocument();
+        });
+    });
 });

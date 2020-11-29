@@ -21,6 +21,7 @@ const ReactionButtons: React.FC<Props> = ({
       key={name}
       type="button"
       name={name}
+      data-testid={name}
       onClick={() =>
         dispatch(addReaction({ postId: id, reaction: name as Name }))
       }

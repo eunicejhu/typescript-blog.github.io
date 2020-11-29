@@ -9,36 +9,27 @@ import withTheme, { theme } from "../../test/withTheme";
 jest.mock("react-cookie");
 
 test("display Login link when user is not logged in", () => {
-  useCookies.mockReturnValue([{ isLoggedIn: false }]);
-  const MainWithRouterTheme = withTheme(withRouter(Main));
-  render(<MainWithRouterTheme />);
-  const LoginLink = screen.getByTestId("/login");
-  expect(LoginLink.innerHTML).toBe("Login");
+    useCookies.mockReturnValue([{ isLoggedIn: false }]);
+    const MainWithRouterTheme = withTheme(withRouter(Main));
+    render(<MainWithRouterTheme />);
+    const LoginLink = screen.getByTestId("/login");
+    expect(LoginLink.innerHTML).toBe("Login");
 });
 
 test("display Logout link when user is logged in", () => {
-  useCookies.mockReturnValue([{ isLoggedIn: true }]);
-  const MainWithRouterTheme = withTheme(withRouter(Main));
-  render(<MainWithRouterTheme />);
-  const LoginLink = screen.getByTestId("/login");
-  expect(LoginLink.innerHTML).toBe("Logout");
+    useCookies.mockReturnValue([{ isLoggedIn: true }]);
+    const MainWithRouterTheme = withTheme(withRouter(Main));
+    render(<MainWithRouterTheme />);
+    const LoginLink = screen.getByTestId("/login");
+    expect(LoginLink.innerHTML).toBe("Logout");
 });
 
 test("redirect to Home when click logout", () => {
-  useCookies.mockReturnValue([{ isLoggedIn: true }, jest.fn()]);
-  const MainWithRouterTheme = withTheme(withRouter(Main));
-  render(<MainWithRouterTheme />);
-  const LogoutLink = screen.getByTestId("/login");
-  expect(LogoutLink.innerHTML).toBe("Logout");
-  fireEvent.click(LogoutLink);
-  expect(history.location.pathname).toBe("/");
-});
-
-test("ThemeButton: show light after dark button", () => {
-  useCookies.mockReturnValue([{ isLoggedIn: true }]);
-  const MainWithRouterTheme = withTheme(withRouter(Main));
-  render(<MainWithRouterTheme />);
-  const ThemeButton = screen.getByText("dark");
-  fireEvent.click(ThemeButton);
-  expect(theme.setTheme).toHaveBeenCalledWith("light");
+    useCookies.mockReturnValue([{ isLoggedIn: true }, jest.fn()]);
+    const MainWithRouterTheme = withTheme(withRouter(Main));
+    render(<MainWithRouterTheme />);
+    const LogoutLink = screen.getByTestId("/login");
+    expect(LogoutLink.innerHTML).toBe("Logout");
+    fireEvent.click(LogoutLink);
+    expect(history.location.pathname).toBe("/");
 });

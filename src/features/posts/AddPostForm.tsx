@@ -1,108 +1,124 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { addNewPost } from "./postsSlice";
 import { State, useAppDispatch } from "../../store";
 import { unwrapResult } from "@reduxjs/toolkit";
+import useTheme from "../../hooks/useTheme";
+import Button from "../../components/buttons/Button";
+import Select from "../../components/select/Select";
+import StyledForm from "../../components/form/StyledForm";
+
+const ERROR_MSG_FOR_USER = "Failed to add new post";
+
 const AddPostForm: React.FC = () => {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [userId, setUserId] = useState("");
-  const [addRequestStatus, setAddRequestStatus] = useState("idle");
-  const [addRequestError, setAddRequestError] = useState(undefined);
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [userId, setUserId] = useState("");
+    const [addRequestStatus, setAddRequestStatus] = useState("idle");
+    const [addRequestError, setAddRequestError] = useState("");
 
-  const dispatch = useAppDispatch();
+    const { themes, mode } = useTheme();
 
-  const users = useSelector((state: State) => state.users.data);
+    const dispatch = useAppDispatch();
 
-  const renderUsersOptions =
-    users &&
-    users.map((user) => (
-      <option key={user.id} value={user.id}>
-        {user.name}
-      </option>
-    ));
-  const onTitleChanged = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    setTitle(e.currentTarget.value);
-  };
-  const onContentChanged = (e: React.SyntheticEvent<HTMLTextAreaElement>) => {
-    setContent(e.currentTarget.value);
-  };
-  const onUserChanged = (e: React.SyntheticEvent<HTMLSelectElement>) => {
-    setUserId(e.currentTarget.value);
-  };
+    const users = useSelector((state: State) => state.users.data);
+    const userName = useMemo(
+        () => users.find((user) => user.id === userId)?.name,
+        [users, userId]
+    );
 
-  const canAdd =
-    [title, content, userId].every(Boolean) && addRequestStatus === "idle";
+    const onTitleChanged = (e: React.SyntheticEvent<HTMLInputElement>) => {
+        setTitle(e.currentTarget.value);
+    };
+    const onContentChanged = (e: React.SyntheticEvent<HTMLTextAreaElement>) => {
+        setContent(e.currentTarget.value);
+    };
+    const onUserChanged = (value: string) => {
+        setUserId(value);
+    };
 
-  const onAddPostClicked = async () => {
-    if (canAdd) {
-      try {
-        setAddRequestStatus("pending");
-        const resultAction = await dispatch(
-          addNewPost({ title, content, userId })
-        );
-        unwrapResult(resultAction);
-        setTitle("");
-        setContent("");
-        setUserId("");
-      } catch (error) {
-        setAddRequestError(error.message);
-        setTimeout(() => {
-          setAddRequestError(undefined);
-        }, 1000);
-        console.error("Failed to save the post: ", error.message);
-      } finally {
-        setAddRequestStatus("idle");
-      }
-    }
-  };
+    const canAdd =
+        [title, content, userId].every(Boolean) && addRequestStatus === "idle";
 
-  return (
-    <div className="add-post">
-      <form>
-        <div className="field">
-          <label htmlFor="title">Title</label>
-          <input
-            id="title"
-            data-testid="title"
-            name="title"
-            width={20}
-            value={title}
-            onChange={onTitleChanged}
-          />
-        </div>
-        <div className="field">
-          <label htmlFor="content">Content</label>
-          <textarea
-            id="content"
-            data-testid="content"
-            name="content"
-            value={content}
-            onChange={onContentChanged}
-          ></textarea>
-        </div>
-        <div className="field">
-          <label htmlFor="users">Author</label>
-          <select
-            data-testid="users"
-            value={userId}
-            name="users"
-            id="users"
-            onChange={onUserChanged}
-          >
-            <option value=""></option>
-            {renderUsersOptions}
-          </select>
-        </div>
-        <div className="field">
-          <button type="button" onClick={onAddPostClicked} disabled={!canAdd}>
-            Add Post
-          </button>{" "}
-          <span>{addRequestError}</span>
-        </div>
-      </form>
-    </div>
-  );
+    const onAddPostClicked = async () => {
+        if (canAdd) {
+            try {
+                setAddRequestStatus("pending");
+                const resultAction = await dispatch(
+                    addNewPost({ title, content, userId })
+                );
+                unwrapResult(resultAction);
+                setTitle("");
+                setContent("");
+                setUserId("");
+            } catch (error) {
+                //Improve: log error for Dev
+                console.error(error.message);
+
+                setAddRequestError(ERROR_MSG_FOR_USER);
+                setTimeout(() => {
+                    setAddRequestError("");
+                }, 1000);
+                console.error("Failed to save the post: ", error.message);
+            } finally {
+                setAddRequestStatus("idle");
+            }
+        }
+    };
+
+    return (
+        <StyledForm>
+            <div className="field">
+                <label htmlFor="title">Title</label>
+                <input
+                    id="title"
+                    data-testid="title"
+                    name="title"
+                    value={title}
+                    onChange={onTitleChanged}
+                />
+            </div>
+            <div className="field">
+                <label htmlFor="content">Content</label>
+                <textarea
+                    id="content"
+                    data-testid="content"
+                    name="content"
+                    value={content}
+                    onChange={onContentChanged}
+                ></textarea>
+            </div>
+            <div className="field">
+                <label htmlFor="users">Author</label>
+                <div>
+                    <Select
+                        data-testid="users"
+                        value={userName}
+                        name="users"
+                        id="users"
+                        onChange={onUserChanged}
+                        themes={themes}
+                        mode={mode}
+                        placeholder={"choose the user"}
+                        data={users}
+                    ></Select>
+                </div>
+            </div>
+            <div className="field">
+                <Button
+                    themes={themes}
+                    mode={mode}
+                    variant="primary"
+                    type="button"
+                    onClick={onAddPostClicked}
+                    disabled={!canAdd}
+                >
+                    Add Post
+                </Button>
+                <span>{addRequestError}</span>
+            </div>
+        </StyledForm>
+    );
 };
 
 export default AddPostForm;
