@@ -18,7 +18,7 @@ it("render correctly", () => {
     const { container } = render(ui);
     expect(container.firstChild).toMatchInlineSnapshot(`
         <div
-          class="sc-hKgILt cOkwlq"
+          class="sc-hKgILt bgujip"
           mode="pink"
         >
           <header>
@@ -38,6 +38,50 @@ it("render correctly", () => {
                 </a>
               </li>
             </nav>
+            <div
+              class="selectWrapper"
+            >
+              <div
+                class="sc-gsTCUz hrxIhJ"
+                mode="pink"
+              >
+                <input
+                  class="selectInput"
+                  data-testid="selectInput"
+                  placeholder="theme"
+                  type="text"
+                  value="pink"
+                />
+                <ul
+                  class="close"
+                >
+                  <li
+                    class="selectInput-li"
+                    data-id="dark"
+                    data-name="dark"
+                    data-testid="dark"
+                  >
+                    dark
+                  </li>
+                  <li
+                    class="selectInput-li"
+                    data-id="pink"
+                    data-name="pink"
+                    data-testid="pink"
+                  >
+                    pink
+                  </li>
+                  <li
+                    class="selectInput-li"
+                    data-id="light"
+                    data-name="light"
+                    data-testid="light"
+                  >
+                    light
+                  </li>
+                </ul>
+              </div>
+            </div>
           </header>
           <main>
             <section
@@ -85,12 +129,11 @@ it("render correctly", () => {
                   </label>
                   <div>
                     <div
-                      class="sc-gsTCUz dbNivE"
+                      class="sc-gsTCUz hrxIhJ"
                       data-testid="users"
                       id="users"
                       mode="pink"
                       name="users"
-                      value=""
                     >
                       <input
                         class="selectInput"

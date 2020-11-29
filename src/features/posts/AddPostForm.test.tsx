@@ -39,7 +39,7 @@ describe("AddPostForm test", () => {
         const contentTextArea = getByTestId("content");
         const usersSelectOption = getByTestId("users").querySelector(
             "li.selectInput-li"
-        ) as HTMLInputElement;
+        ) as HTMLLIElement;
         const addPostButton = getByRole("button") as HTMLButtonElement;
 
         fireEvent.change(titleInput, { target: { value: "Title 3" } });
@@ -74,16 +74,16 @@ describe("AddPostForm test", () => {
 
         const titleInput = getByTestId("title");
         const contentTextArea = getByTestId("content");
-        const usersSelect = getByTestId("users").querySelector(
-            "input"
-        ) as HTMLInputElement;
+        const usersSelectOption = getByTestId("users").querySelector(
+            "li.selectInput-li"
+        ) as HTMLLIElement;
         const addPostButton = getByRole("button") as HTMLButtonElement;
 
         fireEvent.change(titleInput, { target: { value: "Title 1" } });
         fireEvent.change(contentTextArea, {
             target: { value: "Content 1" },
         });
-        fireEvent.change(usersSelect, { target: { value: "1" } });
+        fireEvent.click(usersSelectOption);
         fireEvent.click(addPostButton);
 
         await waitFor(() => {

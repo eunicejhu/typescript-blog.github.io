@@ -99,9 +99,7 @@ const Select: React.FC<SelectProps> = ({
         setFocus(true);
     };
     const onLiClicked = (e: React.FormEvent) => {
-        const id =
-            (e.target as HTMLLIElement).value ||
-            (e.target as HTMLLIElement).dataset.id;
+        const id = (e.target as HTMLLIElement).dataset.id;
         onChange(id as string);
         setFocus(false);
     };

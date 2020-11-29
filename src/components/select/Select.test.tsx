@@ -34,16 +34,19 @@ describe("Select test", () => {
     });
 
     it("select li, update input value", () => {
+        const mockOnChange = jest.fn();
         const ui = (
             <Select
                 themes={themes}
                 mode="pink"
                 data={data}
                 placeholder="choose the user"
+                value=""
+                onChange={mockOnChange}
             ></Select>
         );
         const { getByTestId } = render(ui);
         fireEvent.click(getByTestId("1"));
-        expect(getByTestId("selectInput")).toHaveValue("Chris");
+        expect(mockOnChange).toHaveBeenCalledWith("1");
     });
 });
