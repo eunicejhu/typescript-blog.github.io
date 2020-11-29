@@ -20,6 +20,7 @@ const StyledSelect = styled.div<SelectProps>`
                 padding: ${themes[mode].spacing};
                 border: 1px solid ${themes[mode].btnBorder};
                 border-radius: ${themes[mode].borderRadius};
+                background-color: ${themes[mode].background};
                 width: 100%;
                 box-sizing: border-box;
                 outline: none;
@@ -87,28 +88,24 @@ const Select: React.FC<SelectProps> = ({
     data,
     placeholder,
     onChange,
+    value,
     ...props
 }) => {
-    const [value, setValue] = useState<string>("");
     const [focus, setFocus] = useState<boolean>(false);
 
     useClickOutside(setFocus.bind(this, false));
+
     const onSelectFocused = () => {
         setFocus(true);
     };
-    const onLiClicked = (name: string) => {
-        setValue(name);
-        setFocus(false);
-    };
-    const onInputChange = (e: React.FormEvent) => {
-        // Input has two entries:
-        //  1. select li from ul
-        //  2. change input value (here mainly for test, later it will be implemented to enable input value)
+    const onLiClicked = (e: React.FormEvent) => {
         const id =
             (e.target as HTMLLIElement).value ||
             (e.target as HTMLLIElement).dataset.id;
-        onChange && onChange(id);
+        onChange(id as string);
+        setFocus(false);
     };
+
     const datalist = data.map((item) => {
         return (
             <li
@@ -117,26 +114,22 @@ const Select: React.FC<SelectProps> = ({
                 data-name={item.name}
                 className="selectInput-li"
                 key={item.id}
-                onClick={(e: React.FormEvent) => {
-                    const name = (e.target as HTMLLIElement).dataset
-                        .name as string;
-                    onLiClicked(name);
-                    onInputChange(e);
-                }}
+                onClick={onLiClicked}
             >
                 {item.name}
             </li>
         );
     });
     return (
+        /** Here we use uncontrolled component, because it's onClick of li
+            charging the change of the value, instead of onChange of input. */
         <StyledSelect {...props}>
             <input
                 data-testid="selectInput"
                 className="selectInput"
                 onFocus={onSelectFocused}
                 type="text"
-                value={value}
-                onChange={onInputChange}
+                defaultValue={value}
                 placeholder={placeholder}
             ></input>
             <ul className={focus ? "open" : "close"}>{datalist}</ul>

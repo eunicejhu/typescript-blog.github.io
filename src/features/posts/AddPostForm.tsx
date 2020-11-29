@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useSelector } from "react-redux";
 import { addNewPost } from "./postsSlice";
 import { State, useAppDispatch } from "../../store";
@@ -22,6 +22,10 @@ const AddPostForm: React.FC = () => {
     const dispatch = useAppDispatch();
 
     const users = useSelector((state: State) => state.users.data);
+    const userName = useMemo(
+        () => users.find((user) => user.id === userId)?.name,
+        [users, userId]
+    );
 
     const onTitleChanged = (e: React.SyntheticEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value);
@@ -89,7 +93,7 @@ const AddPostForm: React.FC = () => {
                 <div>
                     <Select
                         data-testid="users"
-                        value={userId}
+                        value={userName}
                         name="users"
                         id="users"
                         onChange={onUserChanged}

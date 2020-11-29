@@ -37,8 +37,8 @@ describe("AddPostForm test", () => {
 
         const titleInput = getByTestId("title");
         const contentTextArea = getByTestId("content");
-        const usersSelect = getByTestId("users").querySelector(
-            "input"
+        const usersSelectOption = getByTestId("users").querySelector(
+            "li.selectInput-li"
         ) as HTMLInputElement;
         const addPostButton = getByRole("button") as HTMLButtonElement;
 
@@ -48,7 +48,7 @@ describe("AddPostForm test", () => {
         });
         expect(addPostButton.disabled).toBeTruthy();
 
-        fireEvent.change(usersSelect, { target: { value: "1" } });
+        fireEvent.click(usersSelectOption);
         expect(addPostButton.disabled).toBeFalsy();
         fireEvent.click(addPostButton);
 
